@@ -104,10 +104,29 @@ class TheScene extends THREE.Scene {
 
   var model = new THREE.Object3D();
 
+<<<<<<< HEAD
     this.zombi = new Zombi();
     model.add(this.zombi);
 
     this.zombi.position.set(0,5,0);
+=======
+    //Texturas cabeza
+    var loader1 = new THREE.TextureLoader();
+
+
+    var texturaCuerpo = loader1.load ("imgs/torso.png");
+    var mat = new THREE.MeshBasicMaterial({map: texturaCuerpo});
+    var texturaCabeza = loader1.load ("imgs/cabez.png");
+
+    var matcab = new THREE.MeshBasicMaterial({map: texturaCabeza});
+    var texturaBrazo = loader1.load ("imgs/arm.png");
+    var matarm = new THREE.MeshBasicMaterial({map: texturaBrazo});
+    var texturapierna = loader1.load ("imgs/foot.png");
+    var matfoot = new THREE.MeshBasicMaterial({map: texturapierna});
+    this.character = new Character({materialBody: mat,materialCab: matcab, materialArm: matarm, materialfoot: matfoot});
+    model.add(this.character);
+    this.character.position.set(0,5,0);
+>>>>>>> dani2
     
     /*
     this.r2d2 = new r2d2({r2d2Height: 30, r2d2Width: 45, material: mat, material2: mat, material3: mat, material4: mat, material5: mat, material6: mat});
@@ -150,7 +169,6 @@ class TheScene extends THREE.Scene {
     this.spotLight.intensity = controls.lightIntensity;
     //P1
     this.addedLight.intensity = controls.addedLightIntensity;
-
 
   }
   
