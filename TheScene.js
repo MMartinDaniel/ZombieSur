@@ -17,6 +17,8 @@ class TheScene extends THREE.Scene {
     this.r2d2 = null;
     this.character = null;
     this.ground = null;
+    this.zombi = null;
+    
     this.createLights ();
   
     this.cameraON = 1;
@@ -102,13 +104,10 @@ class TheScene extends THREE.Scene {
 
   var model = new THREE.Object3D();
 
-    //Texturas cabeza
-    var loader1 = new THREE.TextureLoader();
-    var texturaCabeza = loader1.load ("imgs/model.png");
-    var mat = new THREE.MeshPhongMaterial({map: texturaCabeza});
-    this.character = new Character({material: mat});
-    model.add(this.character);
-    this.character.position.set(0,5,0);
+    this.zombi = new Zombi();
+    model.add(this.zombi);
+
+    this.zombi.position.set(0,5,0);
     
     /*
     this.r2d2 = new r2d2({r2d2Height: 30, r2d2Width: 45, material: mat, material2: mat, material3: mat, material4: mat, material5: mat, material6: mat});
