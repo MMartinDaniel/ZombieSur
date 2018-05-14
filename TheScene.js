@@ -15,7 +15,7 @@ class TheScene extends THREE.Scene {
     this.camera = null;
     this.trackballControls = null;
     this.r2d2 = null;
-
+    this.character = null;
     this.ground = null;
     this.createLights ();
   
@@ -27,12 +27,14 @@ class TheScene extends THREE.Scene {
     this.model = this.createModel ();
     this.createCamera (renderer);
 
-    this.soldado = this.cargarModelo();
-    this.setModeloPos();
-    this.model.add(this.soldado);
+   // this.soldado = this.cargarModelo();
+  //  this.setModeloPos();
+  //  this.model.add(this.soldado);
     this.add (this.model);
   }
   
+
+
   /// It creates the camera and adds it to the graph
   /**
    * @param renderer - The renderer associated with the camera
@@ -102,15 +104,18 @@ class TheScene extends THREE.Scene {
 
     //Texturas cabeza
     var loader1 = new THREE.TextureLoader();
-    var texturaCabeza = loader1.load ("imgs/cabeza.png");
+    var texturaCabeza = loader1.load ("imgs/model.png");
     var mat = new THREE.MeshPhongMaterial({map: texturaCabeza});
-
-
+    this.character = new Character({material: mat});
+    model.add(this.character);
+    this.character.position.set(0,5,0);
+    
+    /*
     this.r2d2 = new r2d2({r2d2Height: 30, r2d2Width: 45, material: mat, material2: mat, material3: mat, material4: mat, material5: mat, material6: mat});
     model.add (this.r2d2);
     //this.r2d2.position.set(0, 0, -140);
     this.r2d2.position.set(0,0,-140);
-
+*/
     var loader = new THREE.TextureLoader();
     var textura = loader.load ("imgs/wood.jpg");
     this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 4);
