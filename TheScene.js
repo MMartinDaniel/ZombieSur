@@ -27,9 +27,9 @@ class TheScene extends THREE.Scene {
     this.model = this.createModel ();
     this.createCamera (renderer);
 
-    this.soldado = this.cargarModelo();
-    this.setModeloPos();
-    this.model.add(this.soldado);
+    //this.soldado = this.cargarModelo();
+    //this.setModeloPos();
+    //this.model.add(this.soldado);
     this.add (this.model);
   }
   
@@ -117,10 +117,9 @@ class TheScene extends THREE.Scene {
     model.add (this.ground);
 
     return model;
-
-
 }
 
+/*
   cargarModelo(){
 
     var container = new THREE.Object3D();  
@@ -135,7 +134,7 @@ class TheScene extends THREE.Scene {
 
     return container;
 }
-
+*/
 
   // Public methods
 

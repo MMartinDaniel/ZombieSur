@@ -101,7 +101,6 @@ class r2d2 extends THREE.Object3D {
 
 
 
-        todo.position.y = 8;
 
         return todo;
 
@@ -110,7 +109,7 @@ class r2d2 extends THREE.Object3D {
   // CUERPO
     createBase () {
       var base = new THREE.Mesh (
-      new THREE.CylinderGeometry (this.r2d2Width/10, this.r2d2Width/10, this.r2d2Height/3, 16, 8), this.matCuerpo);
+      new THREE.BoxGeometry (30, 20, 10, 16, 8), this.matCuerpo);
     base.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0,-2.2, 0));
     base.rotation.x = this.bodyAngle;     //rotacion cuerrpo
 
