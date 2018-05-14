@@ -251,10 +251,6 @@ function onKeyDownArrow(){
 
 
 
-
-
-
-
 /// The main function
 $(function () {
   // create a render and set the size
