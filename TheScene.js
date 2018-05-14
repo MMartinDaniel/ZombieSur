@@ -104,9 +104,18 @@ class TheScene extends THREE.Scene {
 
     //Texturas cabeza
     var loader1 = new THREE.TextureLoader();
-    var texturaCabeza = loader1.load ("imgs/model.png");
-    var mat = new THREE.MeshPhongMaterial({map: texturaCabeza});
-    this.character = new Character({material: mat});
+
+
+    var texturaCuerpo = loader1.load ("imgs/torso.png");
+    var mat = new THREE.MeshBasicMaterial({map: texturaCuerpo});
+    var texturaCabeza = loader1.load ("imgs/cabez.png");
+
+    var matcab = new THREE.MeshBasicMaterial({map: texturaCabeza});
+    var texturaBrazo = loader1.load ("imgs/arm.png");
+    var matarm = new THREE.MeshBasicMaterial({map: texturaBrazo});
+    var texturapierna = loader1.load ("imgs/foot.png");
+    var matfoot = new THREE.MeshBasicMaterial({map: texturapierna});
+    this.character = new Character({materialBody: mat,materialCab: matcab, materialArm: matarm, materialfoot: matfoot});
     model.add(this.character);
     this.character.position.set(0,5,0);
     
@@ -151,7 +160,6 @@ class TheScene extends THREE.Scene {
     this.spotLight.intensity = controls.lightIntensity;
     //P1
     this.addedLight.intensity = controls.addedLightIntensity;
-
 
   }
   
