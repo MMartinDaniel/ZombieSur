@@ -104,12 +104,11 @@ class TheScene extends THREE.Scene {
 
   var model = new THREE.Object3D();
 
-<<<<<<< HEAD
+
     this.zombi = new Zombi();
     model.add(this.zombi);
 
-    this.zombi.position.set(0,5,0);
-=======
+    this.zombi.position.set(0,5,30);
     //Texturas cabeza
     var loader1 = new THREE.TextureLoader();
 
@@ -126,7 +125,6 @@ class TheScene extends THREE.Scene {
     this.character = new Character({materialBody: mat,materialCab: matcab, materialArm: matarm, materialfoot: matfoot});
     model.add(this.character);
     this.character.position.set(0,5,0);
->>>>>>> dani2
     
     /*
     this.r2d2 = new r2d2({r2d2Height: 30, r2d2Width: 45, material: mat, material2: mat, material3: mat, material4: mat, material5: mat, material6: mat});
@@ -204,10 +202,6 @@ class TheScene extends THREE.Scene {
  
 
 }
-
-
- 
-
 
   // class variables
   
