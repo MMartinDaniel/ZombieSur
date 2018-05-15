@@ -167,6 +167,8 @@ class TheScene extends THREE.Scene {
     this.spotLight.intensity = controls.lightIntensity;
     //P1
     this.addedLight.intensity = controls.addedLightIntensity;
+    this.zombi.lookAt(this.character.position);
+    this.zombi.translateZ(1);
 
   }
   
@@ -199,7 +201,32 @@ class TheScene extends THREE.Scene {
     this.camera.updateProjectionMatrix();
   }
 
- 
+ makeMove(parameters){
+    switch (parameters.move) {
+      case 'up':
+          this.character.translateZ(10);
+        break;
+      case'down':
+      this.character.translateZ(-5);
+      break;
+      case'left':
+      // this.r2d2.position.x += -5;
+      var axis = new THREE.Vector3(0,1,0);//tilted a bit on x and y - feel free to plug your different axis here
+      //in your update/draw function
+      this.character.rotateOnAxis(axis, 0.25);
+      break;
+      case'right':
+       // this.r2d2.position.x += -5;
+      var axis = new THREE.Vector3(0,1,0);//tilted a bit on x and y - feel free to plug your different axis here
+      //in your update/draw function
+      this.character.rotateOnAxis(axis, -0.25);
+      break;
+    }
+
+  }
+
+
+
 
 }
 
