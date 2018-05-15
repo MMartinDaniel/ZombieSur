@@ -29,9 +29,9 @@ class TheScene extends THREE.Scene {
     this.model = this.createModel ();
     this.createCamera (renderer);
 
-   // this.soldado = this.cargarModelo();
-  //  this.setModeloPos();
-  //  this.model.add(this.soldado);
+//    this.soldado = this.cargarModelo();
+ //   this.setModeloPos();
+ //   this.model.add(this.soldado);
     this.add (this.model);
   }
   
@@ -59,6 +59,8 @@ class TheScene extends THREE.Scene {
   }
   
   setModeloPos(){
+
+
     this.soldado.position.x = 10;
     this.soldado.position.y = 5;
     this.soldado.position.z = 10;
@@ -149,7 +151,8 @@ class TheScene extends THREE.Scene {
     loader2.load('models/7 S.json',
     function ( geometry, materials, ) {
         var material = materials[ 2 ];
-        var soldadoo = new THREE.Mesh( geometry, material );
+        var soldadoo = new THREE.SkinnedMesh( geometry, material );
+       //     soldadoo.skeleton.bones['Body'].set(new THREE.Vector3( 0, 0, Math.PI / 2));
        container.add(soldadoo);
 
     });
@@ -168,10 +171,17 @@ class TheScene extends THREE.Scene {
     //P1
     this.addedLight.intensity = controls.addedLightIntensity;
     this.zombi.lookAt(this.character.position);
-    this.zombi.translateZ(1);
+    this.character.setBrazos(controls.rotation);
+    this.character.setPiernas(controls.footRotation);
+    TWEEN.update();
+
+    
+   // this.zombi.translateZ(1);
 
   }
   
+
+
 
 
 
@@ -205,8 +215,10 @@ class TheScene extends THREE.Scene {
     switch (parameters.move) {
       case 'up':
           this.character.translateZ(10);
+           this.character.walk_start();
         break;
       case'down':
+          this.character.walk_stop();
       this.character.translateZ(-5);
       break;
       case'left':
@@ -220,6 +232,9 @@ class TheScene extends THREE.Scene {
       var axis = new THREE.Vector3(0,1,0);//tilted a bit on x and y - feel free to plug your different axis here
       //in your update/draw function
       this.character.rotateOnAxis(axis, -0.25);
+      break;
+      case 'aim':
+        this.character.aim_start();
       break;
     }
 

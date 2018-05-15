@@ -11,11 +11,16 @@ class Character extends THREE.Object3D {
     this.angle           = 0;
     this.distance        = 10;
     this.height          = 10;
-    
+    this.angleP = 0;
     //SESION 2 DATOS
 
     this.vida = 100;
     this.dinero = 0;
+    this.tween_to_walk = new TWEEN.Tween();
+    this.tween_from_walk = new TWEEN.Tween();
+
+    this.tween_to_aim = new TWEEN.Tween();
+    this.tween_from_aim = new TWEEN.Tween();
 
     // Objects for operating with the r2d2
     this.cabeza = null;
@@ -62,11 +67,35 @@ class Character extends THREE.Object3D {
         this.cuerpo.add(this.pieI);
 
         todo.position.y = 8;
-
+        this.walk(180);
+        this.createAim_anim();
         return todo;
 
   }
   
+    createAim_anim(){
+
+
+   var position = {x:0.0, y: 0.0};
+
+     this.tween_to_aim = new TWEEN.Tween(position).to({x: -1.5, y:0.0},500).onUpdate(function(){
+
+             scene.character.brazoI.rotation.x =  position.x;
+             scene.character.brazoD.rotation.x = position.x;
+
+
+     });
+
+     this.tween_from_aim = new TWEEN.Tween(position).to({x: 1.2, y:0.0},500).onUpdate(function(){
+            scene.character.brazoI.rotation.x =  position.x;
+            scene.character.brazoD.rotation.x = position.x;
+     });
+
+    // this.tween_to_aim.chain(this.tween_from_aim);
+   //  this.tween_from_aim.chain(this.tween_to_aim);
+
+
+    }
   // CUERPO
     createBody () {
     var textureLoader = new THREE.TextureLoader();
@@ -174,7 +203,8 @@ if(place.w == -6){
 
  var larm = new THREE.Mesh ( 
     new THREE.BoxGeometry (4, 12 ,4, 16, 8),armMaterial);
-  larm.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w, 10, 0));   
+  larm.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w, -5, 0));  
+  larm.position.y = 15; 
   larm.castShadow = true;
   larm.autoUpdateMatrix = false;
   larm.updateMatrix();
@@ -229,14 +259,72 @@ createFoot (place){
 
  var rfoot = new THREE.Mesh ( 
     new THREE.BoxGeometry (4, 12 , 4, 16, 8), armMaterial);
-    rfoot.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w,-2, 0));
-    
+    rfoot.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w, -5, 0));  
+    rfoot.position.y = 3 ;    
   rfoot.castShadow = true;
   rfoot.autoUpdateMatrix = false;
   rfoot.updateMatrix();
     return rfoot;  
 }
 
+  toRad(degrees) {
+  return degrees * Math.PI / 180;
+  }
 
+
+
+  setBrazos(brazos){
+    this.angle = this.toRad(brazos);
+    this.brazoD.rotation.x = this.angle;
+    this.brazoI.rotation.x = -this.angle;
+
+  }
+  setPiernas(piernas){
+    this.angleP = this.toRad(piernas);
+    this.pieD.rotation.x = this.angleP;
+    this.pieI.rotation.x = -this.angleP;
+  }
+
+   walk(angle) {
+
+   var position = {x:0.0, y: 0.0};
+
+   this.tween_to_walk = new TWEEN.Tween(position).to({x: 1.2, y:0.0},500).onUpdate(function(){
+
+           scene.character.pieI.rotation.x =  position.x;
+           scene.character.pieD.rotation.x = -position.x;
+           scene.character.brazoI.rotation.x =  position.x;
+           scene.character.brazoD.rotation.x = -position.x;
+
+
+   });
+
+   this.tween_from_walk = new TWEEN.Tween(position).to({x: -1.2, y:0.0},500).onUpdate(function(){
+          scene.character.pieI.rotation.x =  position.x;
+          scene.character.pieD.rotation.x =  -position.x;
+          scene.character.brazoI.rotation.x =  position.x;
+          scene.character.brazoD.rotation.x = -position.x;
+   });
+
+   this.tween_to_walk.chain(this.tween_from_walk);
+   this.tween_from_walk.chain(this.tween_to_walk);
+
+
+}
+
+walk_stop(){
+     this.tween_to_walk.stop();
+}
+
+walk_start(){
+  this.tween_to_walk.start();
+}
+aim_stop(){
+     this.tween_to_aim.stop();
+}
+
+aim_start(){
+  this.tween_to_aim.start();
+}
 
 }

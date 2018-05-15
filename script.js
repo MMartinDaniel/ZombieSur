@@ -32,7 +32,7 @@ function createGUI (withStats) {
     this.rotation = 0;
     this.distance = 0;
     this.height   = 1;
-
+    this.footRotation = 0;
     this.takeBox  = false;
   }
  
@@ -49,7 +49,7 @@ function createGUI (withStats) {
     r2d2Controls.add (GUIcontrols, 'rotation', -80, 80, 1).name('Rotación Cabeza').listen();
     r2d2Controls.add (GUIcontrols, 'distance', -45, 30, 1).name('Rotar Cuerpo').listen();
     r2d2Controls.add (GUIcontrols, 'height', 1, 1.2, 0.01).name('Altura piernas').listen();
-   
+    r2d2Controls.add (GUIcontrols, 'footRotation', -45, 30, 1).name('Rotar piernas').listen();
     // The method  listen()  allows the height attribute to be written, not only read
   
   if (withStats)
@@ -200,9 +200,10 @@ function createRenderer () {
 function render() {
 
   requestAnimationFrame(render);
-  stats.update();
-  scene.getCameraControls().update ();
+    stats.update();
 
+
+   scene.getCameraControls().update ();
    scene.animate(GUIcontrols);
    renderer.render(scene, scene.getCamera());
 
@@ -210,11 +211,12 @@ function render() {
 
 function onKeyDown(){
   if(event.repeat){return;}
+
   if(event.key == 'w' || event.key == 'W' || event.key == "ArrowUp" ){
     scene.makeMove({move:'up'});
   } else if( event.key == 'a' || event.key == 'A' || event.key == "ArrowLeft" ){
     scene.makeMove({move:'left'}); 
-  
+
   }else if( event.key == 's' || event.key == 'S' || event.key == "ArrowDown"){
    scene.makeMove({move:'down'}); 
   }else if( event.key == 'd' || event.key == 'D' || event.key == "ArrowRight"){
@@ -225,6 +227,8 @@ function onKeyDown(){
   scene.checkCamera({cam:1});
   }else if (event.key == ' '){
     this.pause();
+  }else if (event.key == 'i'){
+    scene.makeMove({move:'aim'});
   }
   
 
@@ -249,6 +253,20 @@ function onKeyDownArrow(){
 
 }
 
+function stateChange(newState) {
+    setTimeout(function () {
+        if (newState == -1) {
+           // alert('VIDEO HAS STOPPED');
+        }
+    }, 500);
+}
+
+function onKeyUp(){
+  stateChange(-1);
+ scene.character.walk_stop();
+
+
+}
 
 
 /// The main function
@@ -264,8 +282,10 @@ $(function () {
   window.addEventListener ("mouseup", onMouseUp, true);
   window.addEventListener ("mousewheel", onMouseWheel, true);   // For Chrome an others
   window.addEventListener ("DOMMouseScroll", onMouseWheel, true); // For Firefox
+  window.addEventListener ('keyup', onKeyUp,false);
   window.addEventListener('keydown', onKeyDownArrow,false);
   window.addEventListener('keypress', onKeyDown,false);
+
  // window.addEventListener('keyup', onKeyUp,false);
   // create a scene, that will hold all our elements such as objects, cameras and lights.
   scene = new TheScene (renderer.domElement);
