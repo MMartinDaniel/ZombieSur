@@ -20,7 +20,7 @@ class Character extends THREE.Object3D {
     this.tween_from_walk = new TWEEN.Tween();
 
     this.tween_to_aim = new TWEEN.Tween();
-    this.tween_from_aim = new TWEEN.Tween();
+    this.tween_to_shoot = new TWEEN.Tween();
 
     // Objects for operating with the r2d2
     this.cabeza = null;
@@ -29,7 +29,7 @@ class Character extends THREE.Object3D {
     this.brazoI = null;   
     this.pieI = null;
     this.pieD = null; 
-
+    this.gun = null;
 
     this.todo = new THREE.Mesh();
 
@@ -69,33 +69,42 @@ class Character extends THREE.Object3D {
         todo.position.y = 8;
         this.walk(180);
         this.createAim_anim();
+        
+        this.gun = new Gun({type:'1'});
+        this.brazoD.add(this.gun);
         return todo;
 
   }
   
+
     createAim_anim(){
 
+      var cpos_i = this.brazoI.rotation.z;
+      var cpos_d = this.brazoD.rotation.z;
+      var position = {x:0.0, y: 0.0,z:0.0};
 
-   var position = {x:0.0, y: 0.0};
-
-     this.tween_to_aim = new TWEEN.Tween(position).to({x: -1.5, y:0.0},500).onUpdate(function(){
+     this.tween_to_aim = new TWEEN.Tween(position).to({x: -1.5, y:0.0,z:-0.3},500).onUpdate(function(){
 
              scene.character.brazoI.rotation.x =  position.x;
              scene.character.brazoD.rotation.x = position.x;
-
+             scene.character.brazoI.rotation.z = -position.z;
+             scene.character.brazoD.rotation.z = position.z;
 
      });
-
-     this.tween_from_aim = new TWEEN.Tween(position).to({x: 1.2, y:0.0},500).onUpdate(function(){
-            scene.character.brazoI.rotation.x =  position.x;
-            scene.character.brazoD.rotation.x = position.x;
+     this.tween_to_aim.onComplete(function(){
+            scene.character.brazoI.rotation.z = cpos_i;
+             scene.character.brazoD.rotation.z = cpos_d;
      });
-
-    // this.tween_to_aim.chain(this.tween_from_aim);
-   //  this.tween_from_aim.chain(this.tween_to_aim);
 
 
     }
+
+   createShoot_anim(){
+
+    
+
+   }
+
   // CUERPO
     createBody () {
     var textureLoader = new THREE.TextureLoader();
@@ -321,6 +330,7 @@ walk_start(){
 }
 aim_stop(){
      this.tween_to_aim.stop();
+
 }
 
 aim_start(){

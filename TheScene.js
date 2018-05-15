@@ -18,7 +18,9 @@ class TheScene extends THREE.Scene {
     this.character = null;
     this.ground = null;
     this.zombi = null;
-    
+    this.listener = new THREE.AudioListener();
+    this.sound = new THREE.Audio(this.listener);
+
     this.createLights ();
   
     this.cameraON = 1;
@@ -55,6 +57,7 @@ class TheScene extends THREE.Scene {
     this.trackballControls.target = look2;
 
     this.camera = this.cameraOut;
+    this.camera.add(this.listener);
     this.add(this.cameraOut);
   }
   
@@ -138,6 +141,17 @@ class TheScene extends THREE.Scene {
     var textura = loader.load ("imgs/wood.jpg");
     this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 4);
     model.add (this.ground);
+
+
+
+    var audioLoader = new THREE.AudioLoader();
+      audioLoader.load('models/background.mp3', function( buffer ) {
+      scene.sound.setBuffer( buffer );
+      scene.sound.setLoop( true );
+      scene.sound.setVolume(0.5);
+      scene.sound.play();
+    });
+
 
     return model;
 

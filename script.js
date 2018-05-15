@@ -265,7 +265,6 @@ function onKeyUp(){
   stateChange(-1);
  scene.character.walk_stop();
 
-
 }
 
 
