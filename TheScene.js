@@ -16,7 +16,16 @@ class TheScene extends THREE.Scene {
     this.trackballControls = null;
     this.r2d2 = null;
     this.character = null;
+
     this.ground = null;
+    this.groundCalle = null;
+    this.groundCalle2 = null;
+    this.groundCalle3 = null;
+    this.groundCalle4 = null;
+
+
+    this.edificio = null;
+
     this.zombi = null;
     this.listener = new THREE.AudioListener();
     this.sound = new THREE.Audio(this.listener);
@@ -79,7 +88,7 @@ class TheScene extends THREE.Scene {
 
     // add spotlight for the shadows
     this.spotLight = new THREE.SpotLight( 0xffffff,0.5 );
-    this.spotLight.position.set( 60, 60, 40 );
+    this.spotLight.position.set( 60, 500, 40 );
     this.spotLight.castShadow = true;
     // the shadow resolution
     this.spotLight.shadow.mapSize.width=2048
@@ -92,7 +101,7 @@ class TheScene extends THREE.Scene {
     //P1  Luz añadida
     // add spotlight for the shadows
     this.addedLight = new THREE.SpotLight( 0xeecccc,0.5);
-    this.addedLight.position.set( 60, 300, 40 );
+    this.addedLight.position.set( 60, 500, 40 );
     this.addedLight.castShadow = true;
     // the shadow resolution
     this.addedLight.shadow.mapSize.width=2048
@@ -138,9 +147,52 @@ class TheScene extends THREE.Scene {
     this.r2d2.position.set(0,0,-140);
 */
     var loader = new THREE.TextureLoader();
-    var textura = loader.load ("imgs/wood.jpg");
+    var textura = loader.load ("imgs/floor.png", function ( textura ) {
+
+    textura.wrapS = textura.wrapT = THREE.RepeatWrapping;
+    textura.offset.set( 0, 0 );
+    textura.repeat.set( 2, 2 );
+
+} );
+
+
+    var loader2 = new THREE.TextureLoader();
+    var texturaCalle = loader.load ("imgs/street.jpg");
+
+    //Calle izq
+    this.groundCalle = new Ground (200, 200 , new THREE.MeshPhongMaterial ({map: texturaCalle}), 4);
+    this.groundCalle.position.set(0, 0, 250);
+    model.add (this.groundCalle);
+
+    //Calle der
+    this.groundCalle2 = new Ground (200, 200 , new THREE.MeshPhongMaterial ({map: texturaCalle}), 4);
+    this.groundCalle2.position.set(0, 0, -250);
+    model.add (this.groundCalle2);
+
+
+    //Calle inferior
+
+    var loader3 = new THREE.TextureLoader();
+    var texturaCalleGirada = loader.load ("imgs/street2.jpg");
+
+    this.groundCalle3 = new Ground (200, 200 , new THREE.MeshPhongMaterial ({map: texturaCalleGirada}), 4);
+    this.groundCalle3.position.set(250, 0, 0);
+    model.add (this.groundCalle3);
+
+
+    //Calle Superior
+
+    this.groundCalle4 = new Ground (200, 200 , new THREE.MeshPhongMaterial ({map: texturaCalleGirada}), 4);
+    this.groundCalle4.position.set(-250, 0, 0);
+    model.add (this.groundCalle4);
+
+    //Cuadro central
     this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 4);
     model.add (this.ground);
+
+    this.edificio = new Building({type:'1'});
+    model.add(this.edificio);
+
 
 
 
