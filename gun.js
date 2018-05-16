@@ -36,7 +36,7 @@ class Gun extends THREE.Object3D {
           obj.rotation.y = 59.7;
           obj.position.z += 2;
           obj.rotation.x = 1.5;
-           obj.scale.set(0.125,0.125,0.125);
+          obj.scale.set(0.125,0.125,0.125);
           modelko.add(obj);
         }
         );
