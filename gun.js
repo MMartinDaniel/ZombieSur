@@ -30,7 +30,7 @@ class Gun extends THREE.Object3D {
     var loader = new THREE.ObjectLoader();
       if(this.type == 1){  
         loader.load('models/mp5k.json',
-          function(obj,xhr){
+          function(obj){
           obj.position.y -= 15;
           obj.position.x += 6.7;
           obj.rotation.y = 59.7;

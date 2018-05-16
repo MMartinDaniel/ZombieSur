@@ -6,7 +6,6 @@ class Building extends THREE.Object3D {
     this.type = parameters.type;
 
 
-    //SESION 2 DATOS
 
   
     this.modelo = null;
@@ -20,22 +19,28 @@ class Building extends THREE.Object3D {
   }
 
   crearEdificios(){
-    var Bmodel = new THREE.Object3D();
-    var loader = new THREE.OBJLoader();
+    var modelko = new THREE.Object3D();
+    var loader = new THREE.ObjectLoader();
       if(this.type == 1){  
-        loader.load('models/edificios/building.obj',
+        loader.load('models/edificios/japanese-house-2.json',
           function(obj,xhr){
-          obj.position.x = 240;
-          obj.position.y = 30;
-          obj.position.z = 130;
- 
-          obj.scale.set(6,6,6);
-          Bmodel.add(obj);
+
+            obj.position.x = 240;
+            obj.position.y = 15 ;
+            obj.position.z = 122;
+            obj.scale.set(0.3,0.3,0.3);
+            modelko.add(obj);
         }
         );
       }
 
-      return Bmodel;
+      return modelko;
     }
+
+
+
+
+
+
 
 }
