@@ -4,9 +4,8 @@ class Gun extends THREE.Object3D {
     super();
     
     this.material = null;
-    this.damage           = 0;
     this.distance        = 0;
-    this.bullets          = 0;
+    this.bullet = new Bullet ({type:'1'});
     this.max_bullets = 0;
     this.reload_time = 0;
     this.price = 100;
@@ -20,12 +19,13 @@ class Gun extends THREE.Object3D {
     this.todo = new THREE.Mesh();
     this.modelo = this.crearArma();
     this.todo.add(this.modelo);
-
+    //this.todo.add(this.bullet);
     this.add (this.todo);
     
   }
 
   crearArma(){
+
     var modelko = new THREE.Object3D();
     var loader = new THREE.ObjectLoader();
       if(this.type == 1){  
@@ -45,4 +45,15 @@ class Gun extends THREE.Object3D {
       return modelko;
     }
 
+    shoot(){
+      this.todo.add(this.bullet);
+    }
+    checkGunPos(){
+      if(this.bullet.position.y < -200){
+        this.todo.remove(this.bullet);
+        this.bullet = new Bullet ({type:'1'});
+        return false;
+      }
+      return true;
+    }
 }

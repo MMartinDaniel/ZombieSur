@@ -149,10 +149,10 @@ class TheScene extends THREE.Scene {
       scene.sound.setBuffer( buffer );
       scene.sound.setLoop( true );
       scene.sound.setVolume(0.5);
-      scene.sound.play();
+    //  scene.sound.play();
     });
 
-
+   
     return model;
 
 
@@ -185,8 +185,18 @@ class TheScene extends THREE.Scene {
     //P1
     this.addedLight.intensity = controls.addedLightIntensity;
     this.zombi.lookAt(this.character.position);
+    if(this.character.aimpos){
+     
+    }else{
     this.character.setBrazos(controls.rotation);
+    }
     this.character.setPiernas(controls.footRotation);
+    if(this.character.shooting){
+      this.character.gun.bullet.translateY(-20);
+      if(!this.character.gun.checkGunPos()){
+        this.character.shooting = false;
+      }
+    }
     TWEEN.update();
 
     
@@ -228,7 +238,11 @@ class TheScene extends THREE.Scene {
  makeMove(parameters){
     switch (parameters.move) {
       case 'up':
-          this.character.translateZ(10);
+         if(this.character.aimpos){
+              this.character.translateZ(2);
+          }else{
+            this.character.translateZ(10);
+          }
            this.character.walk_start();
         break;
       case'down':
@@ -248,7 +262,21 @@ class TheScene extends THREE.Scene {
       this.character.rotateOnAxis(axis, -0.25);
       break;
       case 'aim':
-        this.character.aim_start();
+        if(this.character.aimpos){
+          this.character.aim_stop();
+        }else{
+           this.character.aim_start();
+        }
+      break;
+      case 'shoot':
+      var sound = new THREE.PositionalAudio( this.listener );
+      var audioLoader = new THREE.AudioLoader();
+        audioLoader.load( 'models/mp5k_sound.wav', function( buffer ) {
+          sound.setBuffer( buffer );
+          sound.setRefDistance( 20 );
+          sound.play();
+        });
+      this.character.shoot();
       break;
     }
 
