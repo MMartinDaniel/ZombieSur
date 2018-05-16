@@ -4,9 +4,6 @@ class Building extends THREE.Object3D {
     
     this.material = null;
     this.type = parameters.type;
-
-
-
   
     this.modelo = null;
 
