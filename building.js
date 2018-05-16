@@ -4,9 +4,6 @@ class Building extends THREE.Object3D {
     
     this.material = null;
     this.type = parameters.type;
-
-
-
   
     this.modelo = null;
 
@@ -20,15 +17,15 @@ class Building extends THREE.Object3D {
 
   crearEdificios(){
     var modelko = new THREE.Object3D();
-    var loader = new THREE.ObjectLoader();
-      if(this.type == 1){  
-        loader.load('models/edificios/japanese-house-2.json',
+    var loader = new THREE.OBJLoader();
+      if(this.type ==6){  
+        loader.load('models/edificios/old_house_obj/house_01.obj',
           function(obj,xhr){
 
             obj.position.x = 240;
             obj.position.y = 15 ;
             obj.position.z = 122;
-            obj.scale.set(0.3,0.3,0.3);
+            obj.scale.set(0.2,0.2,0.2);
             modelko.add(obj);
         }
         );

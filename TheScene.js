@@ -245,6 +245,7 @@ class TheScene extends THREE.Scene {
     this.character.setPiernas(controls.footRotation);
     if(this.character.shooting){
       this.character.gun.bullet.translateY(-20);
+      this.checkColisionBala();
       if(!this.character.gun.checkGunPos()){
         this.character.shooting = false;
       }
@@ -257,7 +258,15 @@ class TheScene extends THREE.Scene {
   }
   
 
+  checkColisionBala(){
+    var pos = this.character.gun.bullet.position.y + this.character.position.x;
+    var zpos = this.zombi.position.x;
+    alert(pos +" y" + zpos);
+    if(pos < (zpos+40) && pos > (zpos-40)){
+      alert("hit");
+    }
 
+  }
 
 
 
@@ -321,14 +330,16 @@ class TheScene extends THREE.Scene {
         }
       break;
       case 'shoot':
-      var sound = new THREE.PositionalAudio( this.listener );
-      var audioLoader = new THREE.AudioLoader();
-        audioLoader.load( 'models/mp5k_sound.wav', function( buffer ) {
-          sound.setBuffer( buffer );
-          sound.setRefDistance( 20 );
-          sound.play();
-        });
-      this.character.shoot();
+         if(this.character.aimpos){
+          var sound = new THREE.PositionalAudio( this.listener );
+          var audioLoader = new THREE.AudioLoader();
+            audioLoader.load( 'models/mp5k_sound.wav', function( buffer ) {
+              sound.setBuffer( buffer );
+              sound.setRefDistance( 20 );
+              sound.play();
+            });
+          this.character.shoot();
+        }
       break;
     }
 
