@@ -65,13 +65,14 @@ class Character extends THREE.Object3D {
 
         this.cuerpo.add(this.pieD);
         this.cuerpo.add(this.pieI);
-
+        this.gun = new Gun({type:'1'});
+        this.brazoD.add(this.gun);
         todo.position.y = 8;
         this.walk(180);
         this.createAim_anim();
+        this.createShoot_anim();
         
-        this.gun = new Gun({type:'1'});
-        this.brazoD.add(this.gun);
+     
         return todo;
 
   }
@@ -81,6 +82,8 @@ class Character extends THREE.Object3D {
 
       var cpos_i = this.brazoI.rotation.z;
       var cpos_d = this.brazoD.rotation.z;
+      var xpos_gun = this.gun.position.x;
+      
       var position = {x:0.0, y: 0.0,z:0.0};
 
      this.tween_to_aim = new TWEEN.Tween(position).to({x: -1.5, y:0.0,z:-0.3},500).onUpdate(function(){
@@ -89,20 +92,35 @@ class Character extends THREE.Object3D {
              scene.character.brazoD.rotation.x = position.x;
              scene.character.brazoI.rotation.z = -position.z;
              scene.character.brazoD.rotation.z = position.z;
+             scene.character.gun.position.x = position.x*2.5;
+
 
      });
      this.tween_to_aim.onComplete(function(){
             scene.character.brazoI.rotation.z = cpos_i;
-             scene.character.brazoD.rotation.z = cpos_d;
+            scene.character.brazoD.rotation.z = cpos_d;
+            scene.character.gun.position.x = xpos_gun;
      });
 
 
     }
 
    createShoot_anim(){
+      var cpos_i = this.brazoI.rotation.z;
+      var cpos_d = this.brazoD.rotation.z;    
+      var position = {x:0.0, y: 0.0,z:0.0};
 
-    
+     this.tween_to_shoot = new TWEEN.Tween(position).to({x: -2, y:0.0,z:-0.3},500).onUpdate(function(){
 
+             scene.character.brazoI.rotation.x =  position.x;
+             scene.character.brazoD.rotation.x = position.x;
+             scene.character.brazoI.rotation.z = -position.z;
+             scene.character.brazoD.rotation.z = position.z;
+     });
+     this.tween_to_shoot.onComplete(function(){
+            scene.character.brazoI.rotation.z = cpos_i;
+            scene.character.brazoD.rotation.z = cpos_d;
+     });
    }
 
   // CUERPO
@@ -332,9 +350,13 @@ aim_stop(){
      this.tween_to_aim.stop();
 
 }
-
 aim_start(){
   this.tween_to_aim.start();
 }
-
+shoot_start(){
+  this.tween_to_shoot.start();
+}
+shoot_stop(){
+  this.tween_to_shoot.stop();
+}
 }
