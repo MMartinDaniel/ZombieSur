@@ -32,7 +32,7 @@ class Bullet extends THREE.Object3D {
     var head = new THREE.Mesh( geometryhead, new THREE.MeshLambertMaterial( { color: 0xD4AF37 } ) );
     head.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (6.8, 15.9, -4.5));
     body.add(head);
-        body.rotation.x = Math.PI;
+    body.rotation.x = Math.PI;
     body.autoUpdateMatrix = false;
 
     body.updateMatrix();
