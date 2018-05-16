@@ -259,10 +259,17 @@ class TheScene extends THREE.Scene {
   
 
   checkColisionBala(){
-    var pos = this.character.gun.bullet.position.y + this.character.position.x;
-    var zpos = this.zombi.position.x;
-    alert(pos +" y" + zpos);
-    if(pos < (zpos+40) && pos > (zpos-40)){
+
+    this.updateMatrixWorld(true);
+    var position_bullet = new THREE.Vector3();
+    position_bullet.getPositionFromMatrix( this.character.gun.bullet.matrixWorld );
+    alert(position_bullet.x + ',' + position_bullet.y + ',' + position_bullet.z);
+    
+    var position_zombi = new THREE.Vector3();
+    position_zombi.getPositionFromMatrix( this.zombi.matrixWorld );
+    alert(position_zombi.x + ',' + position_zombi.y + ',' + position_zombi.z);
+
+    if(pos_x < (zpos+40) && pos_x > (zpos-40)){
       alert("hit");
     }
 
