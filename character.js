@@ -12,12 +12,15 @@ class Character extends THREE.Object3D {
     this.distance        = 10;
     this.height          = 10;
     this.angleP = 0;
+    this.aimpos = false;
     //SESION 2 DATOS
 
     this.vida = 100;
     this.dinero = 0;
     this.tween_to_walk = new TWEEN.Tween();
     this.tween_from_walk = new TWEEN.Tween();
+    this.tween_to_aim_walk = new TWEEN.Tween();
+    this.tween_from_aim_walk = new TWEEN.Tween();
 
     this.tween_to_aim = new TWEEN.Tween();
     this.tween_to_shoot = new TWEEN.Tween();
@@ -30,6 +33,7 @@ class Character extends THREE.Object3D {
     this.pieI = null;
     this.pieD = null; 
     this.gun = null;
+    this.shooting = false;
 
     this.todo = new THREE.Mesh();
 
@@ -333,25 +337,68 @@ createFoot (place){
           scene.character.brazoD.rotation.x = -position.x;
    });
 
+   this.tween_to_aim_walk = new TWEEN.Tween(position).to({x: 1.2, y:0.0},500).onUpdate(function(){
+
+           scene.character.pieI.rotation.x =  position.x;
+           scene.character.pieD.rotation.x = -position.x;
+
+
+   });
+
+   this.tween_from_aim_walk = new TWEEN.Tween(position).to({x: -1.2, y:0.0},500).onUpdate(function(){
+          scene.character.pieI.rotation.x =  position.x;
+          scene.character.pieD.rotation.x =  -position.x;
+   });
+
+
+
    this.tween_to_walk.chain(this.tween_from_walk);
    this.tween_from_walk.chain(this.tween_to_walk);
 
+   this.tween_to_aim_walk.chain(this.tween_from_aim_walk);
+   this.tween_from_aim_walk.chain(this.tween_to_aim_walk);
 
 }
 
+
 walk_stop(){
+  if(this.aimpos){
+    this.tween_to_aim_walk.stop();
+  }else{
      this.tween_to_walk.stop();
+  }
 }
 
 walk_start(){
-  this.tween_to_walk.start();
+    if(this.aimpos){
+       this.tween_to_aim_walk.start();
+    }else{
+          this.tween_to_walk.start();
+      }
 }
 aim_stop(){
-     this.tween_to_aim.stop();
+
+    this.brazoD.rotation.z = 0;
+     this.brazoI.rotation.z = 0;
+     this.brazoI.rotation.x = 0;
+     this.brazoD.rotation.x = 0;
+     this.gun.rotation.z = 0;
+     this.gun.position.x = 0;
+     this.gun.position.y = 0;
+
+    this.aimpos = false;
 
 }
 aim_start(){
-  this.tween_to_aim.start();
+
+     this.brazoD.rotation.z = -this.toRad(20);
+     this.brazoI.rotation.z = this.toRad(20);
+     this.brazoI.rotation.x = -Math.PI /2;
+     this.brazoD.rotation.x = -Math.PI /2;
+     this.gun.rotation.z = -this.toRad(-20);
+     this.gun.position.x = -6.5;
+     this.gun.position.y = -3;
+    this.aimpos = true;
 }
 shoot_start(){
   this.tween_to_shoot.start();
@@ -359,4 +406,8 @@ shoot_start(){
 shoot_stop(){
   this.tween_to_shoot.stop();
 }
+  shoot(){
+    this.gun.shoot();
+    this.shooting = true;
+  }
 }

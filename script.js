@@ -229,7 +229,10 @@ function onKeyDown(){
     this.pause();
   }else if (event.key == 'i'){
     scene.makeMove({move:'aim'});
+  }else if(event.key == 'u'){
+    scene.makeMove({move:'shoot'});
   }
+
   
 
 }
@@ -266,6 +269,9 @@ function onKeyUp(){
  scene.character.walk_stop();
 
 }
+window.onload = function() {
+  var context = new AudioContext();
+}
 
 
 /// The main function
@@ -291,6 +297,11 @@ $(function () {
  
   createGUI(true);
 
-
+  // One-liner to resume playback when user interacted with the page.
+  document.querySelector('button').addEventListener('click', function() {
+    context.resume().then(() => {
+      console.log('Playback resumed successfully');
+    });
+  });
   render();
 });
