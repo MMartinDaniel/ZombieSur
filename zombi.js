@@ -1,3 +1,5 @@
+
+
 class Zombi extends THREE.Object3D {
   
   constructor (parameters) {
@@ -14,6 +16,8 @@ class Zombi extends THREE.Object3D {
 
     this.vida = 100;
     this.dinero = 0;
+    this.tween_to_walkz = new TWEEN.Tween();
+    this.tween_from_walkz = new TWEEN.Tween();
 
     // Objects for operating with the r2d2
     this.cabeza = null;
@@ -21,8 +25,7 @@ class Zombi extends THREE.Object3D {
     this.brazoD = null;
     this.brazoI = null;   
     this.pieI = null;
-    this.pieD = null; 
-
+    this.pieD = null;
 
     this.todo = new THREE.Mesh();
 
@@ -56,7 +59,7 @@ class Zombi extends THREE.Object3D {
         this.todo.add(this.pieD);
         this.todo.add(this.pieI);
 
-
+        this.walk();
 
         todo.position.y = 8;
 
@@ -242,4 +245,58 @@ hit(shoot){
 }
 
 
+
+
+walk_start(){
+  this.tween_to_walkz.start(); 
 }
+
+
+
+//Funciones movimiento
+
+  walk() {
+
+
+   var position = {x:0.0, y: 0.0};
+
+   this.tween_to_walkz = new TWEEN.Tween(position).to({x: 1.2, y:0.0},500).onUpdate(function(){
+
+           this.pieI.rotation.x =  40;
+           this.character.pieD.rotation.x = -position.x;
+           this.character.brazoI.rotation.x =  position.x;
+           this.character.brazoD.rotation.x = -position.x;
+
+
+   });
+
+   this.tween_from_walkz = new TWEEN.Tween(position).to({x: -1.2, y:0.0},500).onUpdate(function(){
+          this.pieI.rotation.x =  position.x;
+          this.pieD.rotation.x =  -position.x;
+          this.brazoI.rotation.x =  position.x;
+          this.brazoD.rotation.x = -position.x;
+   });
+
+
+
+
+   this.tween_to_walkz.chain(this.tween_from_walkz);
+   this.tween_from_walkz.chain(this.tween_to_walkz);
+
+
+}
+
+/*
+walk_stop(){
+    this.tween_to_walk.stop();
+
+}
+*/
+
+
+
+
+
+
+}
+
