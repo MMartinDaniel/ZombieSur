@@ -31,8 +31,8 @@ class Zombi extends THREE.Object3D {
 
     this.angle = 0;   //Angulo cabeza
     this.bodyAngle = 0;   //cuerpod
-  
     this.base = this.createTodo();
+
     this.todo.add(this.base);
 
     this.add (this.todo);
@@ -58,7 +58,6 @@ class Zombi extends THREE.Object3D {
 
         this.todo.add(this.pieD);
         this.todo.add(this.pieI);
-
         this.walk();
 
         todo.position.y = 8;
@@ -255,29 +254,26 @@ walk_start(){
 
 //Funciones movimiento
 
+
   walk() {
-
-
    var position = {x:0.0, y: 0.0};
 
    this.tween_to_walkz = new TWEEN.Tween(position).to({x: 1.2, y:0.0},500).onUpdate(function(){
 
-           this.pieI.rotation.x =  40;
-           this.character.pieD.rotation.x = -position.x;
-           this.character.brazoI.rotation.x =  position.x;
-           this.character.brazoD.rotation.x = -position.x;
+          scene.zombi.pieI.rotation.x =  40;
+          scene.zombi.pieD.rotation.x = -position.x;
+          scene.zombi.brazoI.rotation.x =  position.x;
+          scene.zombi.brazoD.rotation.x = -position.x;
 
 
    });
 
    this.tween_from_walkz = new TWEEN.Tween(position).to({x: -1.2, y:0.0},500).onUpdate(function(){
-          this.pieI.rotation.x =  position.x;
-          this.pieD.rotation.x =  -position.x;
-          this.brazoI.rotation.x =  position.x;
-          this.brazoD.rotation.x = -position.x;
+          scene.zombi.pieI.rotation.x =  position.x;
+          scene.zombi.pieD.rotation.x =  -position.x;
+          scene.zombi.brazoI.rotation.x =  position.x;
+          scene.zombi.brazoD.rotation.x = -position.x;
    });
-
-
 
 
    this.tween_to_walkz.chain(this.tween_from_walkz);

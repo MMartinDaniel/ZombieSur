@@ -294,7 +294,7 @@ class TheScene extends THREE.Scene {
 if(this.zombi != null){
   this.zombi.translateZ(1);
 }
-this.zombi.walk_start();
+    this.zombi.walk_start();
     
  //   this.zombieMove();
     this.recoil++;
