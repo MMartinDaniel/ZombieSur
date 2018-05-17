@@ -158,7 +158,7 @@ class TheScene extends THREE.Scene {
 
     var loader2 = new THREE.TextureLoader();
     var texturaCalle = loader.load ("imgs/street.jpg");
-
+    
     //Calle izq
     this.groundCalle = new Ground (200, 200 , new THREE.MeshPhongMaterial ({map: texturaCalle}), 4);
     this.groundCalle.position.set(0, 0, 250);
@@ -190,8 +190,8 @@ class TheScene extends THREE.Scene {
     this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 4);
     model.add (this.ground);
 
-    this.edificio = new Building({type:'1'});
-    model.add(this.edificio);
+   //this.edificio = new Building({type:'1'});
+   // model.add(this.edificio);
 
 
 
@@ -245,7 +245,7 @@ class TheScene extends THREE.Scene {
     this.character.setPiernas(controls.footRotation);
     if(this.character.shooting){
       this.character.gun.bullet.translateY(-20);
-      this.checkColisionBala();
+     // this.checkColisionBala();
       if(!this.character.gun.checkGunPos()){
         this.character.shooting = false;
       }
@@ -263,16 +263,16 @@ class TheScene extends THREE.Scene {
     this.updateMatrixWorld(true);
     var position_bullet = new THREE.Vector3();
     position_bullet.getPositionFromMatrix( this.character.gun.bullet.matrixWorld );
-    alert(position_bullet.x + ',' + position_bullet.y + ',' + position_bullet.z);
+  //  alert(position_bullet.x + ',' + position_bullet.y + ',' + position_bullet.z);
     
     var position_zombi = new THREE.Vector3();
     position_zombi.getPositionFromMatrix( this.zombi.matrixWorld );
-    alert(position_zombi.x + ',' + position_zombi.y + ',' + position_zombi.z);
-
+   // alert(position_zombi.x + ',' + position_zombi.y + ',' + position_zombi.z);
+/*
     if(pos_x < (zpos+40) && pos_x > (zpos-40)){
       alert("hit");
     }
-
+*/
   }
 
 
