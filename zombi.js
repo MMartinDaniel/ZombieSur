@@ -232,6 +232,14 @@ createFoot (place){
     return rfoot;  
 }
 
+hit(shoot){
+  this.vida -= shoot.dmg;
+  console.log(this.vida);
+  if(this.vida <= 0){
+    return true;
+  }
+  return false;
+}
 
 
 }
