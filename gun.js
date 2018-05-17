@@ -55,6 +55,12 @@ class Gun extends THREE.Object3D {
         this.bullet = new Bullet ({type:'1'});
         return false;
       }
+     /* if(position_bullet.x > 300 || position_bullet.x < 300 || position_bullet.z < 300 || position_bullet.z > 300){
+        this.todo.remove(this.bullet);
+        this.bullet = new Bullet ({type:'1'});
+        return false;
+      }
+      */
       return true;
     }
 }

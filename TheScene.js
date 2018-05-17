@@ -159,7 +159,7 @@ class TheScene extends THREE.Scene {
 
     var loader2 = new THREE.TextureLoader();
     var texturaCalle = loader.load ("imgs/street.jpg");
-
+    
     //Calle izq
     this.groundCalle = new Ground (200, 200 , new THREE.MeshPhongMaterial ({map: texturaCalle}), 4);
     this.groundCalle.position.set(0, 0, 250);
@@ -192,6 +192,7 @@ class TheScene extends THREE.Scene {
     model.add (this.ground);
 
    // this.edificio = new Building({type:'1'});
+
    // model.add(this.edificio);
 
 
