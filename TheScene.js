@@ -24,6 +24,7 @@ class TheScene extends THREE.Scene {
     this.groundCalle4 = null;
     this.zombies = [];
     this.current_zombies = 0;
+    this.recoil = 0;
 
     this.edificio = null;
 
@@ -203,8 +204,8 @@ class TheScene extends THREE.Scene {
       audioLoader.load('models/background.mp3', function( buffer ) {
       scene.sound.setBuffer( buffer );
       scene.sound.setLoop( true );
-      scene.sound.setVolume(0.5);
-      scene.sound.play();
+      scene.sound.setVolume(0.3);
+    //  scene.sound.play();
     });
 
    
@@ -271,6 +272,7 @@ class TheScene extends THREE.Scene {
     this.spotLight.intensity = controls.lightIntensity;
    // console.log(this.zombies.length);
     this.addedLight.intensity = controls.addedLightIntensity;
+
     //if(this.zombies.length == 0){ this.wave_number++; this.spawn_wave();};
     if(this.zombi != null){};
     if(this.character.aimpos){
@@ -279,7 +281,7 @@ class TheScene extends THREE.Scene {
     this.character.setBrazos(controls.rotation);
     }
     this.character.setPiernas(controls.footRotation);
-    if(this.character.shooting){
+    if(this.character.shooting ){
       this.character.gun.bullet.translateY(-20);
       var hit = this.checkColisionBala();
       if(!this.character.gun.checkGunPos({hitt:hit})){
@@ -294,6 +296,10 @@ if(this.zombi != null){
 }
 this.zombi.walk_start();
     
+ //   this.zombieMove();
+    this.recoil++;
+  //  console.log(this.recoil);
+
     TWEEN.update();
 
     //if(this.zombi != null){this.zombi.translateZ(1);};
@@ -330,7 +336,7 @@ this.zombi.walk_start();
                 audioLoader.load( 'models/sonidos/zombie_hit.wav', function( buffer ) {
                 sound.setBuffer( buffer );
                 sound.setRefDistance( 20 );
-                sound.setVolume( 0.8 );
+                sound.setVolume( 4 );
                 sound.play();
               });
                 return true;
@@ -340,8 +346,12 @@ this.zombi.walk_start();
       };  
   }
 
+
   }
 
+  CambiarArma(para){
+    this.character.swapGun({selected:para.selected});
+  }
 
 
 
@@ -403,16 +413,10 @@ this.zombi.walk_start();
         }
       break;
       case 'shoot':
-         if(this.character.aimpos){
-          var sound = new THREE.PositionalAudio( this.listener );
-          var audioLoader = new THREE.AudioLoader();
-            audioLoader.load( 'models/mp5k_sound.wav', function( buffer ) {
-              sound.setBuffer( buffer );
-              sound.setRefDistance( 20 );
-              sound.play();
-            });
-
+         if(this.character.aimpos && this.recoil >= this.character.gun.reload_time){
+          
           this.character.shoot();
+          this.recoil = 0;
         }
       break;
     }
