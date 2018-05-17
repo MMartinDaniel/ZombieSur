@@ -69,7 +69,7 @@ class Character extends THREE.Object3D {
 
         this.cuerpo.add(this.pieD);
         this.cuerpo.add(this.pieI);
-        this.gun = new Gun({type:'1'});
+        this.gun = new Gun({type:'2'});
         this.brazoD.add(this.gun);
         todo.position.y = 8;
         this.walk(180);

@@ -23,8 +23,8 @@
     <script type="text/javascript" src="../libs/OBJLoader.js"></script>
     <script type="text/javascript" src="TheScene.js"></script>
     <script type="text/javascript" src="script.js"></script>
-
     <script type="text/javascript" src="../libs/MTLLoader.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 
 
 
@@ -48,8 +48,42 @@
 </div>
 
 <!-- Div which will show several messages -->
-<div style="position:absolute; left:100px; top:10px" id="Messages">
+<!-- <div style="position:absolute; left:100px; top:10px" id="Messages">
+</div>-->
+<!--- MI GUI -->
+<div class='fight-ui'>
+    <div class="entities-list" >
+          <div class="entitie">
+            <div class="card">
+              <div class="health-bar">
+                <div class="health" style="height: 75%;"></div>
+              </div>
+               <img src="UI/mpk5.png">
+            </div>
+          </div>
+           <div class="entitie critical-health">
+            <div class="card">
+              <div class="health-bar">
+                <div class="health" style="height: 20%;"></div>
+              </div>
+               <img src="http://via.placeholder.com/100x125">
+              <div class="effects-overlay">
+                <div class="critical-health"></div>
+              </div>
+            </div>
+          </div>
+           <div class="entitie">
+            <div class="card">
+               <img src="http://via.placeholder.com/100x125">
+            </div>
+          </div>
+        </div>
 </div>
+
+
+
+<!-- FIN MI GUI -->
+
 
 <!-- Div which will hold the Output -->
 <div id="WebGL-output">
