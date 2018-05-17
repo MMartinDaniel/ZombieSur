@@ -16,13 +16,14 @@ class TheScene extends THREE.Scene {
     this.trackballControls = null;
     this.r2d2 = null;
     this.character = null;
-
+    this.wave_number = 0;
     this.ground = null;
     this.groundCalle = null;
     this.groundCalle2 = null;
     this.groundCalle3 = null;
     this.groundCalle4 = null;
-
+    this.zombies = [];
+    this.current_zombies = 0;
 
     this.edificio = null;
 
@@ -119,10 +120,10 @@ class TheScene extends THREE.Scene {
   var model = new THREE.Object3D();
 
 
-    this.zombi = new Zombi();
-    model.add(this.zombi);
+   // this.zombi = new Zombi();
+    //model.add(this.zombi);
 
-    this.zombi.position.set(0,5,30);
+    //this.zombi.position.set(0,5,30);
     //Texturas cabeza
     var loader1 = new THREE.TextureLoader();
 
@@ -190,8 +191,8 @@ class TheScene extends THREE.Scene {
     this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 4);
     model.add (this.ground);
 
-    this.edificio = new Building({type:'1'});
-    model.add(this.edificio);
+   // this.edificio = new Building({type:'1'});
+   // model.add(this.edificio);
 
 
 
@@ -201,7 +202,7 @@ class TheScene extends THREE.Scene {
       scene.sound.setBuffer( buffer );
       scene.sound.setLoop( true );
       scene.sound.setVolume(0.5);
-    //  scene.sound.play();
+      scene.sound.play();
     });
 
    
@@ -226,6 +227,38 @@ class TheScene extends THREE.Scene {
     return container;
 }
 
+  spawn_wave(){
+
+    for (var i = 0; i < this.wave_number; i++) {
+      var zombie = new Zombi();
+      this.zombies[i] = zombie;
+      this.model.add(this.zombies[i]);
+      var po = Math.floor(Math.random() * 4);
+      var p_z,p_x;
+      switch (po) {
+        case 1:
+          p_z = 200;
+          p_x = 0;
+        break;
+        case 2:
+          p_z = -200;
+          p_x = 0;
+        break;
+        case 3:
+          p_z = 0;
+          p_x = -200;
+        break;
+        case 0:
+        p_z = 0;
+        p_x = 200;
+        break;
+
+      }
+      this.zombies[i].position.set(p_x,5,p_z);
+      this.current_zombies++;
+
+    }
+  }
 
   // Public methods
 
@@ -234,9 +267,10 @@ class TheScene extends THREE.Scene {
    
     this.axis.visible = controls.axis;
     this.spotLight.intensity = controls.lightIntensity;
-    //P1
+   // console.log(this.zombies.length);
     this.addedLight.intensity = controls.addedLightIntensity;
-    this.zombi.lookAt(this.character.position);
+    if(this.zombies.length == 0){ this.wave_number++; this.spawn_wave();};
+    if(this.zombi != null){};
     if(this.character.aimpos){
      
     }else{
@@ -245,33 +279,56 @@ class TheScene extends THREE.Scene {
     this.character.setPiernas(controls.footRotation);
     if(this.character.shooting){
       this.character.gun.bullet.translateY(-20);
-      this.checkColisionBala();
-      if(!this.character.gun.checkGunPos()){
+      var hit = this.checkColisionBala();
+      if(!this.character.gun.checkGunPos({hitt:hit})){
         this.character.shooting = false;
       }
     }
     TWEEN.update();
 
-    
-   // this.zombi.translateZ(1);
+    this.zombieMove();
+    //if(this.zombi != null){this.zombi.translateZ(1);};
 
   }
-  
+
+  zombieMove(){ 
+    for (var i = 0; i <= this.zombies.length-1; i++) {
+      if(this.zombies[i] != null){
+          this.zombies[i].lookAt(this.character.position);
+          this.zombies[i].translateZ(1);
+      }
+    }
+  }
 
   checkColisionBala(){
-
+    console.log(this.zombies.length);
     this.updateMatrixWorld(true);
     var position_bullet = new THREE.Vector3();
-    position_bullet.getPositionFromMatrix( this.character.gun.bullet.matrixWorld );
-    alert(position_bullet.x + ',' + position_bullet.y + ',' + position_bullet.z);
-    
     var position_zombi = new THREE.Vector3();
-    position_zombi.getPositionFromMatrix( this.zombi.matrixWorld );
-    alert(position_zombi.x + ',' + position_zombi.y + ',' + position_zombi.z);
-
-    if(pos_x < (zpos+40) && pos_x > (zpos-40)){
-      alert("hit");
-    }
+    position_bullet.setFromMatrixPosition( this.character.gun.bullet.matrixWorld );
+    if(this.zombies.length != 0){
+      for (var i = 0; i <= this.zombies.length-1; i++) {
+        if(this.zombies[i] != null){
+          position_zombi.setFromMatrixPosition( this.zombies[i].matrixWorld );
+          if(position_bullet.x < (position_zombi.x+10) && position_bullet.x > (position_zombi.x-10)){
+            if(position_bullet.z < (position_zombi.z+10) && position_bullet.z > (position_zombi.z-10)){
+              if(this.zombies[i].hit({dmg: this.character.gun.damage})){  
+                this.current_zombies--; this.model.remove(this.zombies[i]); this.zombies.splice(i,1); 
+              };
+              var sound = new THREE.PositionalAudio( this.listener );
+              var audioLoader = new THREE.AudioLoader();
+                audioLoader.load( 'models/sonidos/zombie_hit.wav', function( buffer ) {
+                sound.setBuffer( buffer );
+                sound.setRefDistance( 20 );
+                sound.setVolume( 0.8 );
+                sound.play();
+              });
+                return true;
+              }
+            }
+          }
+      };  
+  }
 
   }
 
@@ -315,19 +372,18 @@ class TheScene extends THREE.Scene {
         break;
       case'down':
           this.character.walk_stop();
-      this.character.translateZ(-5);
+     // this.character.translateZ(-5);
+      var axis = new THREE.Vector3(0,1,0);
+      this.character.rotateOnAxis(axis, 3);
+
       break;
       case'left':
-      // this.r2d2.position.x += -5;
-      var axis = new THREE.Vector3(0,1,0);//tilted a bit on x and y - feel free to plug your different axis here
-      //in your update/draw function
-      this.character.rotateOnAxis(axis, 0.25);
+      var axis = new THREE.Vector3(0,1,0);
+      this.character.rotateOnAxis(axis, 0.15);
       break;
       case'right':
-       // this.r2d2.position.x += -5;
-      var axis = new THREE.Vector3(0,1,0);//tilted a bit on x and y - feel free to plug your different axis here
-      //in your update/draw function
-      this.character.rotateOnAxis(axis, -0.25);
+      var axis = new THREE.Vector3(0,1,0)
+      this.character.rotateOnAxis(axis, -0.15);
       break;
       case 'aim':
         if(this.character.aimpos){
@@ -345,6 +401,7 @@ class TheScene extends THREE.Scene {
               sound.setRefDistance( 20 );
               sound.play();
             });
+
           this.character.shoot();
         }
       break;
@@ -363,7 +420,8 @@ class TheScene extends THREE.Scene {
   TheScene.NO_ACTION = 0;
   TheScene.ADDING_BOXES = 1;
   TheScene.MOVING_BOXES = 2;
-  
+  TheScene.AFTER_WAVE = 20;
+  TheScene.IN_WAVE = 30;
   // Actions
   TheScene.NEW_BOX = 0;
   TheScene.MOVE_BOX = 1;

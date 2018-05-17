@@ -9,6 +9,7 @@ class Gun extends THREE.Object3D {
     this.max_bullets = 0;
     this.reload_time = 0;
     this.price = 100;
+    this.damage = 20;
     this.type = parameters.type;
 
     //SESION 2 DATOS
@@ -48,8 +49,8 @@ class Gun extends THREE.Object3D {
     shoot(){
       this.todo.add(this.bullet);
     }
-    checkGunPos(){
-      if(this.bullet.position.y < -200){
+    checkGunPos(param){
+      if(this.bullet.position.y < -200 || param.hitt){
         this.todo.remove(this.bullet);
         this.bullet = new Bullet ({type:'1'});
         return false;
