@@ -49,11 +49,21 @@ class Gun extends THREE.Object3D {
       this.todo.add(this.bullet);
     }
     checkGunPos(){
+     
+     // this.updateMatrixWorld(true);
+     // var position_bullet = new THREE.Vector3();
+     // position_bullet.getPositionFromMatrix( this.bullet.matrixWorld );
       if(this.bullet.position.y < -200){
         this.todo.remove(this.bullet);
         this.bullet = new Bullet ({type:'1'});
         return false;
       }
+     /* if(position_bullet.x > 300 || position_bullet.x < 300 || position_bullet.z < 300 || position_bullet.z > 300){
+        this.todo.remove(this.bullet);
+        this.bullet = new Bullet ({type:'1'});
+        return false;
+      }
+      */
       return true;
     }
 }
