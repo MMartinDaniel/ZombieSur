@@ -120,10 +120,11 @@ class TheScene extends THREE.Scene {
   var model = new THREE.Object3D();
 
 
-   // this.zombi = new Zombi();
-    //model.add(this.zombi);
+    //COMENTAR
+    this.zombi = new Zombi();
+    model.add(this.zombi);
 
-    //this.zombi.position.set(0,5,30);
+    this.zombi.position.set(0,5,30);
     //Texturas cabeza
     var loader1 = new THREE.TextureLoader();
 
@@ -270,7 +271,7 @@ class TheScene extends THREE.Scene {
     this.spotLight.intensity = controls.lightIntensity;
    // console.log(this.zombies.length);
     this.addedLight.intensity = controls.addedLightIntensity;
-    if(this.zombies.length == 0){ this.wave_number++; this.spawn_wave();};
+    //if(this.zombies.length == 0){ this.wave_number++; this.spawn_wave();};
     if(this.zombi != null){};
     if(this.character.aimpos){
      
@@ -285,9 +286,16 @@ class TheScene extends THREE.Scene {
         this.character.shooting = false;
       }
     }
+
+    //this.zombieMove();
+    //this.zombi.lookAt(this.character.position);
+if(this.zombi != null){
+  this.zombi.translateZ(1);
+}
+this.zombi.walk_start();
+    
     TWEEN.update();
 
-    this.zombieMove();
     //if(this.zombi != null){this.zombi.translateZ(1);};
 
   }
@@ -297,6 +305,7 @@ class TheScene extends THREE.Scene {
       if(this.zombies[i] != null){
           this.zombies[i].lookAt(this.character.position);
           this.zombies[i].translateZ(1);
+          this.zombies[i].walk_start();
       }
     }
   }
