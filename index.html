@@ -53,7 +53,7 @@
 <!--- MI GUI -->
 <div class='fight-ui'>
     <div class="entities-list" >
-          <div class="entitie">
+          <div class="entitie" onclick='scene.CambiarArma({selected:0});'>
             <div class="card">
               <div class="health-bar">
                 <div class="health" style="height: 75%;"></div>
@@ -61,12 +61,12 @@
                <img src="UI/mpk5.png">
             </div>
           </div>
-           <div class="entitie critical-health">
+           <div class="entitie" onclick='scene.CambiarArma({selected:1});'>
             <div class="card">
               <div class="health-bar">
                 <div class="health" style="height: 20%;"></div>
               </div>
-               <img src="http://via.placeholder.com/100x125">
+                <img src="UI/m4a4.png">
               <div class="effects-overlay">
                 <div class="critical-health"></div>
               </div>
@@ -89,4 +89,5 @@
 <div id="WebGL-output">
 </div>
 </body>
+
 </html>

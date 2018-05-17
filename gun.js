@@ -10,6 +10,8 @@ class Gun extends THREE.Object3D {
     this.reload_time = 0;
     this.price = 100;
     this.damage = 0;
+    this.listener = new THREE.AudioListener();
+
     this.type = parameters.type;
 
     //SESION 2 DATOS
@@ -53,8 +55,8 @@ class Gun extends THREE.Object3D {
           function(obj){
           var materialx = new THREE.MeshBasicMaterial({ color: 0xff0000 });
           obj.material = materialx;
-          obj.position.y -= 15;
-          obj.position.x += 6.7;
+          obj.position.y -= 12;
+          obj.position.x += 10;
           obj.rotation.y = 59.7;
           obj.position.z += 2;
           obj.rotation.x = 1.5;
@@ -68,8 +70,28 @@ class Gun extends THREE.Object3D {
     }
 
     shoot(){
+      this.reproduceSound();
       this.todo.add(this.bullet);
     }
+    reproduceSound(){
+          var sound = new THREE.PositionalAudio( this.listener );
+          var audioLoader = new THREE.AudioLoader();
+          switch (this.type) {
+            case '1':
+             var au = 'models/mp5k_sound.wav';
+              break;
+            case '2':
+              var au = 'models/sonidos/m4a4.wav';
+              break;
+          }
+            audioLoader.load( au, function( buffer ) {
+              sound.setBuffer( buffer );
+              sound.setRefDistance( 20 );
+              scene.sound.setVolume(2);
+              sound.play();
+            });
+    }
+
     checkGunPos(param){
       if(this.bullet.position.y < -this.distance || param.hitt){
         this.todo.remove(this.bullet);

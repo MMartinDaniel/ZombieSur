@@ -334,8 +334,12 @@ class TheScene extends THREE.Scene {
       };  
   }
 
+
   }
 
+  CambiarArma(para){
+    this.character.swapGun({selected:para.selected});
+  }
 
 
 
@@ -398,13 +402,7 @@ class TheScene extends THREE.Scene {
       break;
       case 'shoot':
          if(this.character.aimpos && this.recoil >= this.character.gun.reload_time){
-          var sound = new THREE.PositionalAudio( this.listener );
-          var audioLoader = new THREE.AudioLoader();
-            audioLoader.load( 'models/mp5k_sound.wav', function( buffer ) {
-              sound.setBuffer( buffer );
-              sound.setRefDistance( 20 );
-              sound.play();
-            });
+          
           this.character.shoot();
           this.recoil = 0;
         }

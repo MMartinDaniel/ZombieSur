@@ -34,7 +34,7 @@ class Character extends THREE.Object3D {
     this.pieD = null; 
     this.gun = null;
     this.shooting = false;
-
+    this.guns = [];
     this.todo = new THREE.Mesh();
 
     this.angle = 0;   //Angulo cabeza
@@ -69,7 +69,10 @@ class Character extends THREE.Object3D {
 
         this.cuerpo.add(this.pieD);
         this.cuerpo.add(this.pieI);
-        this.gun = new Gun({type:'2'});
+        this.gun = new Gun({type:'1'});
+        this.guns.push(this.gun);
+      this.guns.push(  new Gun({type:'2'}));
+
         this.brazoD.add(this.gun);
         todo.position.y = 8;
         this.walk(180);
@@ -396,8 +399,17 @@ aim_start(){
      this.brazoI.rotation.x = -Math.PI /2;
      this.brazoD.rotation.x = -Math.PI /2;
      this.gun.rotation.z = -this.toRad(-20);
-     this.gun.position.x = -6.5;
-     this.gun.position.y = -3;
+     switch (this.gun.type) {
+       case '1':
+           this.gun.position.x = -6.5;
+           this.gun.position.y = -3;
+         break;
+       case '2':
+          this.gun.position.x = -5.2;
+          this.gun.position.y = -4;
+         break;
+     }
+   
     this.aimpos = true;
 }
 shoot_start(){
@@ -409,5 +421,12 @@ shoot_stop(){
   shoot(){
     this.gun.shoot();
     this.shooting = true;
+  }
+  swapGun(param){
+    if(!this.aimpos){
+    this.brazoD.remove(this.gun);
+    this.gun = this.guns[param.selected];
+    this.brazoD.add(this.gun);
+    }
   }
 }
