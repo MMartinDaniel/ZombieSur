@@ -123,7 +123,7 @@ class TheScene extends THREE.Scene {
 
     //COMENTAR
     this.zombi = new Zombi();
-   // model.add(this.zombi);
+    model.add(this.zombi);
 
     this.zombi.position.set(0,5,30);
     this.zombi.walk_start(); 
@@ -298,7 +298,7 @@ class TheScene extends THREE.Scene {
     //this.zombi.lookAt(this.character.position);
     if(this.zombi != null && this.zombi.alive){
           if(!this.checkColisionZombie()){
-          //this.zombi.translateZ(1); 
+          this.zombi.translateZ(1); 
           this.zombi.lookAt(this.character.position);          
         }
     
