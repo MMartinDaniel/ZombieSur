@@ -207,17 +207,18 @@ createFoot (place){
     var textureLoader = new THREE.TextureLoader();
     //Cara izq
     if(place.w > 0) var texture0 = textureLoader.load( 'imgs/zombiepierna3_1.png' );
-    else var texture0 = textureLoader.load( 'imgs/zombiepierna2.png' );
+    else var texture0 = textureLoader.load( 'imgs/zombiepierna3_1.png' );
     //Cara der
-    if(place.w > 0) var texture1 = textureLoader.load( 'imgs/zombiepierna2.png' );
+    if(place.w > 0) var texture1 = textureLoader.load( 'imgs/zombiepierna3.png' );
     else var texture1 = textureLoader.load( 'imgs/zombiepierna3.png' );
     //Cara superior
-    if(place.w > 0) var texture2 = texture1 = textureLoader.load( 'imgs/zombiepierna2.png' );
+    if(place.w > 0) var texture2 = textureLoader.load( 'imgs/zombieTapaArriba.png' );
+    else var texture2 =  textureLoader.load( 'imgs/zombieTapaArriba.png' );
     //Cara inferior
     var texture3 = textureLoader.load( 'imgs/zombiepierna2.png' );
     //Cara delantera
     if(place.w > 0)  var texture4 = textureLoader.load( 'imgs/zombiepierna1_1.png' );
-    else var texture4 = textureLoader.load( 'imgs/zombiepierna1.png' );
+    else var texture4 = textureLoader.load( 'imgs/zombiepierna1_1.png' );
     //Cara trasera
     var texture5 = textureLoader.load( 'imgs/zombiepierna2.png' );
 
@@ -230,10 +231,6 @@ createFoot (place){
         new THREE.MeshBasicMaterial( { map: texture5 } )
     ];
     var footMaterial = new THREE.MeshFaceMaterial( materials );
-
-
-
-
 
 
  var rfoot = new THREE.Mesh ( 
@@ -310,22 +307,26 @@ walk_stop(){
 
    var position = {x:0.0, y: 0.0, z: 0.0};
 
-   this.tween_to_walkz = new TWEEN.Tween(position).to({x: 1.2, y:0.0, z:0.080},500).onUpdate(function(){
+   this.tween_to_walkz = new TWEEN.Tween(position).to({x: 0.4, y:0.0, z:0.030},1000).onUpdate(function(){
 
           scene.zombi.pieI.rotation.x =  position.x;
           scene.zombi.pieD.rotation.x = -position.x;
-          scene.zombi.cuerpo.rotation.z = position.z;
+          scene.zombi.todo.rotation.z = position.z/2;
           scene.zombi.brazoI.rotation.z = position.z;
           scene.zombi.brazoD.rotation.z = position.z;
+          scene.zombi.brazoI.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
+          scene.zombi.brazoD.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
 
    });
 
-   this.tween_from_walkz = new TWEEN.Tween(position).to({x: -1.2, y:0.0, z:0.080},500).onUpdate(function(){
+   this.tween_from_walkz = new TWEEN.Tween(position).to({x: -0.4, y:0.0, z:0.030},1000).onUpdate(function(){
           scene.zombi.pieI.rotation.x =  position.x;
           scene.zombi.pieD.rotation.x =  -position.x;
-          scene.zombi.cuerpo.rotation.z = -position.z;
+          scene.zombi.todo.rotation.z = -position.z/2;
           scene.zombi.brazoI.rotation.z = -position.z;
           scene.zombi.brazoD.rotation.z = -position.z;
+          scene.zombi.brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
+          scene.zombi.brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
 
    });
 

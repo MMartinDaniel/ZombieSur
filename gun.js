@@ -11,7 +11,6 @@ class Gun extends THREE.Object3D {
     this.price = 100;
     this.damage = 0;
     this.listener = new THREE.AudioListener();
-
     this.type = parameters.type;
 
     //SESION 2 DATOS

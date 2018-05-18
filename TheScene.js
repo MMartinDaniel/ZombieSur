@@ -123,7 +123,7 @@ class TheScene extends THREE.Scene {
 
     //COMENTAR
     this.zombi = new Zombi();
-    model.add(this.zombi);
+   // model.add(this.zombi);
 
     this.zombi.position.set(0,5,30);
     this.zombi.walk_start(); 
@@ -276,7 +276,7 @@ class TheScene extends THREE.Scene {
    // console.log(this.zombies.length);
     this.addedLight.intensity = controls.addedLightIntensity;
 
-    //if(this.zombies.length == 0){ this.wave_number++; this.spawn_wave();};
+    if(this.zombies.length == 0){ this.wave_number++; this.spawn_wave();};
     if(this.character.aimpos){
      
     }else{
@@ -293,6 +293,7 @@ class TheScene extends THREE.Scene {
 
 
     this.zombi.setPiernas(controls.footRotation);
+
     //this.zombieMove();
     //this.zombi.lookAt(this.character.position);
     if(this.zombi != null && this.zombi.alive){
@@ -339,10 +340,14 @@ class TheScene extends THREE.Scene {
           position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );
           if(position_bullet.x < (position_zombi.x+10) && position_bullet.x > (position_zombi.x-10)){
             if(position_bullet.z < (position_zombi.z+10) && position_bullet.z > (position_zombi.z-10)){
+           /*   if(this.zombies[i].hit({dmg: this.character.gun.damage})){  
+                this.drop({id:i,pos: position_zombi});
+                this.current_zombies--; this.model.remove(this.zombies[i]); this.zombies.splice(i,1);*/ 
               if(this.zombi.hit({dmg: this.character.gun.damage})){  
                // this.current_zombies--; 
                 //this.model.remove(this.zombi); 
                 //this.zombi.splice(i,1); 
+
               };
 
                 return true;
@@ -353,7 +358,37 @@ class TheScene extends THREE.Scene {
   
   }
 
+drop(para){
+  var valor = Math.floor(Math.random() * 10)+1;     // 1 - 10
+  var position_zombi = new THREE.Vector3();
+  position_zombi.setFromMatrixPosition( this.character.matrixWorld );
+  if(valor > 4){
+    switch (valor) {
+      case 5:
+        var ammo_drop = new Drop({type:'2'});
+        break;
+      case 6:
+       var ammo_drop = new Drop({type:'2'});
+        break;
+      case 7: 
+        var ammo_drop = new Drop({type:'3'});
+        break;
+      case 8:
+        var ammo_drop = new Drop({type:'3'});
+        break;
+      case 9:
+        var ammo_drop = new Drop({type:'4'});
+        break;
+      case 10:
+        var ammo_drop = new Drop({type:'4'});
+    }
+    ammo_drop.position.set(position_zombi.x,8,position_zombi.z);
+    ammo_drop.rotation.x = 270*(Math.PI / 180);
+    this.model.add(ammo_drop);
+  }
 
+
+}
 
 checkColisionZombie(){
     this.updateMatrixWorld(true);
@@ -404,14 +439,19 @@ checkColisionZombie(){
   }
 
  makeMove(parameters){
+  if(parameters.move != 'up'){this.character.walking=false; this.character.walk_stop();};
     switch (parameters.move) {
       case 'up':
+        this.drop();
          if(this.character.aimpos){
               this.character.translateZ(2);
           }else{
             this.character.translateZ(10);
           }
-           this.character.walk_start();
+          if(!this.character.walking){
+            this.character.walk_start();
+            this.character.walking = true;
+          }
         break;
       case'down':
           this.character.walk_stop();
