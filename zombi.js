@@ -180,7 +180,8 @@ createArm (place){
 
  var larm = new THREE.Mesh ( 
     new THREE.BoxGeometry (4, 12 ,4, 16, 8),armMaterial);
-    larm.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w, 18, 0));   
+  larm.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w, -5, 0));   
+  larm.position.y = 23; 
   larm.castShadow = true;
   larm.autoUpdateMatrix = false;
   larm.updateMatrix();
@@ -227,8 +228,8 @@ createFoot (place){
 
  var rfoot = new THREE.Mesh ( 
     new THREE.BoxGeometry (4, 12 , 4, 16, 8), footMaterial);
-    rfoot.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w,6, 0));
-    
+  rfoot.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w,-5, 0));
+  rfoot.position.y = 11 ;  
   rfoot.castShadow = true;
   rfoot.autoUpdateMatrix = false;
   rfoot.updateMatrix();
@@ -245,6 +246,16 @@ hit(shoot){
 }
 
 
+toRad(degrees) {
+return degrees * Math.PI / 180;
+}
+
+setPiernas(piernas){
+  this.angleP = this.toRad(piernas);
+  this.pieD.rotation.x = this.angleP;
+  this.pieI.rotation.x = -this.angleP;
+}
+
 
 
 walk_start(){
@@ -257,28 +268,19 @@ walk_start(){
 
   walk() {
 
-
    var position = {x:0.0, y: 0.0};
 
    this.tween_to_walkz = new TWEEN.Tween(position).to({x: 1.2, y:0.0},500).onUpdate(function(){
 
-           this.pieI.rotation.x =  40;
-           this.character.pieD.rotation.x = -position.x;
-           this.character.brazoI.rotation.x =  position.x;
-           this.character.brazoD.rotation.x = -position.x;
-
-
+           scene.zombi.pieI.rotation.x =  position.x;
+           scene.zombi.pieD.rotation.x = -position.x;
    });
 
    this.tween_from_walkz = new TWEEN.Tween(position).to({x: -1.2, y:0.0},500).onUpdate(function(){
-          this.pieI.rotation.x =  position.x;
-          this.pieD.rotation.x =  -position.x;
-          this.brazoI.rotation.x =  position.x;
-          this.brazoD.rotation.x = -position.x;
+          scene.zombi.pieI.rotation.x =  position.x;
+          scene.zombi.pieD.rotation.x =  -position.x;
+
    });
-
-
-
 
    this.tween_to_walkz.chain(this.tween_from_walkz);
    this.tween_from_walkz.chain(this.tween_to_walkz);

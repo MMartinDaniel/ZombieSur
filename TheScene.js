@@ -126,6 +126,10 @@ class TheScene extends THREE.Scene {
     model.add(this.zombi);
 
     this.zombi.position.set(0,5,30);
+
+      this.zombi.walk_start(); 
+
+    
     //Texturas cabeza
     var loader1 = new THREE.TextureLoader();
 
@@ -274,7 +278,6 @@ class TheScene extends THREE.Scene {
     this.addedLight.intensity = controls.addedLightIntensity;
 
     //if(this.zombies.length == 0){ this.wave_number++; this.spawn_wave();};
-    if(this.zombi != null){};
     if(this.character.aimpos){
      
     }else{
@@ -288,13 +291,15 @@ class TheScene extends THREE.Scene {
         this.character.shooting = false;
       }
     }
-
+    this.zombi.setPiernas(controls.footRotation);
     //this.zombieMove();
     //this.zombi.lookAt(this.character.position);
-if(this.zombi != null){
-  this.zombi.translateZ(1);
-}
-this.zombi.walk_start();
+    if(this.zombi != null){
+      this.zombi.translateZ(1);
+
+
+      this.zombi.lookAt(this.character.position);
+    }
     
  //   this.zombieMove();
     this.recoil++;
