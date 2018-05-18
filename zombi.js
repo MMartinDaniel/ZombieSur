@@ -295,9 +295,9 @@ die(){
 
   });
 */
-      this.todo.rotation.x = scene.zombi.toRad(270);
-      this.zombi.brazoD.rotation.x = scene.zombi.toRad(-40);
-      this.zombi.brazoI.rotation.x = scene.zombi.toRad(-40);
+      this.todo.rotation.x = this.toRad(270);
+      this.brazoD.rotation.x = this.toRad(-40);
+      this.brazoI.rotation.x = this.toRad(-40);
 }
 
 walk_start(){

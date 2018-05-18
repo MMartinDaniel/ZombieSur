@@ -8,7 +8,7 @@ class Drop extends THREE.Object3D {
     this.bullet_amount = 0; 
     this.listener = new THREE.AudioListener();
     this.type = parameters.type;
-    this.spin_a
+    this.money = 0;
     //SESION 2 DATOS
   
     this.spin_anim = new TWEEN.Tween();
@@ -28,7 +28,7 @@ class Drop extends THREE.Object3D {
     var modelko = new THREE.Object3D();
     var loader = new THREE.ObjectLoader();
       if(this.type == 2){  
-          
+          this.money = 100;
         var textureLoader = new THREE.TextureLoader();
         var texture0 = textureLoader.load( 'models/drop/card3.png' );
         var texture1 = textureLoader.load( 'models/drop/card2.png' );
@@ -55,7 +55,7 @@ class Drop extends THREE.Object3D {
         modelko.add(shell);
 
       }else if(this.type == 3){
-        
+        this.money = 200;
         var textureLoader = new THREE.TextureLoader();
         var texture0 = textureLoader.load( 'models/drop/b1.png' );
         var texture1 = textureLoader.load( 'models/drop/b1.png' );
@@ -115,10 +115,7 @@ class Drop extends THREE.Object3D {
        mod.rotation.z =  position.x;
 
    });
-
-
    this.spin_anim.repeat(Infinity);
-
    this.modelo = mod;
    this.spin_anim.start();
 
