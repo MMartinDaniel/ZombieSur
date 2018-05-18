@@ -126,6 +126,10 @@ class TheScene extends THREE.Scene {
     model.add(this.zombi);
 
     this.zombi.position.set(0,5,30);
+
+      this.zombi.walk_start(); 
+
+    
     //Texturas cabeza
     var loader1 = new THREE.TextureLoader();
 
@@ -295,7 +299,6 @@ class TheScene extends THREE.Scene {
 
 
       this.zombi.lookAt(this.character.position);
-      this.zombi.walk_start(); 
     }
     
  //   this.zombieMove();
