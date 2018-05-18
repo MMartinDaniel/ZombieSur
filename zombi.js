@@ -70,6 +70,7 @@ class Zombi extends THREE.Object3D {
 
         this.walk();
         this.zombie_hit();
+        //this.die();
 
         todo.position.y = 8;
 
@@ -249,7 +250,6 @@ hit(shoot){
   console.log(this.vida);
   if(this.vida <= 0){
     this.alive = false;
-    this.death_start();
     return true;
   }
   return false;
@@ -266,17 +266,26 @@ setPiernas(piernas){
   this.pieI.rotation.x = -this.angleP;
 }
 
+  setBrazos(brazos){
+    this.angle = this.toRad(brazos);
+    this.brazoD.rotation.x = this.angle;
+    this.brazoI.rotation.x = -this.angle;
+
+  }
 
 death_start(){
-  this.tween_to_die.start();
+  this.walk_stop();
+  this.hit_stop();
+  this.die();
 
-  this.tween_to_walkz.stop();
-  this.tween_to_hit.stop();
+}
+death_stop(){
+  this.tween_to_die.stop();
 }
 
 
 die(){
-
+/*
    var position = {y:0.0};
    
    this.tween_to_die = new TWEEN.Tween(position).to({y:0.0},500).onUpdate(function(){
@@ -285,17 +294,20 @@ die(){
       scene.zombi.brazoI.rotation.x = scene.zombi.toRad(-40);
 
   });
-
+*/
+      this.todo.rotation.x = scene.zombi.toRad(270);
+      this.zombi.brazoD.rotation.x = scene.zombi.toRad(-40);
+      this.zombi.brazoI.rotation.x = scene.zombi.toRad(-40);
 }
 
 walk_start(){
   this.tween_to_walkz.start(); 
   this.walking = true;
-  this.attacking = false;
 }
 
 walk_stop(){
   this.tween_to_walkz.stop();
+  this.tween_from_walkz.stop();
   this.walking = false;
 }
 
@@ -339,7 +351,6 @@ walk_stop(){
 hit_start(){
   this.tween_to_hit.start(); 
   this.attacking = true;
-  this.walking = false;
 }
 
 hit_stop(){

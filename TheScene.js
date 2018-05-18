@@ -293,24 +293,23 @@ class TheScene extends THREE.Scene {
 
 
     this.zombi.setPiernas(controls.footRotation);
-   // this.zombi.setBrazos(controls.rotation);
+    this.zombi.setBrazos(controls.rotation);
 
     //this.zombieMove();
     //this.zombi.lookAt(this.character.position);
     if(this.zombi != null && this.zombi.alive){
-          if(!this.checkColisionZombie()){
-            if(this.zombi.attacking){this.zombi.hit_stop();this.zombi.attacking = false;};
-            if(!this.zombi.walking){this.zombi.walk_start();this.zombi.walking = true;};
-            //this.zombi.translateZ(0.5); 
+        if(!this.checkColisionZombie()){
+            if(this.zombi.attacking){this.zombi.hit_stop();};
+            if(!this.zombi.walking){this.zombi.walk_start();};
+            this.zombi.translateZ(0.5); 
             this.zombi.lookAt(this.character.position);          
         }else{
-           if(this.zombi.walking){this.zombi.walk_stop(); this.zombi.walking = false;};
-           if(!this.zombi.attacking){this.zombi.hit_start();this.zombi.attacking = true;}
+           if(this.zombi.walking){this.zombi.walk_stop();};
+           if(!this.zombi.attacking){this.zombi.hit_start();}
           
         }
-    
-    } else if (this.zombi.alive == false){
-      this.zombi.die();
+    }else{
+  //    alert(this.zombi.walking);
     }
 
     
@@ -343,7 +342,7 @@ class TheScene extends THREE.Scene {
     position_bullet.setFromMatrixPosition( this.character.gun.bullet.matrixWorld );
    // if(this.zombies.length != 0){
      // for (var i = 0; i <= this.zombies.length-1; i++) {
-        if(this.zombi != null){
+        if(/*this.zombi != null ||*/ this.zombi.alive ){
           position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );
           if(position_bullet.x < (position_zombi.x+10) && position_bullet.x > (position_zombi.x-10)){
             if(position_bullet.z < (position_zombi.z+10) && position_bullet.z > (position_zombi.z-10)){
@@ -351,6 +350,9 @@ class TheScene extends THREE.Scene {
                 this.drop({id:i,pos: position_zombi});
                 this.current_zombies--; this.model.remove(this.zombies[i]); this.zombies.splice(i,1);*/ 
               if(this.zombi.hit({dmg: this.character.gun.damage})){  
+                    this.drop();
+                    this.zombi.death_start();
+
                // this.current_zombies--; 
                 //this.model.remove(this.zombi); 
                 //this.zombi.splice(i,1); 
@@ -368,7 +370,7 @@ class TheScene extends THREE.Scene {
 drop(para){
   var valor = Math.floor(Math.random() * 10)+1;     // 1 - 10
   var position_zombi = new THREE.Vector3();
-  position_zombi.setFromMatrixPosition( this.character.matrixWorld );
+  position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );
   if(valor > 4){
     switch (valor) {
       case 5:
@@ -389,7 +391,7 @@ drop(para){
       case 10:
         var ammo_drop = new Drop({type:'4'});
     }
-    ammo_drop.position.set(position_zombi.x,8,position_zombi.z);
+    ammo_drop.position.set(position_zombi.x,12,position_zombi.z);
     ammo_drop.rotation.x = 270*(Math.PI / 180);
     this.model.add(ammo_drop);
   }
@@ -450,7 +452,7 @@ checkColisionZombie(){
   if(parameters.move != 'up'){this.character.walking=false; this.character.walk_stop();};
     switch (parameters.move) {
       case 'up':
-        this.drop();
+     
          if(this.character.aimpos){
               this.character.translateZ(2);
           }else{

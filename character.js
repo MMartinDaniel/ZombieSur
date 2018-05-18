@@ -70,9 +70,9 @@ class Character extends THREE.Object3D {
 
         this.cuerpo.add(this.pieD);
         this.cuerpo.add(this.pieI);
-        this.gun = new Gun({type:'1'});
+        this.gun = new Gun({type:'2'});
         this.guns.push(this.gun);
-      this.guns.push(  new Gun({type:'2'}));
+      this.guns.push(  new Gun({type:'1'}));
 
         this.brazoD.add(this.gun);
         todo.position.y = 8;
@@ -367,8 +367,10 @@ createFoot (place){
 walk_stop(){
   if(this.aimpos){
     this.tween_to_aim_walk.stop();
+    this.tween_from_aim_walk.stop();
   }else{
      this.tween_to_walk.stop();
+     this.tween_from_walk.stop();
   }
 }
 
