@@ -18,6 +18,8 @@ class Zombi extends THREE.Object3D {
     this.dinero = 0;
     this.tween_to_walkz = new TWEEN.Tween();
     this.tween_from_walkz = new TWEEN.Tween();
+    this.tween_to_hit = new TWEEN.Tween();
+    this.tween_from_hit = new TWEEN.Tween();
 
     // Objects for operating with the r2d2
     this.cabeza = null;
@@ -49,6 +51,11 @@ class Zombi extends THREE.Object3D {
         todo.add(this.cuerpo);
         this.brazoD =  this.createArm({w:6,ww: 5});;
         this.brazoI =  this.createArm({w:-6,ww: -5});;   
+
+        this.brazoD.rotation.x = this.toRad(270);
+        this.brazoI.rotation.x = this.toRad(270);
+
+
         this.pieD = this.createFoot({w:2,ww: 5});
         this.pieI = this.createFoot({w:-2,ww: -5});
 
@@ -60,6 +67,7 @@ class Zombi extends THREE.Object3D {
         this.todo.add(this.pieI);
 
         this.walk();
+        this.zombie_hit();
 
         todo.position.y = 8;
 
@@ -94,8 +102,8 @@ class Zombi extends THREE.Object3D {
       var bodyMaterial = new THREE.MeshFaceMaterial( materials );
 
         var base = new THREE.Mesh (new THREE.BoxGeometry (8, 12, 4, 16, 8), bodyMaterial);
-        base.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0,10, 0));
-        
+        base.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0,-15, 0));
+        base.position.y = 25;
         this.cabeza = this.createHead();
 
         base.add(this.cabeza);
@@ -133,7 +141,8 @@ class Zombi extends THREE.Object3D {
 
      var head = new THREE.Mesh (
         new THREE.BoxGeometry (8, 8, 8), headMaterial );
-      head.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, 20, 0));
+      head.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, -35, 0));
+      head.position.y = 30;
       head.castShadow = true;
       head.autoUpdateMatrix = false;
       head.updateMatrix();
@@ -262,23 +271,33 @@ walk_start(){
   this.tween_to_walkz.start(); 
 }
 
+walk_stop(){
+  this.tween_to_walkz.stop();
+}
 
 
 //Funciones movimiento
 
   walk() {
 
-   var position = {x:0.0, y: 0.0};
+   var position = {x:0.0, y: 0.0, z: 0.0};
 
-   this.tween_to_walkz = new TWEEN.Tween(position).to({x: 1.2, y:0.0},500).onUpdate(function(){
+   this.tween_to_walkz = new TWEEN.Tween(position).to({x: 1.2, y:0.0, z:0.080},500).onUpdate(function(){
 
-           scene.zombi.pieI.rotation.x =  position.x;
-           scene.zombi.pieD.rotation.x = -position.x;
+          scene.zombi.pieI.rotation.x =  position.x;
+          scene.zombi.pieD.rotation.x = -position.x;
+          scene.zombi.cuerpo.rotation.z = position.z;
+          scene.zombi.brazoI.rotation.z = position.z;
+          scene.zombi.brazoD.rotation.z = position.z;
+
    });
 
-   this.tween_from_walkz = new TWEEN.Tween(position).to({x: -1.2, y:0.0},500).onUpdate(function(){
+   this.tween_from_walkz = new TWEEN.Tween(position).to({x: -1.2, y:0.0, z:0.080},500).onUpdate(function(){
           scene.zombi.pieI.rotation.x =  position.x;
           scene.zombi.pieD.rotation.x =  -position.x;
+          scene.zombi.cuerpo.rotation.z = -position.z;
+          scene.zombi.brazoI.rotation.z = -position.z;
+          scene.zombi.brazoD.rotation.z = -position.z;
 
    });
 
@@ -288,15 +307,51 @@ walk_start(){
 
 }
 
+
+
+hit_start(){
+  this.tween_to_hit.start(); 
+}
+
+hit_stop(){
+  this.tween_to_hit.stop(); 
+}
+
+//Funciones movimiento
+
+  zombie_hit() {
+
+   var position = {x:0.0};
+
+   this.tween_to_hit = new TWEEN.Tween(position).to({x: 2},1000).onUpdate(function(){
+          if(scene.checkColisionZombie()){
+          scene.zombi.walk_stop();
+          scene.zombi.brazoI.rotation.x = position.x;
+          scene.zombi.brazoD.rotation.x = position.x;
+        }
+
+   });
+
+   this.tween_from_hit = new TWEEN.Tween(position).to({x: 4},1000).onUpdate(function(){
+
+          if(scene.checkColisionZombie()){
+          scene.zombi.walk_stop();
+          scene.zombi.brazoI.rotation.x = -position.x;
+          scene.zombi.brazoD.rotation.x = -position.x;
+        }
+   });
+
+   this.tween_to_hit.chain(this.tween_from_hit);
+   this.tween_from_hit.chain(this.tween_to_hit);
 /*
-walk_stop(){
-    this.tween_to_walk.stop();
+   if(scene.checkColision){
+    this.hit_stop;
+    this.walk_start();
+   }
+  */
+
 
 }
-*/
-
-
-
 
 
 

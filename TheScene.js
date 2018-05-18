@@ -126,10 +126,9 @@ class TheScene extends THREE.Scene {
     model.add(this.zombi);
 
     this.zombi.position.set(0,5,30);
+    this.zombi.walk_start(); 
+    this.zombi.hit_start();
 
-      this.zombi.walk_start(); 
-
-    
     //Texturas cabeza
     var loader1 = new THREE.TextureLoader();
 
@@ -291,15 +290,17 @@ class TheScene extends THREE.Scene {
         this.character.shooting = false;
       }
     }
+
+
     this.zombi.setPiernas(controls.footRotation);
     //this.zombieMove();
     //this.zombi.lookAt(this.character.position);
     if(this.zombi != null){
-      this.zombi.translateZ(1);
+        //this.zombi.translateZ(1); 
+        this.zombi.lookAt(this.character.position);     
+      }
 
-
-      this.zombi.lookAt(this.character.position);
-    }
+    
     
  //   this.zombieMove();
     this.recoil++;
@@ -350,9 +351,26 @@ class TheScene extends THREE.Scene {
           }
       };  
   }
-
-
   }
+
+
+
+checkColisionZombie(){
+    this.updateMatrixWorld(true);
+    var position_player = new THREE.Vector3();
+    var position_zombi = new THREE.Vector3();
+    position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );
+    //if(this.zombies.length != 0){
+      //for (var i = 0; i <= this.zombies.length-1; i++) {
+    position_player.setFromMatrixPosition(this.character.matrixWorld);
+    if(position_zombi.x < (position_player.x+10) && position_zombi.x > (position_player.x-10)){
+        if(position_zombi.z < (position_player.z+10) && position_zombi.z > (position_player.z-10)){
+                return true;   
+              }
+            };
+}
+
+
 
   CambiarArma(para){
     this.character.swapGun({selected:para.selected});
