@@ -295,10 +295,15 @@ class TheScene extends THREE.Scene {
     this.zombi.setPiernas(controls.footRotation);
     //this.zombieMove();
     //this.zombi.lookAt(this.character.position);
-    if(this.zombi != null){
-        //this.zombi.translateZ(1); 
-        this.zombi.lookAt(this.character.position);     
-      }
+    if(this.zombi != null && this.zombi.alive){
+          if(!this.checkColisionZombie()){
+          //this.zombi.translateZ(1); 
+          this.zombi.lookAt(this.character.position);          
+        }
+    
+    } else if (this.zombi.alive == false){
+      this.zombi.die();
+    }
 
     
     
@@ -323,34 +328,29 @@ class TheScene extends THREE.Scene {
   }
 
   checkColisionBala(){
-    console.log(this.zombies.length);
+    //console.log(this.zombies.length);
     this.updateMatrixWorld(true);
     var position_bullet = new THREE.Vector3();
     var position_zombi = new THREE.Vector3();
     position_bullet.setFromMatrixPosition( this.character.gun.bullet.matrixWorld );
-    if(this.zombies.length != 0){
-      for (var i = 0; i <= this.zombies.length-1; i++) {
-        if(this.zombies[i] != null){
-          position_zombi.setFromMatrixPosition( this.zombies[i].matrixWorld );
+   // if(this.zombies.length != 0){
+     // for (var i = 0; i <= this.zombies.length-1; i++) {
+        if(this.zombi != null){
+          position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );
           if(position_bullet.x < (position_zombi.x+10) && position_bullet.x > (position_zombi.x-10)){
             if(position_bullet.z < (position_zombi.z+10) && position_bullet.z > (position_zombi.z-10)){
-              if(this.zombies[i].hit({dmg: this.character.gun.damage})){  
-                this.current_zombies--; this.model.remove(this.zombies[i]); this.zombies.splice(i,1); 
+              if(this.zombi.hit({dmg: this.character.gun.damage})){  
+               // this.current_zombies--; 
+                //this.model.remove(this.zombi); 
+                //this.zombi.splice(i,1); 
               };
-              var sound = new THREE.PositionalAudio( this.listener );
-              var audioLoader = new THREE.AudioLoader();
-                audioLoader.load( 'models/sonidos/zombie_hit.wav', function( buffer ) {
-                sound.setBuffer( buffer );
-                sound.setRefDistance( 20 );
-                sound.setVolume( 4 );
-                sound.play();
-              });
+
                 return true;
               }
             }
           }
-      };  
-  }
+      
+  
   }
 
 

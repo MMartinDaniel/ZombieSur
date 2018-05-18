@@ -13,13 +13,14 @@ class Zombi extends THREE.Object3D {
     this.height          = 10;
     
     //SESION 2 DATOS
-
+    this.alive = true;
     this.vida = 100;
     this.dinero = 0;
     this.tween_to_walkz = new TWEEN.Tween();
     this.tween_from_walkz = new TWEEN.Tween();
     this.tween_to_hit = new TWEEN.Tween();
     this.tween_from_hit = new TWEEN.Tween();
+    this.tween_to_die = new TWEEN.Tween();
 
     // Objects for operating with the r2d2
     this.cabeza = null;
@@ -249,6 +250,8 @@ hit(shoot){
   this.vida -= shoot.dmg;
   console.log(this.vida);
   if(this.vida <= 0){
+    this.alive = false;
+    this.death_start();
     return true;
   }
   return false;
@@ -256,7 +259,7 @@ hit(shoot){
 
 
 toRad(degrees) {
-return degrees * Math.PI / 180;
+  return degrees * Math.PI / 180;
 }
 
 setPiernas(piernas){
@@ -264,6 +267,27 @@ setPiernas(piernas){
   this.pieD.rotation.x = this.angleP;
   this.pieI.rotation.x = -this.angleP;
 }
+
+
+death_start(){
+  this.tween_to_die.start();
+
+  this.tween_to_walkz.stop();
+  this.tween_to_hit.stop();
+}
+
+
+die(){
+
+   var position = {y:0.0};
+   
+   this.tween_to_die = new TWEEN.Tween(position).to({y:0.0},500).onUpdate(function(){
+      scene.zombi.todo.rotation.x = scene.zombi.toRad(270); ;
+  });
+}
+
+
+
 
 
 
@@ -328,6 +352,10 @@ hit_stop(){
           scene.zombi.walk_stop();
           scene.zombi.brazoI.rotation.x = position.x;
           scene.zombi.brazoD.rotation.x = position.x;
+        } else{
+          scene.zombi.brazoI.rotation.x = scene.zombi.toRad(270);
+          scene.zombi.brazoD.rotation.x = scene.zombi.toRad(270);
+          scene.zombi.walk_start();
         }
 
    });
@@ -339,6 +367,7 @@ hit_stop(){
           scene.zombi.brazoI.rotation.x = -position.x;
           scene.zombi.brazoD.rotation.x = -position.x;
         }
+
    });
 
    this.tween_to_hit.chain(this.tween_from_hit);
