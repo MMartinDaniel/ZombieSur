@@ -10,7 +10,6 @@ class Drop extends THREE.Object3D {
     this.type = parameters.type;
     this.spin_a
     //SESION 2 DATOS
-
   
     this.spin_anim = new TWEEN.Tween();
   this.spin_anim_from = new TWEEN.Tween();
@@ -112,16 +111,13 @@ class Drop extends THREE.Object3D {
 
    var position = {x:0.0, y: 0.0};
    var mod = this.modelo;
-   this.spin_anim = new TWEEN.Tween(position).to({x: 3.8, y:1.2},5000).onUpdate(function(){
+   this.spin_anim = new TWEEN.Tween(position).to({x: 6.3, y:1.2},5000).onUpdate(function(){
+       mod.rotation.z =  position.x;
 
-           mod.rotation.z =  position.x;
-   });
-  this.spin_anim_from = new TWEEN.Tween(position).to({x:-3.8, y:1.2},5000).onUpdate(function(){
-           mod.rotation.z =  -position.x;
    });
 
-   this.spin_anim.chain(this.spin_anim_from);
-   this.spin_anim_from.chain(this.spin_anim);
+
+   this.spin_anim.repeat(Infinity);
 
    this.modelo = mod;
    this.spin_anim.start();
