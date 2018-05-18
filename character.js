@@ -13,6 +13,7 @@ class Character extends THREE.Object3D {
     this.height          = 10;
     this.angleP = 0;
     this.aimpos = false;
+    this.walking = false;
     //SESION 2 DATOS
 
     this.vida = 100;
@@ -78,8 +79,7 @@ class Character extends THREE.Object3D {
         this.walk(180);
         this.createAim_anim();
         this.createShoot_anim();
-        
-     
+
         return todo;
 
   }

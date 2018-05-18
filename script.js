@@ -266,8 +266,10 @@ function stateChange(newState) {
 
 function onKeyUp(){
   stateChange(-1);
- scene.character.walk_stop();
-
+  if(scene.character.walking){
+     scene.character.walk_stop();
+      scene.character.walking = false;
+  }
 }
 window.onload = function() {
   var context = new AudioContext();
