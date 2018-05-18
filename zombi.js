@@ -282,8 +282,12 @@ die(){
    var position = {y:0.0};
    
    this.tween_to_die = new TWEEN.Tween(position).to({y:0.0},500).onUpdate(function(){
-      scene.zombi.todo.rotation.x = scene.zombi.toRad(270); ;
+      scene.zombi.todo.rotation.x = scene.zombi.toRad(270);
+      scene.zombi.brazoD.rotation.x = scene.zombi.toRad(-40);
+      scene.zombi.brazoI.rotation.x = scene.zombi.toRad(-40);
+
   });
+
 }
 
 
