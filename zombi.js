@@ -21,7 +21,8 @@ class Zombi extends THREE.Object3D {
     this.tween_to_hit = new TWEEN.Tween();
     this.tween_from_hit = new TWEEN.Tween();
     this.tween_to_die = new TWEEN.Tween();
-
+    this.walking = false;
+    this.attacking = false;
     // Objects for operating with the r2d2
     this.cabeza = null;
     this.cuerpo = null;
@@ -289,10 +290,13 @@ die(){
 
 walk_start(){
   this.tween_to_walkz.start(); 
+  this.walking = true;
+  this.attacking = false;
 }
 
 walk_stop(){
   this.tween_to_walkz.stop();
+  this.walking = false;
 }
 
 
@@ -302,27 +306,27 @@ walk_stop(){
 
    var position = {x:0.0, y: 0.0, z: 0.0};
 
-   this.tween_to_walkz = new TWEEN.Tween(position).to({x: 1.2, y:0.0, z:0.050},500).onUpdate(function(){
+   this.tween_to_walkz = new TWEEN.Tween(position).to({x: 0.5, y:0.0, z:0.050},1000).onUpdate(function(){
 
           scene.zombi.pieI.rotation.x =  position.x;
           scene.zombi.pieD.rotation.x = -position.x;
           scene.zombi.todo.rotation.z = position.z/2;
           scene.zombi.brazoI.rotation.z = position.z;
           scene.zombi.brazoD.rotation.z = position.z;
-       //   scene.zombi.brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
-       //   scene.zombi.brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
+         scene.zombi.brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
+          scene.zombi.brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
 
 
    });
 
-   this.tween_from_walkz = new TWEEN.Tween(position).to({x: -1.2, y:0.0, z:0.050},500).onUpdate(function(){
+   this.tween_from_walkz = new TWEEN.Tween(position).to({x: -0.5, y:0.0, z:0.050},1000).onUpdate(function(){
           scene.zombi.pieI.rotation.x =  position.x;
           scene.zombi.pieD.rotation.x =  -position.x;
           scene.zombi.todo.rotation.z = -position.z/2;
           scene.zombi.brazoI.rotation.z = -position.z;
           scene.zombi.brazoD.rotation.z = -position.z;
-        //  scene.zombi.brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
-        //  scene.zombi.brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
+          scene.zombi.brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
+          scene.zombi.brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
 
    });
 
@@ -334,10 +338,13 @@ walk_stop(){
 
 hit_start(){
   this.tween_to_hit.start(); 
+  this.attacking = true;
+  this.walking = false;
 }
 
 hit_stop(){
   this.tween_to_hit.stop(); 
+  this.attacking = false;
 }
 
 //Funciones movimiento
@@ -346,27 +353,19 @@ hit_stop(){
 
    var position = {x:0.0};
 
-   this.tween_to_hit = new TWEEN.Tween(position).to({x: 2},1000).onUpdate(function(){
-          if(scene.checkColisionZombie()){
-          scene.zombi.walk_stop();
+   this.tween_to_hit = new TWEEN.Tween(position).to({x: 2},500).onUpdate(function(){
           scene.zombi.brazoI.rotation.x = position.x;
           scene.zombi.brazoD.rotation.x = position.x;
-        } else{
           scene.zombi.brazoI.rotation.x = scene.zombi.toRad(270);
           scene.zombi.brazoD.rotation.x = scene.zombi.toRad(270);
-         // scene.zombi.walk_start();
-        }
+
 
    });
 
-   this.tween_from_hit = new TWEEN.Tween(position).to({x: 4},1000).onUpdate(function(){
+   this.tween_from_hit = new TWEEN.Tween(position).to({x: 4},500).onUpdate(function(){
 
-          if(scene.checkColisionZombie()){
-          scene.zombi.walk_stop();
           scene.zombi.brazoI.rotation.x = -position.x;
           scene.zombi.brazoD.rotation.x = -position.x;
-        }
-
    });
 
    this.tween_to_hit.chain(this.tween_from_hit);

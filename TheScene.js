@@ -127,7 +127,7 @@ class TheScene extends THREE.Scene {
 
     this.zombi.position.set(0,5,30);
     this.zombi.walk_start(); 
-    this.zombi.hit_start();
+   // this.zombi.hit_start();
 
     //Texturas cabeza
     var loader1 = new THREE.TextureLoader();
@@ -299,8 +299,14 @@ class TheScene extends THREE.Scene {
     //this.zombi.lookAt(this.character.position);
     if(this.zombi != null && this.zombi.alive){
           if(!this.checkColisionZombie()){
-          this.zombi.translateZ(0.5); 
-          this.zombi.lookAt(this.character.position);          
+            if(this.zombi.attacking){this.zombi.hit_stop();this.zombi.attacking = false;};
+            if(!this.zombi.walking){this.zombi.walk_start();this.zombi.walking = true;};
+            //this.zombi.translateZ(0.5); 
+            this.zombi.lookAt(this.character.position);          
+        }else{
+           if(this.zombi.walking){this.zombi.walk_stop(); this.zombi.walking = false;};
+           if(!this.zombi.attacking){this.zombi.hit_start();this.zombi.attacking = true;}
+          
         }
     
     } else if (this.zombi.alive == false){
@@ -401,9 +407,10 @@ checkColisionZombie(){
     position_player.setFromMatrixPosition(this.character.matrixWorld);
     if(position_zombi.x < (position_player.x+10) && position_zombi.x > (position_player.x-10)){
         if(position_zombi.z < (position_player.z+10) && position_zombi.z > (position_player.z-10)){
-                return true;   
+              return true; 
               }
             };
+    return false;
 }
 
 
