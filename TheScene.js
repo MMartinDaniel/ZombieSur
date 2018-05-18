@@ -276,7 +276,7 @@ class TheScene extends THREE.Scene {
    // console.log(this.zombies.length);
     this.addedLight.intensity = controls.addedLightIntensity;
 
-    if(this.zombies.length == 0){ this.wave_number++; this.spawn_wave();};
+    //if(this.zombies.length == 0){ this.wave_number++; this.spawn_wave();};
     if(this.character.aimpos){
      
     }else{
@@ -293,12 +293,13 @@ class TheScene extends THREE.Scene {
 
 
     this.zombi.setPiernas(controls.footRotation);
+   // this.zombi.setBrazos(controls.rotation);
 
     //this.zombieMove();
     //this.zombi.lookAt(this.character.position);
     if(this.zombi != null && this.zombi.alive){
           if(!this.checkColisionZombie()){
-          this.zombi.translateZ(1); 
+          this.zombi.translateZ(0.5); 
           this.zombi.lookAt(this.character.position);          
         }
     
@@ -322,8 +323,8 @@ class TheScene extends THREE.Scene {
     for (var i = 0; i <= this.zombies.length-1; i++) {
       if(this.zombies[i] != null){
           this.zombies[i].lookAt(this.character.position);
-          this.zombies[i].translateZ(1);
-          this.zombies[i].walk_start();
+          this.zombies[i].translateZ(0.5);
+          //this.zombies[i].walk_start();
       }
     }
   }

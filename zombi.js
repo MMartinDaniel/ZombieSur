@@ -53,8 +53,8 @@ class Zombi extends THREE.Object3D {
         this.brazoD =  this.createArm({w:6,ww: 5});;
         this.brazoI =  this.createArm({w:-6,ww: -5});;   
 
-        this.brazoD.rotation.x = this.toRad(270);
-        this.brazoI.rotation.x = this.toRad(270);
+      //  this.brazoD.rotation.x = this.toRad(270);
+       // this.brazoI.rotation.x = this.toRad(270);
 
 
         this.pieD = this.createFoot({w:2,ww: 5});
@@ -287,11 +287,6 @@ die(){
 
 }
 
-
-
-
-
-
 walk_start(){
   this.tween_to_walkz.start(); 
 }
@@ -307,26 +302,27 @@ walk_stop(){
 
    var position = {x:0.0, y: 0.0, z: 0.0};
 
-   this.tween_to_walkz = new TWEEN.Tween(position).to({x: 0.4, y:0.0, z:0.030},1000).onUpdate(function(){
+   this.tween_to_walkz = new TWEEN.Tween(position).to({x: 1.2, y:0.0, z:0.050},500).onUpdate(function(){
 
           scene.zombi.pieI.rotation.x =  position.x;
           scene.zombi.pieD.rotation.x = -position.x;
           scene.zombi.todo.rotation.z = position.z/2;
           scene.zombi.brazoI.rotation.z = position.z;
           scene.zombi.brazoD.rotation.z = position.z;
-          scene.zombi.brazoI.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
-          scene.zombi.brazoD.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
+       //   scene.zombi.brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
+       //   scene.zombi.brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
+
 
    });
 
-   this.tween_from_walkz = new TWEEN.Tween(position).to({x: -0.4, y:0.0, z:0.030},1000).onUpdate(function(){
+   this.tween_from_walkz = new TWEEN.Tween(position).to({x: -1.2, y:0.0, z:0.050},500).onUpdate(function(){
           scene.zombi.pieI.rotation.x =  position.x;
           scene.zombi.pieD.rotation.x =  -position.x;
           scene.zombi.todo.rotation.z = -position.z/2;
           scene.zombi.brazoI.rotation.z = -position.z;
           scene.zombi.brazoD.rotation.z = -position.z;
-          scene.zombi.brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
-          scene.zombi.brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
+        //  scene.zombi.brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
+        //  scene.zombi.brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
 
    });
 
@@ -335,8 +331,6 @@ walk_stop(){
 
 
 }
-
-
 
 hit_start(){
   this.tween_to_hit.start(); 
@@ -360,7 +354,7 @@ hit_stop(){
         } else{
           scene.zombi.brazoI.rotation.x = scene.zombi.toRad(270);
           scene.zombi.brazoD.rotation.x = scene.zombi.toRad(270);
-          scene.zombi.walk_start();
+         // scene.zombi.walk_start();
         }
 
    });
@@ -383,8 +377,6 @@ hit_stop(){
     this.walk_start();
    }
   */
-
-
 }
 
 
