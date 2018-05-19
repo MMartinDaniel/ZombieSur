@@ -26,6 +26,8 @@ class Gun extends THREE.Object3D {
     
   }
 
+
+
   crearArma(){
 
     var modelko = new THREE.Object3D();
@@ -63,6 +65,23 @@ class Gun extends THREE.Object3D {
           modelko.add(obj);
         });
 
+      }else if(this.type == 3){  
+        this.distance = 50;
+        this.damage = 100;
+        this.reload_time = 80;
+        loader.load('models/shotgun/shotgun.json',
+          function(obj){
+          obj.position.y -= 15;
+          obj.position.x += 6;
+          obj.position.z += 2;
+
+          obj.rotation.x = 1.5;
+
+          obj.scale.set(2.5,2.5,2.5);
+          modelko.add(obj);
+        }
+        );
+
       }
 
       return modelko;
@@ -82,6 +101,10 @@ class Gun extends THREE.Object3D {
             case '2':
               var au = 'models/sonidos/m4a4.wav';
               break;
+              //ESCOPETA
+             case '3':
+              var au = 'models/sonidos/ShootReload.mp3';
+              break;           
           }
             audioLoader.load( au, function( buffer ) {
               sound.setBuffer( buffer );

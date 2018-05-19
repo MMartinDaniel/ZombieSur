@@ -17,7 +17,7 @@ class Character extends THREE.Object3D {
     //SESION 2 DATOS
 
     this.vida = 100;
-    this.money = 0;
+    this.dinero = 0;
     this.tween_to_walk = new TWEEN.Tween();
     this.tween_from_walk = new TWEEN.Tween();
     this.tween_to_aim_walk = new TWEEN.Tween();
@@ -70,9 +70,11 @@ class Character extends THREE.Object3D {
 
         this.cuerpo.add(this.pieD);
         this.cuerpo.add(this.pieI);
-        this.gun = new Gun({type:'2'});
+
+        this.gun = new Gun({type:'1'});
         this.guns.push(this.gun);
-      this.guns.push(  new Gun({type:'1'}));
+        this.guns.push(  new Gun({type:'2'}));
+        this.guns.push(  new Gun({type:'3'}));
 
         this.brazoD.add(this.gun);
         todo.position.y = 8;
@@ -367,10 +369,8 @@ createFoot (place){
 walk_stop(){
   if(this.aimpos){
     this.tween_to_aim_walk.stop();
-    this.tween_from_aim_walk.stop();
   }else{
      this.tween_to_walk.stop();
-     this.tween_from_walk.stop();
   }
 }
 
@@ -410,6 +410,11 @@ aim_start(){
           this.gun.position.x = -5.2;
           this.gun.position.y = -4;
          break;
+       case '3':
+          this.gun.position.x = -6.5;
+          this.gun.position.y = -2.5;
+
+         break         
      }
    
     this.aimpos = true;
