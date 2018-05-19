@@ -17,7 +17,7 @@ class Character extends THREE.Object3D {
     //SESION 2 DATOS
 
     this.vida = 100;
-    this.dinero = 0;
+    this.money = 0;
     this.tween_to_walk = new TWEEN.Tween();
     this.tween_from_walk = new TWEEN.Tween();
     this.tween_to_aim_walk = new TWEEN.Tween();
@@ -369,8 +369,10 @@ createFoot (place){
 walk_stop(){
   if(this.aimpos){
     this.tween_to_aim_walk.stop();
+    this.tween_from_aim_walk.stop();
   }else{
      this.tween_to_walk.stop();
+     this.tween_from_walk.stop();
   }
 }
 
@@ -390,6 +392,7 @@ aim_stop(){
      this.gun.rotation.z = 0;
      this.gun.position.x = 0;
      this.gun.position.y = 0;
+     this.gun.position.z = 0;
 
     this.aimpos = false;
 
@@ -411,8 +414,11 @@ aim_start(){
           this.gun.position.y = -4;
          break;
        case '3':
-          this.gun.position.x = -6.5;
-          this.gun.position.y = -2.5;
+          this.gun.position.x = -4.3;
+          this.gun.position.y = -5.4;
+          this.gun.position.z = -2;
+
+
 
          break         
      }

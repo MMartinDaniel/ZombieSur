@@ -25,7 +25,8 @@ class TheScene extends THREE.Scene {
     this.zombies = [];
     this.current_zombies = 0;
     this.recoil = 0;
-
+    this.drops = [];
+    this.n_drops = 0;
     this.edificio = null;
 
     this.zombi = null;
@@ -293,16 +294,20 @@ class TheScene extends THREE.Scene {
 
 
     this.zombi.setPiernas(controls.footRotation);
-   // this.zombi.setBrazos(controls.rotation);
+    this.zombi.setBrazos(controls.rotation);
 
     //this.zombieMove();
     //this.zombi.lookAt(this.character.position);
     if(this.zombi != null && this.zombi.alive){
           if(!this.checkColisionZombie()){
-          this.zombi.translateZ(0.5); 
-          this.zombi.lookAt(this.character.position);          
-        }
-    
+            if(this.zombi.attacking){this.zombi.hit_stop();};
+            if(!this.zombi.walking){this.zombi.walk_start();};
+         //   this.zombi.translateZ(0.5); 
+            this.zombi.lookAt(this.character.position);          
+        }else{
+           if(this.zombi.walking){this.zombi.walk_stop();};
+           if(!this.zombi.attacking){this.zombi.hit_start();}
+          }
     } else if (this.zombi.alive == false){
       this.zombi.die();
     }
@@ -337,14 +342,16 @@ class TheScene extends THREE.Scene {
     position_bullet.setFromMatrixPosition( this.character.gun.bullet.matrixWorld );
    // if(this.zombies.length != 0){
      // for (var i = 0; i <= this.zombies.length-1; i++) {
-        if(this.zombi != null){
+        if(/* this.zombi != null || */ this.zombi.alive){
           position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );
           if(position_bullet.x < (position_zombi.x+10) && position_bullet.x > (position_zombi.x-10)){
             if(position_bullet.z < (position_zombi.z+10) && position_bullet.z > (position_zombi.z-10)){
            /*   if(this.zombies[i].hit({dmg: this.character.gun.damage})){  
                 this.drop({id:i,pos: position_zombi});
                 this.current_zombies--; this.model.remove(this.zombies[i]); this.zombies.splice(i,1);*/ 
-              if(this.zombi.hit({dmg: this.character.gun.damage})){  
+              if(this.zombi.hit({dmg: this.character.gun.damage})){ 
+                this.drop();
+                this.zombi.death_start(); 
                // this.current_zombies--; 
                 //this.model.remove(this.zombi); 
                 //this.zombi.splice(i,1); 
@@ -360,9 +367,10 @@ class TheScene extends THREE.Scene {
   }
 
 drop(para){
-  var valor = Math.floor(Math.random() * 10)+1;     // 1 - 10
+  //var valor = Math.floor(Math.random() * 10)+1;     // 1 - 10
+  var valor = Math.floor(Math.random() *1)+9;
   var position_zombi = new THREE.Vector3();
-  position_zombi.setFromMatrixPosition( this.character.matrixWorld );
+  position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );
   if(valor > 4){
     switch (valor) {
       case 5:
@@ -383,9 +391,11 @@ drop(para){
       case 10:
         var ammo_drop = new Drop({type:'4'});
     }
-    ammo_drop.position.set(position_zombi.x,8,position_zombi.z);
+    ammo_drop.position.set(position_zombi.x,12,position_zombi.z);
     ammo_drop.rotation.x = 270*(Math.PI / 180);
     this.model.add(ammo_drop);
+    this.drops[this.n_drops] = ammo_drop;
+    this.n_drops++;
   }
 
 
@@ -404,7 +414,36 @@ checkColisionZombie(){
                 return true;   
               }
             };
+            return false;
 }
+checkDrop(){
+   this.updateMatrixWorld(true);
+    var position_character = new THREE.Vector3();
+    var position_drop = new THREE.Vector3();
+    position_character.setFromMatrixPosition( this.character.matrixWorld );
+
+    for (var i = 0; i <  this.drops.length; i++) {
+         position_drop.setFromMatrixPosition( this.drops[i].matrixWorld );
+         if(position_character.x < (position_drop.x+5) && position_character.x > (position_drop.x-5)){
+          if(position_character.z < (position_drop.z+5) && position_character.z > (position_drop.z-5)){
+            switch (this.drops[i].type) {
+              case '2':
+                this.character.money += this.drops[i].money;
+                break;
+              case '3':
+                 this.character.money += this.drops[i].money;
+                break;
+            }
+            this.drops[i].reproduceSound();
+            this.model.remove(this.drops[i]);
+            this.drops.splice(i,1);
+            this.n_drops--;
+        //    alert(this.character.money);
+          }
+        }
+    }
+  }
+
 
 
 
@@ -443,7 +482,6 @@ checkColisionZombie(){
   if(parameters.move != 'up'){this.character.walking=false; this.character.walk_stop();};
     switch (parameters.move) {
       case 'up':
-        this.drop();
          if(this.character.aimpos){
               this.character.translateZ(2);
           }else{
@@ -453,6 +491,7 @@ checkColisionZombie(){
             this.character.walk_start();
             this.character.walking = true;
           }
+          if(this.drops.length != 0){this.checkDrop();};
         break;
       case'down':
           this.character.walk_stop();

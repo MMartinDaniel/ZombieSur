@@ -71,13 +71,11 @@ class Gun extends THREE.Object3D {
         this.reload_time = 80;
         loader.load('models/shotgun/shotgun.json',
           function(obj){
-          obj.position.y -= 15;
-          obj.position.x += 6;
+          obj.position.y -= 12;
+          obj.position.x += 5;
           obj.position.z += 2;
-
           obj.rotation.x = 1.5;
-
-          obj.scale.set(2.5,2.5,2.5);
+          obj.scale.set(5,5,2.3);
           modelko.add(obj);
         }
         );

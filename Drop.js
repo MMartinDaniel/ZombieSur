@@ -28,7 +28,7 @@ class Drop extends THREE.Object3D {
     var modelko = new THREE.Object3D();
     var loader = new THREE.ObjectLoader();
       if(this.type == 2){  
-          this.money = 100;
+          this.money = 0;
         var textureLoader = new THREE.TextureLoader();
         var texture0 = textureLoader.load( 'models/drop/card3.png' );
         var texture1 = textureLoader.load( 'models/drop/card2.png' );
@@ -55,7 +55,7 @@ class Drop extends THREE.Object3D {
         modelko.add(shell);
 
       }else if(this.type == 3){
-        this.money = 200;
+        this.money = 0;
         var textureLoader = new THREE.TextureLoader();
         var texture0 = textureLoader.load( 'models/drop/b1.png' );
         var texture1 = textureLoader.load( 'models/drop/b1.png' );
@@ -81,7 +81,35 @@ class Drop extends THREE.Object3D {
         shell.updateMatrix();
         modelko.add(shell);
 
+      }else if(this.type == 4){
+        this.money = 50;
+        var textureLoader = new THREE.TextureLoader();
+        var texture0 = textureLoader.load( 'models/drop/bill2.png' );
+        var texture1 = textureLoader.load( 'models/drop/bill2.png' );
+        var texture2 = textureLoader.load( 'models/drop/bill2.png' );
+        var texture3 = textureLoader.load( 'models/drop/bill2.png' );
+        var texture4 = textureLoader.load( 'models/drop/bill1.png' );
+        var texture5 = textureLoader.load( 'models/drop/bill1.png' );
+
+        var materials = [
+        new THREE.MeshBasicMaterial( { map: texture0 } ),
+        new THREE.MeshBasicMaterial( { map: texture1 } ),
+        new THREE.MeshBasicMaterial( { map: texture2 } ),
+        new THREE.MeshBasicMaterial( { map: texture3 } ),
+        new THREE.MeshBasicMaterial( { map: texture4 } ),
+        new THREE.MeshBasicMaterial( { map: texture5 } )
+        ];
+        var faceMaterial = new THREE.MeshFaceMaterial( materials );
+
+        var shell = new THREE.Mesh ( new THREE.BoxGeometry (12, 7, 3), faceMaterial);
+
+        shell.castShadow = true;
+        shell.autoUpdateMatrix = false;
+        shell.updateMatrix();
+        modelko.add(shell);
+
       }
+
       return modelko;
 
     }
@@ -90,18 +118,11 @@ class Drop extends THREE.Object3D {
     reproduceSound(){
           var sound = new THREE.PositionalAudio( this.listener );
           var audioLoader = new THREE.AudioLoader();
-          switch (this.type) {
-            case '1':
-             var au = 'models/mp5k_sound.wav';
-              break;
-            case '2':
-              var au = 'models/sonidos/m4a4.wav';
-              break;
-          }
+          var au = 'models/sonidos/collect.wav';
             audioLoader.load( au, function( buffer ) {
               sound.setBuffer( buffer );
               sound.setRefDistance( 20 );
-              scene.sound.setVolume(2);
+              scene.sound.setVolume(200);
               sound.play();
             });
     }
@@ -118,8 +139,7 @@ class Drop extends THREE.Object3D {
    this.spin_anim.repeat(Infinity);
    this.modelo = mod;
    this.spin_anim.start();
-
-
 }
+
 
 }
