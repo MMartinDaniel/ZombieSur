@@ -16,7 +16,7 @@ class TheScene extends THREE.Scene {
     this.trackballControls = null;
     this.r2d2 = null;
     this.character = null;
-    this.wave_number = 0;
+    this.wave_number = 1;
     this.ground = null;
     this.groundCalle = null;
     this.groundCalle2 = null;
@@ -28,7 +28,7 @@ class TheScene extends THREE.Scene {
     this.drops = [];
     this.n_drops = 0;
     this.edificio = null;
-
+    this.c_dead_z = 0;
     this.zombi = null;
     this.listener = new THREE.AudioListener();
     this.sound = new THREE.Audio(this.listener);
@@ -123,12 +123,12 @@ class TheScene extends THREE.Scene {
 
 
     //COMENTAR
-    this.zombi = new Zombi();
-    model.add(this.zombi);
+    //this.zombi = new Zombi();
+   // model.add(this.zombi);
 
-    this.zombi.position.set(0,5,30);
-    this.zombi.walk_start(); 
-    this.zombi.hit_start();
+   // this.zombi.position.set(0,5,30);
+   // this.zombi.walk_start(); 
+   // this.zombi.hit_start();
 
     //Texturas cabeza
     var loader1 = new THREE.TextureLoader();
@@ -235,12 +235,12 @@ class TheScene extends THREE.Scene {
 }
 
   spawn_wave(){
-
     for (var i = 0; i < this.wave_number; i++) {
-      var zombie = new Zombi();
-      this.zombies[i] = zombie;
-      this.model.add(this.zombies[i]);
-      var po = Math.floor(Math.random() * 4);
+      this.zombi = new Zombi();
+      this.zombi.walk_start();
+      this.zombi.hit_start();
+      var colo = new THREE.Color("rgb(100%, 0%, 0%)");
+      var po = Math.floor(Math.random() * 2)+2;
       var p_z,p_x;
       switch (po) {
         case 1:
@@ -261,9 +261,11 @@ class TheScene extends THREE.Scene {
         break;
 
       }
-      this.zombies[i].position.set(p_x,5,p_z);
-      this.current_zombies++;
 
+      this.zombi.position.set(p_x,5,p_z);
+      this.current_zombies++;
+      this.zombies[i] = this.zombi;
+      this.model.add(this.zombies[i]);
     }
   }
 
@@ -276,62 +278,63 @@ class TheScene extends THREE.Scene {
     this.spotLight.intensity = controls.lightIntensity;
    // console.log(this.zombies.length);
     this.addedLight.intensity = controls.addedLightIntensity;
+    console.log("muertos: " + this.c_dead_z + "total :" + this.zombies.length);
+    
+    this.checkWaveSpawn();
 
-    //if(this.zombies.length == 0){ this.wave_number++; this.spawn_wave();};
-    if(this.character.aimpos){
-     
-    }else{
-    this.character.setBrazos(controls.rotation);
+    if(!this.character.aimpos){
+      this.character.setBrazos(controls.rotation);
     }
     this.character.setPiernas(controls.footRotation);
+   
+
     if(this.character.shooting ){
       this.character.gun.bullet.translateY(-20);
-      var hit = this.checkColisionBala();
-      if(!this.character.gun.checkGunPos({hitt:hit})){
-        this.character.shooting = false;
-      }
-    }
-
-
-    this.zombi.setPiernas(controls.footRotation);
-    this.zombi.setBrazos(controls.rotation);
-
-    //this.zombieMove();
-    //this.zombi.lookAt(this.character.position);
-    if(this.zombi != null && this.zombi.alive){
-          if(!this.checkColisionZombie()){
-            if(this.zombi.attacking){this.zombi.hit_stop();};
-            if(!this.zombi.walking){this.zombi.walk_start();};
-         //   this.zombi.translateZ(0.5); 
-            this.zombi.lookAt(this.character.position);          
-        }else{
-           if(this.zombi.walking){this.zombi.walk_stop();};
-           if(!this.zombi.attacking){this.zombi.hit_start();}
+         for (var i = 0; i <= this.zombies.length-1; i++) {
+          this.zombi = this.zombies[i];
+            var hit = this.checkColisionBala();
+            if(!this.character.gun.checkGunPos({hitt:hit})){
+              this.character.shooting = false;
+            }
           }
-    } else if (this.zombi.alive == false){
-      this.zombi.die();
     }
+  for (var i = 0; i <= this.zombies.length-1; i++) {
+    this.zombi = this.zombies[i];
+    this.zombieMove(controls);
 
-    
-    
- //   this.zombieMove();
+  }
+ 
     this.recoil++;
   //  console.log(this.recoil);
 
     TWEEN.update();
 
-    //if(this.zombi != null){this.zombi.translateZ(1);};
-
   }
 
-  zombieMove(){ 
-    for (var i = 0; i <= this.zombies.length-1; i++) {
-      if(this.zombies[i] != null){
-          this.zombies[i].lookAt(this.character.position);
-          this.zombies[i].translateZ(0.5);
-          //this.zombies[i].walk_start();
+checkWaveSpawn(){
+      if(this.c_dead_z == this.zombies.length){
+      for (var i = 0; i <= this.zombies.length-1; i++) {
+        this.zombi = this.zombies[i];
+        this.model.remove(this.zombi); 
       }
+      this.zombies = []; this.c_dead_z = 0; this.current_zombies = 0; this.wave_number++; this.spawn_wave();};
+}
+  zombieMove(controls){ 
+      if(this.zombi != null && this.zombi.alive){
+            this.zombi.setPiernas(controls.footRotation);
+            this.zombi.setBrazos(controls.rotation);
+
+          if(!this.checkColisionZombie()){
+            if(this.zombi.attacking){this.zombi.hit_stop();};
+            if(!this.zombi.walking){this.zombi.walk_start();};
+            this.zombi.translateZ(0.5); 
+            this.zombi.lookAt(this.character.position);          
+        }else{
+           if(this.zombi.walking){this.zombi.walk_stop();};
+           if(!this.zombi.attacking){this.zombi.hit_start();}
+          }
     }
+
   }
 
   checkColisionBala(){
@@ -353,9 +356,9 @@ class TheScene extends THREE.Scene {
                 this.drop();
                 this.zombi.death_start(); 
                // this.current_zombies--; 
-                //this.model.remove(this.zombi); 
                 //this.zombi.splice(i,1); 
-
+                this.c_dead_z++;
+    
               };
 
                 return true;
