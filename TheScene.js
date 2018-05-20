@@ -32,6 +32,7 @@ class TheScene extends THREE.Scene {
     this.zombi = null;
     this.listener = new THREE.AudioListener();
     this.sound = new THREE.Audio(this.listener);
+    this.dmg_recoil = 0;
 
     this.createLights ();
   
@@ -131,28 +132,11 @@ class TheScene extends THREE.Scene {
    // this.zombi.hit_start();
 
     //Texturas cabeza
-    var loader1 = new THREE.TextureLoader();
 
-
-    var texturaCuerpo = loader1.load ("imgs/torso.png");
-    var mat = new THREE.MeshBasicMaterial({map: texturaCuerpo});
-    var texturaCabeza = loader1.load ("imgs/cabez.png");
-
-    var matcab = new THREE.MeshBasicMaterial({map: texturaCabeza});
-    var texturaBrazo = loader1.load ("imgs/arm.png");
-    var matarm = new THREE.MeshBasicMaterial({map: texturaBrazo});
-    var texturapierna = loader1.load ("imgs/foot.png");
-    var matfoot = new THREE.MeshBasicMaterial({map: texturapierna});
-    this.character = new Character({materialBody: mat,materialCab: matcab, materialArm: matarm, materialfoot: matfoot});
+    this.character = new Character();
     model.add(this.character);
     this.character.position.set(0,5,0);
     
-    /*
-    this.r2d2 = new r2d2({r2d2Height: 30, r2d2Width: 45, material: mat, material2: mat, material3: mat, material4: mat, material5: mat, material6: mat});
-    model.add (this.r2d2);
-    //this.r2d2.position.set(0, 0, -140);
-    this.r2d2.position.set(0,0,-140);
-*/
     var loader = new THREE.TextureLoader();
     var textura = loader.load ("imgs/floor.png", function ( textura ) {
 
@@ -239,8 +223,8 @@ class TheScene extends THREE.Scene {
       this.zombi = new Zombi();
       this.zombi.walk_start();
       this.zombi.hit_start();
-      var colo = new THREE.Color("rgb(100%, 0%, 0%)");
-      var po = Math.floor(Math.random() * 2)+2;
+
+      var po = Math.floor(Math.random() * 4);
       var p_z,p_x;
       switch (po) {
         case 1:
@@ -286,6 +270,7 @@ class TheScene extends THREE.Scene {
       this.character.setBrazos(controls.rotation);
     }
     this.character.setPiernas(controls.footRotation);
+
    
 
     if(this.character.shooting ){
@@ -303,7 +288,14 @@ class TheScene extends THREE.Scene {
     this.zombieMove(controls);
 
   }
- 
+    this.character.recover();
+
+    if(this.dmg_recoil == 0 && this.character.attacked){
+       this.character.isDamaged();
+       this.character.attacked = false;
+    }
+  
+    this.dmg_recoil--;
     this.recoil++;
   //  console.log(this.recoil);
 
@@ -332,6 +324,14 @@ checkWaveSpawn(){
         }else{
            if(this.zombi.walking){this.zombi.walk_stop();};
            if(!this.zombi.attacking){this.zombi.hit_start();}
+         
+
+           if(!this.character.attacked){
+              this.dmg_recoil = 40;
+               this.character.isDamaged();
+              this.character.attacked = true;
+           }
+
           }
     }
 

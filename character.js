@@ -3,10 +3,13 @@ class Character extends THREE.Object3D {
   constructor (parameters) {
     super();
     
-    this.materialBody    = parameters.materialBody;
-    this.materialCab = parameters.materialCab;
-    this.materialArm = parameters.materialArm;
-    this.materialfoot = parameters.materialfoot;
+    this.materialBody    = null;
+    this.materialCab = null;
+    this.material_arm_i = null;
+    this.material_arm_d = null;
+    this.material_foot_i = null;
+    this.material_foot_d = null;
+
     // With these variables, the posititon of the hook is set
     this.angle           = 0;
     this.distance        = 10;
@@ -15,6 +18,7 @@ class Character extends THREE.Object3D {
     this.aimpos = false;
     this.walking = false;
     //SESION 2 DATOS
+
 
     this.vida = 100;
     this.money = 0;
@@ -37,6 +41,7 @@ class Character extends THREE.Object3D {
     this.shooting = false;
     this.guns = [];
     this.todo = new THREE.Mesh();
+    this.attacked = false;
 
     this.angle = 0;   //Angulo cabeza
     this.bodyAngle = 0;   //cuerpod
@@ -45,7 +50,7 @@ class Character extends THREE.Object3D {
     this.todo.add(this.base);
 
     this.add (this.todo);
-    
+
   }
 
 
@@ -150,7 +155,11 @@ class Character extends THREE.Object3D {
         new THREE.MeshBasicMaterial( { map: texture4 } ),
         new THREE.MeshBasicMaterial( { map: texture5 } )
     ];
+  
+
     var bodyMaterial = new THREE.MeshFaceMaterial( materials );
+    this.materialBody = bodyMaterial;
+
     var base = new THREE.Mesh (new THREE.BoxGeometry (8, 12, 4, 16, 8), bodyMaterial);
     base.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0,10, 0));
     
@@ -182,6 +191,7 @@ class Character extends THREE.Object3D {
       new THREE.MeshBasicMaterial( { map: texture5 } )
   ];
   var faceMaterial = new THREE.MeshFaceMaterial( materials );
+  this.materialCab = faceMaterial;
 
    var head = new THREE.Mesh ( new THREE.BoxGeometry (8, 8, 8), faceMaterial);
     head.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, 20, 0));
@@ -213,6 +223,8 @@ if(place.w == -6){
       new THREE.MeshBasicMaterial( { map: texture4 } ),
       new THREE.MeshBasicMaterial( { map: texture5 } )
   ];
+    var armMaterial = new THREE.MeshFaceMaterial( materials );
+    this.material_arm_i = armMaterial;
   }else{
 
 
@@ -231,14 +243,14 @@ if(place.w == -6){
       new THREE.MeshBasicMaterial( { map: texture14 } ),
       new THREE.MeshBasicMaterial( { map: texture15 } )
   ];
-}
-    //  var armMaterial = new THREE.MeshFaceMaterial( materials );
+    var armMaterial = new THREE.MeshFaceMaterial( materials );
+    this.material_arm_d = armMaterial;
+  }
 
-      var armMaterial = new THREE.MeshFaceMaterial( materials );
-  
 
- var larm = new THREE.Mesh ( 
-    new THREE.BoxGeometry (4, 12 ,4, 16, 8),armMaterial);
+
+  var larm = new THREE.Mesh ( 
+  new THREE.BoxGeometry (4, 12 ,4, 16, 8),armMaterial);
   larm.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w, -5, 0));  
   larm.position.y = 15; 
   larm.castShadow = true;
@@ -270,7 +282,8 @@ createFoot (place){
         new THREE.MeshBasicMaterial( { map: texture4 } ),
         new THREE.MeshBasicMaterial( { map: texture5 } )
     ];
-    
+    var footMaterial = new THREE.MeshFaceMaterial( materials );
+    this.material_foot_i = footMaterial;
   }else{
     var texture0 = textureLoader.load( 'imgs/character/fd2.png' );
     var texture1 = textureLoader.load( 'imgs/character/fd3.png' );
@@ -288,13 +301,15 @@ createFoot (place){
         new THREE.MeshBasicMaterial( { map: texture4 } ),
         new THREE.MeshBasicMaterial( { map: texture5 } )
     ];
+    var footMaterial = new THREE.MeshFaceMaterial( materials );
+    this.material_foot_d = footMaterial;
   }
 
-      var armMaterial = new THREE.MeshFaceMaterial( materials );
+   
 
 
  var rfoot = new THREE.Mesh ( 
-    new THREE.BoxGeometry (4, 12 , 4, 16, 8), armMaterial);
+    new THREE.BoxGeometry (4, 12 , 4, 16, 8), footMaterial);
     rfoot.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w, -5, 0));  
     rfoot.position.y = 3 ;    
   rfoot.castShadow = true;
@@ -441,5 +456,30 @@ shoot_stop(){
     this.gun = this.guns[param.selected];
     this.brazoD.add(this.gun);
     }
+  }
+
+  isDamaged(){
+      var mat = new THREE.MeshBasicMaterial( { color: 0xFF0000 ,transparent: true, opacity: 0.5 }  );
+      this.cabeza.material = mat;
+      this.cuerpo.material = mat;
+      this.pieI.material = mat;
+      this.pieD.material = mat;
+      this.brazoD.material = mat;
+      this.brazoI.material = mat;
+  }
+  recover(){
+      this.cabeza.material = this.materialCab;
+      this.cuerpo.material = this.materialBody;
+      this.pieI.material = this.material_foot_i;
+      this.pieD.material = this.material_foot_d;
+      this.brazoD.material = this.material_arm_d;
+      this.brazoI.material = this.material_arm_i;
+  }
+  die(){
+   
+
+      this.todo.rotation.x = this.toRad(270);
+      this.brazoD.rotation.x = this.toRad(-40);
+      this.brazoI.rotation.x = this.toRad(-40);
   }
 }
