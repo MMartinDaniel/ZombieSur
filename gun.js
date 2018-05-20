@@ -66,7 +66,7 @@ class Gun extends THREE.Object3D {
         });
 
       }else if(this.type == 3){  
-        this.distance = 50;
+        this.distance = 100;
         this.damage = 100;
         this.reload_time = 80;
         loader.load('models/shotgun/shotgun.json',

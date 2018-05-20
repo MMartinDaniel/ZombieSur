@@ -30,6 +30,7 @@ class Zombi extends THREE.Object3D {
     this.brazoI = null;   
     this.pieI = null;
     this.pieD = null;
+    this.die_form = null;
 
     this.todo = new THREE.Mesh();
 
@@ -61,6 +62,8 @@ class Zombi extends THREE.Object3D {
         this.pieD = this.createFoot({w:2,ww: 5});
         this.pieI = this.createFoot({w:-2,ww: -5});
 
+        this.die_form = this.createBlood();
+
 
         this.todo.add(this.brazoD);
         this.todo.add(this.brazoI);
@@ -68,13 +71,41 @@ class Zombi extends THREE.Object3D {
         this.todo.add(this.pieD);
         this.todo.add(this.pieI);
 
+
+
         this.walk();
         this.zombie_hit();
+        
         //this.die();
 
         todo.position.y = 8;
 
         return todo;
+
+  }
+
+  createBlood(){
+     var textureLoader = new THREE.TextureLoader();   
+      //Cara izq
+      var alphaTest = textureLoader.load( 'UI/blood.png' );
+
+       var geometry = new THREE.BoxGeometry(20, 20, 20);
+    
+  var material = new THREE.MeshBasicMaterial({ transparent: true, side: THREE.DoubleSide, opacity:1, map : alphaTest});
+
+
+      var materials = [material];
+
+      var bloodMat = new THREE.MeshFaceMaterial( materials );
+
+      var blood = new THREE.Mesh (new THREE.BoxGeometry (5, 40,40, 16, 8), bloodMat);
+        blood.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, -5, 0));
+        blood.rotation.y -= 90 * (Math.PI / 180);
+        blood.position.z = -1;
+
+        blood.autoUpdateMatrix = false;
+        
+      return blood;
 
   }
   
@@ -295,6 +326,7 @@ die(){
 
   });
 */
+          this.cuerpo.add(this.die_form);
       this.todo.rotation.x = this.toRad(270);
       this.brazoD.rotation.x = this.toRad(-40);
       this.brazoI.rotation.x = this.toRad(-40);
@@ -317,30 +349,39 @@ walk_stop(){
   walk() {
 
    var position = {x:0.0, y: 0.0, z: 0.0};
-
+   var pieI = this.pieI;
+   var pieD = this.pieD;
+   var todt = this.todo;
+   var  brazoI = this.brazoI;
+   var brazoD  = this.brazoD;
    this.tween_to_walkz = new TWEEN.Tween(position).to({x: 0.5, y:0.0, z:0.050},1000).onUpdate(function(){
 
-          scene.zombi.pieI.rotation.x =  position.x;
-          scene.zombi.pieD.rotation.x = -position.x;
-          scene.zombi.todo.rotation.z = position.z/2;
-          scene.zombi.brazoI.rotation.z = position.z;
-          scene.zombi.brazoD.rotation.z = position.z;
-         scene.zombi.brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
-          scene.zombi.brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
+          pieI.rotation.x =  position.x;
+          pieD.rotation.x = -position.x;
+          todt.rotation.z = position.z/2;
+          brazoI.rotation.z = position.z;
+          brazoD.rotation.z = position.z;
+          brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
+          brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
 
 
    });
 
    this.tween_from_walkz = new TWEEN.Tween(position).to({x: -0.5, y:0.0, z:0.050},1000).onUpdate(function(){
-          scene.zombi.pieI.rotation.x =  position.x;
-          scene.zombi.pieD.rotation.x =  -position.x;
-          scene.zombi.todo.rotation.z = -position.z/2;
-          scene.zombi.brazoI.rotation.z = -position.z;
-          scene.zombi.brazoD.rotation.z = -position.z;
-          scene.zombi.brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
-          scene.zombi.brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
+          pieI.rotation.x =  position.x;
+          pieD.rotation.x =  -position.x;
+          todt.rotation.z = -position.z/2;
+          brazoI.rotation.z = -position.z;
+          brazoD.rotation.z = -position.z;
+          brazoI.rotation.x = -((position.x)/2)+(Math.PI / 180)*(270);
+          brazoD.rotation.x = ((position.x)/2)+(Math.PI / 180)*(270);
 
    });
+    this.pieI = pieI;
+    this.pieD = pieD;
+    this.todo = todt;
+    this.brazoI = brazoI;
+    this.brazoD = brazoD;
 
    this.tween_to_walkz.chain(this.tween_from_walkz);
    this.tween_from_walkz.chain(this.tween_to_walkz);
@@ -363,21 +404,32 @@ hit_stop(){
   zombie_hit() {
 
    var position = {x:0.0};
+   var pieI = this.pieI;
+   var pieD = this.pieD;
+   var todt = this.todo;
+   var  brazoI = this.brazoI;
+   var brazoD  = this.brazoD;
 
    this.tween_to_hit = new TWEEN.Tween(position).to({x: 2},500).onUpdate(function(){
-          scene.zombi.brazoI.rotation.x = position.x;
-          scene.zombi.brazoD.rotation.x = position.x;
-          scene.zombi.brazoI.rotation.x = scene.zombi.toRad(270);
-          scene.zombi.brazoD.rotation.x = scene.zombi.toRad(270);
+          brazoI.rotation.x = position.x;
+          brazoD.rotation.x = position.x;
+          brazoI.rotation.x = scene.zombi.toRad(270);
+          brazoD.rotation.x = scene.zombi.toRad(270);
 
 
    });
 
    this.tween_from_hit = new TWEEN.Tween(position).to({x: 4},500).onUpdate(function(){
 
-          scene.zombi.brazoI.rotation.x = -position.x;
-          scene.zombi.brazoD.rotation.x = -position.x;
+          brazoI.rotation.x = -position.x;
+          brazoD.rotation.x = -position.x;
    });
+
+    this.pieI = pieI;
+    this.pieD = pieD;
+    this.todo = todt;
+    this.brazoI = brazoI;
+    this.brazoD = brazoD;
 
    this.tween_to_hit.chain(this.tween_from_hit);
    this.tween_from_hit.chain(this.tween_to_hit);
