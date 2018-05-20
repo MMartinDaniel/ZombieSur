@@ -283,21 +283,17 @@ class TheScene extends THREE.Scene {
             }
           }
     }
+  
+
+  if(this.character.attacked && this.dmg_recoil < 80){this.character.recover();};
+  
   for (var i = 0; i <= this.zombies.length-1; i++) {
     this.zombi = this.zombies[i];
     this.zombieMove(controls);
-
   }
-    this.character.recover();
 
-    if(this.dmg_recoil == 0 && this.character.attacked){
-       this.character.isDamaged();
-       this.character.attacked = false;
-    }
-  
-    this.dmg_recoil--;
+    if(this.character.attacked){this.dmg_recoil--;}
     this.recoil++;
-  //  console.log(this.recoil);
 
     TWEEN.update();
 
@@ -323,13 +319,11 @@ checkWaveSpawn(){
             this.zombi.lookAt(this.character.position);          
         }else{
            if(this.zombi.walking){this.zombi.walk_stop();};
-           if(!this.zombi.attacking){this.zombi.hit_start();}
-         
-
-           if(!this.character.attacked){
-              this.dmg_recoil = 40;
+           if(!this.zombi.attacking){this.zombi.hit_start();} 
+           if(this.dmg_recoil <= 0){ 
+               this.dmg_recoil = 80;
                this.character.isDamaged();
-              this.character.attacked = true;
+               this.character.attacked = true;
            }
 
           }
@@ -371,7 +365,7 @@ checkWaveSpawn(){
 
 drop(para){
   //var valor = Math.floor(Math.random() * 10)+1;     // 1 - 10
-  var valor = Math.floor(Math.random() *1)+9;
+  var valor = Math.floor(Math.random() *10)+1;
   var position_zombi = new THREE.Vector3();
   position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );
   if(valor > 4){

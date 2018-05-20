@@ -30,6 +30,7 @@ class Zombi extends THREE.Object3D {
     this.brazoI = null;   
     this.pieI = null;
     this.pieD = null;
+    this.die_form = null;
 
     this.todo = new THREE.Mesh();
 
@@ -61,12 +62,16 @@ class Zombi extends THREE.Object3D {
         this.pieD = this.createFoot({w:2,ww: 5});
         this.pieI = this.createFoot({w:-2,ww: -5});
 
+        this.die_form = this.createBlood();
+
 
         this.todo.add(this.brazoD);
         this.todo.add(this.brazoI);
 
         this.todo.add(this.pieD);
         this.todo.add(this.pieI);
+
+
 
         this.walk();
         this.zombie_hit();
@@ -76,6 +81,31 @@ class Zombi extends THREE.Object3D {
         todo.position.y = 8;
 
         return todo;
+
+  }
+
+  createBlood(){
+     var textureLoader = new THREE.TextureLoader();   
+      //Cara izq
+      var alphaTest = textureLoader.load( 'UI/blood.png' );
+
+       var geometry = new THREE.BoxGeometry(20, 20, 20);
+    
+  var material = new THREE.MeshBasicMaterial({ transparent: true, side: THREE.DoubleSide, opacity:1, map : alphaTest});
+
+
+      var materials = [material];
+
+      var bloodMat = new THREE.MeshFaceMaterial( materials );
+
+      var blood = new THREE.Mesh (new THREE.BoxGeometry (5, 40,40, 16, 8), bloodMat);
+        blood.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, -5, 0));
+        blood.rotation.y -= 90 * (Math.PI / 180);
+        blood.position.z = -1;
+
+        blood.autoUpdateMatrix = false;
+        
+      return blood;
 
   }
   
@@ -296,6 +326,7 @@ die(){
 
   });
 */
+          this.cuerpo.add(this.die_form);
       this.todo.rotation.x = this.toRad(270);
       this.brazoD.rotation.x = this.toRad(-40);
       this.brazoI.rotation.x = this.toRad(-40);
