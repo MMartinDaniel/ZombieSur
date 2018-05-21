@@ -38,12 +38,12 @@ class Drop extends THREE.Object3D {
         var texture5 = textureLoader.load( 'models/drop/cartuchos-abajo.png' );
 
         var materials = [
-        new THREE.MeshBasicMaterial( { map: texture0 } ),
-        new THREE.MeshBasicMaterial( { map: texture1 } ),
-        new THREE.MeshBasicMaterial( { map: texture2 } ),
-        new THREE.MeshBasicMaterial( { map: texture3 } ),
-        new THREE.MeshBasicMaterial( { map: texture4 } ),
-        new THREE.MeshBasicMaterial( { map: texture5 } )
+        new THREE.MeshLambertMaterial( { map: texture0 } ),
+        new THREE.MeshLambertMaterial( { map: texture1 } ),
+        new THREE.MeshLambertMaterial( { map: texture2 } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4 } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
         ];
         var faceMaterial = new THREE.MeshFaceMaterial( materials );
 
@@ -65,12 +65,12 @@ class Drop extends THREE.Object3D {
         var texture5 = textureLoader.load( 'models/drop/b5.png' );
 
         var materials = [
-        new THREE.MeshBasicMaterial( { map: texture0 } ),
-        new THREE.MeshBasicMaterial( { map: texture1 } ),
-        new THREE.MeshBasicMaterial( { map: texture2 } ),
-        new THREE.MeshBasicMaterial( { map: texture3 } ),
-        new THREE.MeshBasicMaterial( { map: texture4 } ),
-        new THREE.MeshBasicMaterial( { map: texture5 } )
+        new THREE.MeshLambertMaterial( { map: texture0 } ),
+        new THREE.MeshLambertMaterial( { map: texture1 } ),
+        new THREE.MeshLambertMaterial( { map: texture2 } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4 } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
         ];
         var faceMaterial = new THREE.MeshFaceMaterial( materials );
 
@@ -92,12 +92,12 @@ class Drop extends THREE.Object3D {
         var texture5 = textureLoader.load( 'models/drop/bill1.png' );
 
         var materials = [
-        new THREE.MeshBasicMaterial( { map: texture0 } ),
-        new THREE.MeshBasicMaterial( { map: texture1 } ),
-        new THREE.MeshBasicMaterial( { map: texture2 } ),
-        new THREE.MeshBasicMaterial( { map: texture3 } ),
-        new THREE.MeshBasicMaterial( { map: texture4 } ),
-        new THREE.MeshBasicMaterial( { map: texture5 } )
+        new THREE.MeshLambertMaterial( { map: texture0 } ),
+        new THREE.MeshLambertMaterial( { map: texture1 } ),
+        new THREE.MeshLambertMaterial( { map: texture2 } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4 } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
         ];
         var faceMaterial = new THREE.MeshFaceMaterial( materials );
 

@@ -87,7 +87,7 @@ class Zombi extends THREE.Object3D {
   createBlood(){
      var textureLoader = new THREE.TextureLoader();   
       var alphaTest = textureLoader.load( 'UI/blood.png' );  
-      var material = new THREE.MeshBasicMaterial({ transparent: true, side: THREE.DoubleSide, opacity:1, map : alphaTest});
+      var material = new THREE.MeshLambertMaterial({ transparent: true, side: THREE.DoubleSide, opacity:1, map : alphaTest});
       var materials = [material];
       var bloodMat = new THREE.MeshFaceMaterial( materials );
 
@@ -119,12 +119,12 @@ class Zombi extends THREE.Object3D {
       var texture5 = textureLoader.load( 'imgs/zombiecuerpo5.png' );
 
       var materials = [
-          new THREE.MeshBasicMaterial( { map: texture0 } ),
-          new THREE.MeshBasicMaterial( { map: texture1 } ),
-          new THREE.MeshBasicMaterial( { map: texture2 } ),
-          new THREE.MeshBasicMaterial( { map: texture3 } ),
-          new THREE.MeshBasicMaterial( { map: texture4 } ),
-          new THREE.MeshBasicMaterial( { map: texture5 } )
+          new THREE.MeshLambertMaterial( { map: texture0 } ),
+          new THREE.MeshLambertMaterial( { map: texture1 } ),
+          new THREE.MeshLambertMaterial( { map: texture2 } ),
+          new THREE.MeshLambertMaterial( { map: texture3 } ),
+          new THREE.MeshLambertMaterial( { map: texture4 } ),
+          new THREE.MeshLambertMaterial( { map: texture5 } )
       ];
       var bodyMaterial = new THREE.MeshFaceMaterial( materials );
 
@@ -156,12 +156,12 @@ class Zombi extends THREE.Object3D {
     var texture5 = textureLoader.load( 'imgs/zombiecabeza5.png' );
 
     var materials = [
-        new THREE.MeshBasicMaterial( { map: texture0 } ),
-        new THREE.MeshBasicMaterial( { map: texture1 } ),
-        new THREE.MeshBasicMaterial( { map: texture2 } ),
-        new THREE.MeshBasicMaterial( { map: texture3 } ),
-        new THREE.MeshBasicMaterial( { map: texture4 } ),
-        new THREE.MeshBasicMaterial( { map: texture5 } )
+        new THREE.MeshLambertMaterial( { map: texture0 } ),
+        new THREE.MeshLambertMaterial( { map: texture1 } ),
+        new THREE.MeshLambertMaterial( { map: texture2 } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4 } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
     ];
     var headMaterial = new THREE.MeshFaceMaterial( materials );
 
@@ -202,12 +202,12 @@ createArm (place){
     var texture5 = textureLoader.load( 'imgs/zombiebrazo5.png' );
 
     var materials = [
-        new THREE.MeshBasicMaterial( { map: texture0 } ),
-        new THREE.MeshBasicMaterial( { map: texture1 } ),
-        new THREE.MeshBasicMaterial( { map: texture2 } ),
-        new THREE.MeshBasicMaterial( { map: texture3 } ),
-        new THREE.MeshBasicMaterial( { map: texture4 } ),
-        new THREE.MeshBasicMaterial( { map: texture5 } )
+        new THREE.MeshLambertMaterial( { map: texture0 } ),
+        new THREE.MeshLambertMaterial( { map: texture1 } ),
+        new THREE.MeshLambertMaterial( { map: texture2 } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4 } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
     ];
     var armMaterial = new THREE.MeshFaceMaterial( materials );
 
@@ -249,12 +249,12 @@ createFoot (place){
     var texture5 = textureLoader.load( 'imgs/zombiepierna2.png' );
 
     var materials = [
-        new THREE.MeshBasicMaterial( { map: texture0 } ),
-        new THREE.MeshBasicMaterial( { map: texture1 } ),
-        new THREE.MeshBasicMaterial( { map: texture2 } ),
-        new THREE.MeshBasicMaterial( { map: texture3 } ),
-        new THREE.MeshBasicMaterial( { map: texture4 } ),
-        new THREE.MeshBasicMaterial( { map: texture5 } )
+        new THREE.MeshLambertMaterial( { map: texture0 } ),
+        new THREE.MeshLambertMaterial( { map: texture1 } ),
+        new THREE.MeshLambertMaterial( { map: texture2 } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4 } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
     ];
     var footMaterial = new THREE.MeshFaceMaterial( materials );
 
