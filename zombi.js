@@ -11,7 +11,10 @@ class Zombi extends THREE.Object3D {
     this.angle           = 0;
     this.distance        = 10;
     this.height          = 10;
-    
+ 
+    //Controlar que el zombie cada X pasos mire al jugador
+    this.pasos = 0;
+
     //SESION 2 DATOS
     this.alive = true;
     this.vida = 100;
@@ -31,6 +34,7 @@ class Zombi extends THREE.Object3D {
     this.pieI = null;
     this.pieD = null;
     this.die_form = null;
+
 
     this.todo = new THREE.Mesh();
 
