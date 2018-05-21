@@ -147,38 +147,8 @@ class TheScene extends THREE.Scene {
 } );
 
 
-    var loader2 = new THREE.TextureLoader();
-    var texturaCalle = loader.load ("imgs/street.jpg");
-    
-    //Calle izq
-    this.groundCalle = new Ground (200, 200 , new THREE.MeshPhongMaterial ({map: texturaCalle}), 4);
-    this.groundCalle.position.set(0, 0, 250);
-    model.add (this.groundCalle);
-
-    //Calle der
-    this.groundCalle2 = new Ground (200, 200 , new THREE.MeshPhongMaterial ({map: texturaCalle}), 4);
-    this.groundCalle2.position.set(0, 0, -250);
-    model.add (this.groundCalle2);
-
-
-    //Calle inferior
-
-    var loader3 = new THREE.TextureLoader();
-    var texturaCalleGirada = loader.load ("imgs/street2.jpg");
-
-    this.groundCalle3 = new Ground (200, 200 , new THREE.MeshPhongMaterial ({map: texturaCalleGirada}), 4);
-    this.groundCalle3.position.set(250, 0, 0);
-    model.add (this.groundCalle3);
-
-
-    //Calle Superior
-
-    this.groundCalle4 = new Ground (200, 200 , new THREE.MeshPhongMaterial ({map: texturaCalleGirada}), 4);
-    this.groundCalle4.position.set(-250, 0, 0);
-    model.add (this.groundCalle4);
-
     //Cuadro central
-    this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 10);
+    this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 30);
     model.add (this.ground);
 
     this.edificio = new Building({type:'1',x:130,y: (-135*Math.PI/180),z:-130});
@@ -191,34 +161,32 @@ class TheScene extends THREE.Scene {
     model.add(this.edificio);
 
     this.farola1 = new THREE.SpotLight( 0xFFC58F,1 );
-  //  this.farola1.distance = 200;
     this.farola1.penumbra = 0.30;
     this.farola1.angle = 1.3 *Math.PI/4;
     this.farola1.castShadow = true;
-// this.farola1.power = 1.2 * Math.PI;
     // the shadow resolution
     this.farola1.shadow.mapSize.width=2048
     this.farola1.shadow.mapSize.height=2048;
     this.farola1.position.set( 90, 135, -90 );
     this.farola1.target.position.set(90, 0, -90 );
-  //  model.add(this.farola1);
-   // model.add(this.farola1.target);
+   model.add(this.farola1);
+    model.add(this.farola1.target);
 
     var farola2 = this.farola1.clone();
     farola2.position.set(-90, 135, 90 );
     farola2.target.position.set(-90, 0, 90 );
- //   model.add(farola2);
- //   model.add(farola2.target);
+   model.add(farola2);
+    model.add(farola2.target);
     var farola3 = this.farola1.clone();
     farola3.position.set( -90, 135, -90 );
     farola3.target.position.set(-90, 0, -90 );
- //   model.add(farola3);
- //   model.add(farola3.target);
+    model.add(farola3);
+    model.add(farola3.target);
     var farola4 = this.farola1.clone();
      farola4.position.set( 90, 135, 90 );
     farola4.target.position.set(90, 0, 90 );
- //    model.add(farola4);
-//    model.add(farola4.target);
+     model.add(farola4);
+    model.add(farola4.target);
 
 
     var spotLightHelper = new THREE.SpotLightHelper( this.farola1 );
@@ -226,8 +194,6 @@ class TheScene extends THREE.Scene {
 
     var shadowCameraHelper = new THREE.CameraHelper( this.farola1.shadow.camera );
  //    model.add( shadowCameraHelper );
-  //this.barricade = new Barricade();
- // model.add(this.barricade);
 
     model.add(this.edificio);
 
@@ -308,7 +274,7 @@ class TheScene extends THREE.Scene {
     this.spotLight.intensity = controls.lightIntensity;
    // console.log(this.zombies.length);
     //this.addedLight.intensity = controls.addedLightIntensity;
-    this.addedLight.intensity =1;
+   // this.addedLight.intensity =1;
 
     //console.log("muertos: " + this.c_dead_z + "total :" + this.zombies.length);
     

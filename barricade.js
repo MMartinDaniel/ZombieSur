@@ -4,9 +4,8 @@ class Barricade extends THREE.Object3D {
     super();
     
     this.material = null;
-    this.health = 0;
+    this.health = 50;
     this.price = 100;
-    this.damage = 0;
     //SESION 2 DATOS
 
   
@@ -27,9 +26,6 @@ class Barricade extends THREE.Object3D {
 
     var modelko = new THREE.Object3D();
         var loader = new THREE.OBJLoader();
-        this.distance = 200;
-        this.damage = 20;
-        this.reload_time = 40;
         loader.load('models/Barrier/roadblock_obj.obj',
         function(obj){
               obj.traverse( function ( child ) {
@@ -37,6 +33,7 @@ class Barricade extends THREE.Object3D {
             if ( child instanceof THREE.Mesh ) {
 
             child.material.map = objTexture;
+            child.castShadow = true;
             }
 
             } );
@@ -44,6 +41,7 @@ class Barricade extends THREE.Object3D {
         obj.position.y = 5;
         obj.position.z += 0;
         obj.scale.set(3,3,3);
+
         modelko.add(obj);
         
         });

@@ -51,10 +51,6 @@ function createGUI (withStats) {
     axisLights.add(GUIcontrols, 'axis').name('Axis on/off :');
     axisLights.add(GUIcontrols, 'addedLightIntensity').name('Second Light intensity :');
 
-var actions = gui.addFolder ('Actions');
-    var addingBoxes = actions.add(GUIcontrols, 'addBarricade').name (': Adding boxes :');
-    var movingBoxes = actions.add (GUIcontrols, 'moveBarricade').name (': Move and rotate boxes :');
-
   
   var r2d2Controls = gui.addFolder ('r2d2 Controls');
     r2d2Controls.add (GUIcontrols, 'rotation', -80, 80, 1).name('Rotación Cabeza').listen();
@@ -162,6 +158,7 @@ function onMouseUp (event) {
     }
     mouseDown = false;
   }
+    applicationMode = TheScene.NO_ACTION;
 }
 
 /// It processes the wheel rolling of the mouse
