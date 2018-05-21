@@ -26,6 +26,9 @@ class TheScene extends THREE.Scene {
     this.current_zombies = 0;
     this.recoil = 0;
     this.drops = [];
+    this.barricades = [];
+    this.barricade = null;
+    this.n_barricades = 0;
     this.n_drops = 0;
     this.edificio = null;
     this.c_dead_z = 0;
@@ -97,7 +100,7 @@ class TheScene extends THREE.Scene {
     // the shadow resolution
     this.spotLight.shadow.mapSize.width=2048
     this.spotLight.shadow.mapSize.height=2048;
-   // this.add (this.spotLight);
+    this.add (this.spotLight);
 
 
     //La luz ambiental es una luz que se proyecta en todo el plano, a diferencia de la focal que apunta a una posicion
@@ -113,6 +116,13 @@ class TheScene extends THREE.Scene {
     this.add (this.addedLight);
 
   }
+
+  addBarricade (event, action) {
+    this.ground.addBarricade(event, action);
+  }
+  moveBarricade (event, action) {
+    this.ground.moveBarricade (event, action);
+  }
   
   /// It creates the geometric model: r2d2 and ground
   /**
@@ -122,16 +132,6 @@ class TheScene extends THREE.Scene {
 
   var model = new THREE.Object3D();
 
-
-    //COMENTAR
-    //this.zombi = new Zombi();
-   // model.add(this.zombi);
-
-   // this.zombi.position.set(0,5,30);
-   // this.zombi.walk_start(); 
-   // this.zombi.hit_start();
-
-    //Texturas cabeza
 
     this.character = new Character();
     model.add(this.character);
@@ -178,7 +178,7 @@ class TheScene extends THREE.Scene {
     model.add (this.groundCalle4);
 
     //Cuadro central
-    this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 4);
+    this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 10);
     model.add (this.ground);
 
     this.edificio = new Building({type:'1',x:130,y: (-135*Math.PI/180),z:-130});
@@ -192,39 +192,42 @@ class TheScene extends THREE.Scene {
 
     this.farola1 = new THREE.SpotLight( 0xFFC58F,1 );
   //  this.farola1.distance = 200;
-    this.farola1.penumbra = 0.4;
-    this.farola1.angle = 1 *Math.PI/4;
+    this.farola1.penumbra = 0.30;
+    this.farola1.angle = 1.3 *Math.PI/4;
     this.farola1.castShadow = true;
-    
+// this.farola1.power = 1.2 * Math.PI;
     // the shadow resolution
     this.farola1.shadow.mapSize.width=2048
     this.farola1.shadow.mapSize.height=2048;
     this.farola1.position.set( 90, 135, -90 );
     this.farola1.target.position.set(90, 0, -90 );
-    model.add(this.farola1);
-    model.add(this.farola1.target);
+  //  model.add(this.farola1);
+   // model.add(this.farola1.target);
 
     var farola2 = this.farola1.clone();
     farola2.position.set(-90, 135, 90 );
     farola2.target.position.set(-90, 0, 90 );
-    model.add(farola2);
-    model.add(farola2.target);
+ //   model.add(farola2);
+ //   model.add(farola2.target);
     var farola3 = this.farola1.clone();
     farola3.position.set( -90, 135, -90 );
     farola3.target.position.set(-90, 0, -90 );
-    model.add(farola3);
-    model.add(farola3.target);
+ //   model.add(farola3);
+ //   model.add(farola3.target);
     var farola4 = this.farola1.clone();
      farola4.position.set( 90, 135, 90 );
     farola4.target.position.set(90, 0, 90 );
-     model.add(farola4);
-    model.add(farola4.target);
+ //    model.add(farola4);
+//    model.add(farola4.target);
 
 
     var spotLightHelper = new THREE.SpotLightHelper( this.farola1 );
-    model.add( spotLightHelper );
+ //   model.add( spotLightHelper );
+
     var shadowCameraHelper = new THREE.CameraHelper( this.farola1.shadow.camera );
-     model.add( shadowCameraHelper );
+ //    model.add( shadowCameraHelper );
+  this.barricade = new Barricade();
+  model.add(this.barricade);
 
     model.add(this.edificio);
 
@@ -271,20 +274,20 @@ class TheScene extends THREE.Scene {
       var p_z,p_x;
       switch (po) {
         case 1:
-          p_z = 200;
+          p_z = 350;
           p_x = 0;
         break;
         case 2:
-          p_z = -200;
+          p_z = -350;
           p_x = 0;
         break;
         case 3:
           p_z = 0;
-          p_x = -200;
+          p_x = -350;
         break;
         case 0:
         p_z = 0;
-        p_x = 200;
+        p_x = 350;
         break;
 
       }
@@ -305,9 +308,9 @@ class TheScene extends THREE.Scene {
     this.spotLight.intensity = controls.lightIntensity;
    // console.log(this.zombies.length);
     //this.addedLight.intensity = controls.addedLightIntensity;
-    this.addedLight.intensity =0.4;
+    this.addedLight.intensity =1;
 
-    console.log("muertos: " + this.c_dead_z + "total :" + this.zombies.length);
+    //console.log("muertos: " + this.c_dead_z + "total :" + this.zombies.length);
     
     this.checkWaveSpawn();
 
