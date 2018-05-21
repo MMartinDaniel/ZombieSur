@@ -1,0 +1,24 @@
+D:\3DsMax\Projects\CIty\budovy vol2\t$m$p$$$\budovy02.max
+D:\3DsMax\Projects\CIty\budovy vol2\t$m$p$$$\MAXFILES.TXT
+D:\3DsMax\Projects\CIty\textures\BuildingsHighRise0044_S.jpg
+D:\3DsMax\teexturess\ConcreteNew0013_Bump.jpg
+D:\3DsMax\Projects\CIty\textures\BuildingsHighRise0056_1_L.jpg
+D:\3DsMax\Projects\CIty\textures\BuildingsHighRise0102_L.jpg
+D:\3DsMax\Projects\CIty\textures\BuildingsHighRise0100_1_L.jpg
+D:\3DsMax\Projects\CIty\textures\BuildingsHighRise0051_1_L.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0362_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0306_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0401_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0319_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0291_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0318_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0313_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0305_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0440_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0322_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0308_1_S.jpg
+D:\3DsMax\teexturess\BuildingsHighRise0324_1_S.jpg
+D:\3DsMax\teexturess\HighRiseTowerblocks0044_2_S.jpg
+D:\3DsMax\teexturess\HighRiseTowerblocks0011_5_S.jpg
+D:\3DsMax\teexturess\HighRiseTowerblocks0007_7_S.jpg
+D:\3DsMax\teexturess\HighRiseTowerblocks0046_2_S.jpg
