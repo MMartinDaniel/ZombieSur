@@ -313,21 +313,46 @@ checkWaveSpawn(){
             this.zombi.setBrazos(controls.rotation);
           if(!this.checkColisionZombie()){
             this.zombi.hit_stop();
-            
+
             if(this.zombi.attacking){this.zombi.hit_stop();};
             if(!this.zombi.walking){this.zombi.walk_start();};
+
             //Para que los zombis no pisen la zona negra inferior IZQUIERDA
-            if(this.zombi.position.x > 150 && this.zombi.position.z > 100 ){    
-              this.zombi.translateX(-0.5);   
+            if(this.zombi.position.x > 150 && ( this.zombi.position.z > 100 || this.zombi.position.z < -100 ) ){    
+              this.zombi.lookAt(new THREE.Vector3(0,0,0));
+              this.zombi.translateZ(0.5);   
             }
-            //Para que los zombis no pisen la zona negra inferior DERECHA
-            if(this.zombi.position.x > 150 && this.zombi.position.z < -100 ){    
-              this.zombi.translateX(0.5);   
+            //Para que los zombis no pisen la zona negra inferior IZQUIERDA     
+            else if(this.zombi.position.x < -150 && ( this.zombi.position.z > 100 || this.zombi.position.z < -100 ) ){    
+              this.zombi.lookAt(new THREE.Vector3(0,0,0));
+              this.zombi.translateZ(0.5);   
             }
-              else {
+              //Para que los zombis no pisen la zona negra inferior IZQUIERDA     
+            else if(this.zombi.position.z > 150 && ( this.zombi.position.x > 100 || this.zombi.position.x < -100 ) ){    
+              this.zombi.lookAt(new THREE.Vector3(0,0,0));
+              this.zombi.translateZ(0.5);   
+            }
+            
+           //Para que los zombis no pisen la zona negra inferior derecha               
+            else if(this.zombi.position.z < -150 && ( this.zombi.position.x > 100 || this.zombi.position.x < -100 ) ){    
+              this.zombi.lookAt(new THREE.Vector3(0,0,0));
+              this.zombi.translateZ(0.5);   
+            }
+                  
+
+  
+
+
+
+
+            else {
               this.zombi.translateZ(0.5); 
               this.zombi.lookAt(this.character.position);
-            }      
+            }
+
+
+
+
         }else{
            if(this.zombi.walking){this.zombi.walk_stop();};
            if(!this.zombi.attacking){this.zombi.hit_start();} 
