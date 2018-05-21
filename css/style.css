@@ -10,17 +10,17 @@
     right: 0;
 
 }
-.fight-ui .player-utils {
+ .player-utils {
     flex: 1;
 }
-.fight-ui .entities-list .entitie {
+ .entities-list .entitie {
     margin-right: 5px;
     width: 75px;
     height: 100px;
     perspective: 300px;
     transition-duration: 0.3s;
 }
-.fight-ui .entities-list .entitie .card {
+ .entities-list .entitie .card {
     position: relative;
     border-width: 2px 4px;
     border-style: solid;
@@ -34,7 +34,7 @@
     justify-content: center;
     background-color: #212121;
 }
- .fight-ui .entities-list .entitie .card .health-bar {
+.entities-list .entitie .card .health-bar {
     position: absolute;
     z-index: 2;
     right: 0;
@@ -42,20 +42,34 @@
     display: flex;
     align-items: flex-end;
 }
-.fight-ui .entities-list .entitie .card img {
+.entities-list .entitie .card img {
     height: 100%;
 }
-.fight-ui .entities-list .entitie {
+.entities-list .entitie {
     margin-right: 5px;
     width: 75px;
     height: 100px;
     perspective: 300px;
     transition-duration: 0.3s;
 }
-.fight-ui .entities-list .entitie:hover {
+.entities-list .entitie:hover {
     transform: translate3d(0, -10px, 0);
 }
 
+.construct-ui{
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.construct-ui .entities-list .entitie .card{
+   transform: rotateY(20deg);
+
+}
+.construct-ui .entities-list .entitie .card img {
+    height: auto !important;
+    max-width: 100%;
+}
 
 @keyframes damage_taken {
   0% {

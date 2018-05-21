@@ -25,9 +25,39 @@ class Ground extends THREE.Object3D {
     this.barricades = new THREE.Object3D();
     this.add(this.barricades);
 
-    this.ground = new THREE.Mesh (
-      new THREE.BoxGeometry (this.width, 10, this.deep, 1, 1, 1),
-      this.material);
+    this.ground = new THREE.Mesh (new THREE.BoxGeometry (this.width, 10, this.deep, 1, 1, 1),this.material);
+    var loader2 = new THREE.TextureLoader();
+    var texturaCalle = loader2.load ("imgs/street.jpg");
+    this.calle1 = new THREE.Mesh (new THREE.BoxGeometry (200, 10, 200, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalle}));
+    this.calle1.position.set(0, 0, 250);
+    this.calle1.receiveShadow = true;
+    this.calle1.autoUpdateMatrix = false;
+    this.ground.add(this.calle1);
+
+      //Calle der
+    this.groundCalle2 = new THREE.Mesh (new THREE.BoxGeometry (200, 10, 200, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalle}));
+    this.groundCalle2.position.set(0, 0, -250);
+    this.groundCalle2.receiveShadow = true;
+    this.groundCalle2.autoUpdateMatrix = false;
+    this.ground.add (this.groundCalle2);
+
+    var loader3 = new THREE.TextureLoader();
+    var texturaCalleGirada = loader3.load ("imgs/street2.jpg");
+
+    this.groundCalle3 = new THREE.Mesh (new THREE.BoxGeometry (200, 10, 200, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalleGirada}));
+    this.groundCalle3.position.set(250, 0, 0);
+    this.groundCalle3.receiveShadow = true;
+    this.groundCalle3.autoUpdateMatrix = false;
+    this.ground.add (this.groundCalle3);
+
+    //Calle Superior
+
+    this.groundCalle4 = new THREE.Mesh (new THREE.BoxGeometry (200, 10, 200, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalleGirada}));
+    this.groundCalle4.position.set(-250, 0, 0);
+    this.groundCalle4.receiveShadow = true;
+    this.groundCalle4.autoUpdateMatrix = false;
+     this.ground.add (this.groundCalle4);
+
     this.ground.applyMatrix (new THREE.Matrix4().makeTranslation (0,-0.1,0));
     this.ground.receiveShadow = true;
     this.ground.autoUpdateMatrix = false;
@@ -70,7 +100,7 @@ class Ground extends THREE.Object3D {
   getPointOnGround (event) {
     var mouse = this.getMouse (event);
     this.raycaster.setFromCamera (mouse, scene.getCamera());
-    var surfaces = [this.ground];
+    var surfaces = [this.ground,this.calle1,this.groundCalle2,this.groundCalle3,this.groundCalle4];
     var pickedObjects = this.raycaster.intersectObjects (surfaces);
     if (pickedObjects.length > 0) {
       return new THREE.Vector2 (pickedObjects[0].point.x, pickedObjects[0].point.z);
@@ -78,21 +108,7 @@ class Ground extends THREE.Object3D {
       return null;
   }
   
-  /// It computes the height of the boxes so that some can be stacked on the others
-  /**
-   * @param k - From which box must be calculated
-   */
-  updateHeightBarricade (k) {
-    for (var i = k; i < this.barricades.children.length; i++) {
-      this.barricades.children[i].position.y = 0;
-      for (var j = 0; j < i; j++) {
-        if (this.intersectBarricade (this.barricades.children[j], this.barricades.children[i])) {
-          this.barricades.children[i].position.y = this.barricades.children[j].position.y + 
-            this.barricades.children[j].geometry.parameters.height;
-        }
-      }
-    }
-  }
+
   
   /// It adds a new box on the ground
   /**
@@ -107,55 +123,17 @@ class Ground extends THREE.Object3D {
     var pointOnGround = this.getPointOnGround (event);
     if (pointOnGround !== null) {
       if (action === TheScene.NEW_BOX) {
-      /*
-        this.box = new THREE.Mesh (
-          new THREE.BoxGeometry (this.boxSize, this.boxSize, this.boxSize), 
-          new THREE.MeshPhongMaterial ({color: Math.floor (Math.random()*16777215)}));
-        */
-                this.box = new Barricade();
-
-        //this.box.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, 10, 0));
+        this.box = new Barricade();
         this.box.position.x = pointOnGround.x;
         this.box.position.y = 0;
         this.box.position.z = pointOnGround.y;
         this.box.receiveShadow = true;
         this.box.castShadow = true;
         this.barricades.add (this.box);
-        this.updateHeightBarricade(this.barricades.children.length-1); 
       }else if(action == TheScene.ROTATE_BOX) {
         if (this.box !== null) {
-          // Chrome and other use wheelDelta, Firefox uses detail
           this.box.rotation.y += (event.wheelDelta ? event.wheelDelta/20 : -event.detail);
         }
-      }
-    }
-  }
-
-  /// It removes a box on the ground
-  /**
-   * @param event - Mouse information
-   * @param action - Which action is going to be processed: start adding or finish.
-   */
-  removeBarricade (event, action) {
-    if (action === TheScene.END_ACTION && this.box !== null) {
-      this.box = null;
-      return;
-    }
-    
-    var pointOnGround = this.getPointOnGround (event);
-    if (pointOnGround !== null) {
-      if (action === TheScene.NEW_BOX) {
-        this.box = new THREE.Mesh (
-          new THREE.BoxGeometry (this.boxSize, this.boxSize, this.boxSize), 
-          new THREE.MeshPhongMaterial ({color: Math.floor (Math.random()*16777215)}));
-        this.box.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, this.boxSize/2, 0));
-        this.box.position.x = pointOnGround.x;
-        this.box.position.y = 0;
-        this.box.position.z = pointOnGround.y;
-        this.box.receiveShadow = true;
-        this.box.castShadow = true;
-        this.barricades.add (this.box);
-        this.updateHeightBarricade(this.barricades.children.length-1);
       }
     }
   }
@@ -182,26 +160,10 @@ class Ground extends THREE.Object3D {
           if (this.box !== null) {
             this.box.position.x = pointOnGround.x;
             this.box.position.z = pointOnGround.y;
-            this.updateHeightBarricade(this.barricades.children.length-1);
           }
         }
         break;
-        
-      case TheScene.SELECT_BOX :
-        var mouse = this.getMouse (event);
-        this.raycaster.setFromCamera (mouse, scene.getCamera());
-        var pickedObjects = this.raycaster.intersectObjects (this.barricades.children);
-        if (pickedObjects.length > 0) {
-          this.box = pickedObjects[0].object;
-          this.box.material.transparent = true;
-          this.box.material.opacity = 0.5;
-          var indexOfBox = this.barricades.children.indexOf (this.box);
-          this.barricades.remove (this.box);
-          this.barricades.add (this.box);
-          this.updateHeightBarricade(indexOfBox);
-        }
-        break;
-        
+          
       case TheScene.ROTATE_BOX :
         if (this.box !== null) {
           // Chrome and other use wheelDelta, Firefox uses detail
@@ -211,42 +173,7 @@ class Ground extends THREE.Object3D {
     }
   }
   
-  /// The crane can take a box
-  /**
-   * @param position The position where the crane's hook is
-   * @return The box to be taken, or null
-   */
-  takeBarricade (position) {
-    if (this.barricades.children.length === 0) // There are no boxes
-      return null;
-    var minDistance = position.distanceToSquared (this.barricades.children[0].position);
-    var nearestBox = 0;
-    var distance = 0;
-    for (var i = 1; i < this.barricades.children.length; i++) {
-      distance = position.distanceToSquared (this.barricades.children[i].position);
-      if (distance < minDistance) {
-        minDistance = distance;
-        nearestBox = i;
-      }
-    }
-    if (minDistance < this.boxSize*this.boxSize) {
-      var boxCrane = this.barricades.children[nearestBox];
-      this.barricades.remove (boxCrane);
-      this.updateHeightBarricade(nearestBox);
-      return boxCrane;
-    }
-    return null;
-  }
-  
-  /// The crane has dropped a box
-  /**
-   * @param aBox - The dropped box
-   */
-  dropBarricade (aBox) {
-    this.barricades.add (aBox);
-    this.updateHeightBarricade(this.barricades.children.length-1);
-  }
-  
+ 
 
 
   
