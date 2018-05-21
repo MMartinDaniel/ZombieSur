@@ -8,17 +8,41 @@ class Building extends THREE.Object3D {
     this.modelo = null;
 
     this.todo = new THREE.Mesh();
-    this.modelo = this.crearEdificios();
+    this.modelo = this.crearEdificios(parameters);
     this.todo.add(this.modelo);
 
     this.add (this.todo);
     
   }
 
-  crearEdificios(){
+  crearEdificios(p){
+    var objTexture = new THREE.ImageUtils.loadTexture('models/edificios/Street_Lamp_DM.png');
+
     var modelko = new THREE.Object3D();
+        var modelko = new THREE.Object3D();
+        var loader = new THREE.OBJLoader();
+        this.distance = 200;
+        this.damage = 20;
+        this.reload_time = 40;
+        loader.load('models/edificios/Street_Lamp.obj',
+        function(obj){
+              obj.traverse( function ( child ) {
 
+            if ( child instanceof THREE.Mesh ) {
 
+            child.material.map = objTexture;
+            }
+
+            } );
+        obj.position.x += p.x;
+        obj.rotation.y = p.y;
+        obj.position.z += p.z;
+        obj.scale.set(1,1,1);
+        modelko.add(obj);
+        
+        });
+
+/*
     var mtlLoader = new THREE.MTLLoader();
 
     mtlLoader.setBaseUrl( 'models/edificios/Big_Old_House/' );
@@ -469,7 +493,7 @@ class Building extends THREE.Object3D {
 
     });
 
-
+*/
 
       return modelko;
     }
