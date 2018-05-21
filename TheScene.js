@@ -273,6 +273,7 @@ class TheScene extends THREE.Scene {
       this.zombies[i] = this.zombi;
       this.model.add(this.zombies[i]);
     }
+
   }
 
   // Public methods
@@ -296,7 +297,6 @@ class TheScene extends THREE.Scene {
     this.character.setPiernas(controls.footRotation);
 
    
-
     if(this.character.shooting ){
       this.character.gun.bullet.translateY(-20);
          for (var i = 0; i <= this.zombies.length-1; i++) {
@@ -319,7 +319,27 @@ class TheScene extends THREE.Scene {
     if(this.character.attacked){this.dmg_recoil--;}
     this.recoil++;
 
+ 
     TWEEN.update();
+   this.update();
+  }
+
+
+  update(){
+    //   this.updateMatrixWorld(true);
+        var originPoint =  this.character.position.clone();
+        for (var vertexIndex = 0; vertexIndex < this.character.cuerpo.geometry.vertices.length; vertexIndex++)
+        {   
+          var localVertex = this.character.cuerpo.geometry.vertices[vertexIndex].clone();
+          var globalVertex = localVertex.applyMatrix4( this.character.matrix );
+          var directionVector = globalVertex.sub( this.character.position );
+          
+          var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
+          var collisionResults = ray.intersectObjects( this.ground.barricades_array );
+
+          if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ) 
+            console.log("hit");
+        }
 
   }
 
@@ -378,6 +398,7 @@ checkWaveSpawn(){
               if(this.zombi.pasos==0 || this.zombi.pasos>25){
                 this.zombi.lookAt(this.character.position);
                 this.zombi.translateZ(0.5);
+                //this.zombi.position.set(0,5,0);
                 this.zombi.pasos = 0;
               } 
               else{
@@ -549,6 +570,16 @@ checkDrop(){
               this.character.translateZ(2);
           }else{
 
+
+  /*  
+       var position_character = new THREE.Vector3();
+        var position_drop = new THREE.Vector3();
+        position_character.setFromMatrixPosition( this.character.matrixWorld );
+*/
+        this.character.translateZ(5);
+    
+
+            /*
             if(this.character.position.x < 150) {
                if(this.character.position.x + 10 < 150) this.character.translateZ(10);
                else{
@@ -557,6 +588,7 @@ checkDrop(){
                       this.character.translateZ(10);   
                }
             }
+            */
             /*
             if(this.character.position.z > 150) { 
               this.character.translateZ(5);

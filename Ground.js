@@ -23,6 +23,7 @@ class Ground extends THREE.Object3D {
 
     this.raycaster = new THREE.Raycaster ();  // To select boxes
     this.barricades = new THREE.Object3D();
+    this.barricades_array = [];
     this.add(this.barricades);
 
     this.ground = new THREE.Mesh (new THREE.BoxGeometry (this.width, 10, this.deep, 1, 1, 1),this.material);
@@ -130,6 +131,7 @@ class Ground extends THREE.Object3D {
         this.box.receiveShadow = true;
         this.box.castShadow = true;
         this.barricades.add (this.box);
+        this.barricades_array.push(this.box);
       }else if(action == TheScene.ROTATE_BOX) {
         if (this.box !== null) {
           this.box.rotation.y += (event.wheelDelta ? event.wheelDelta/20 : -event.detail);

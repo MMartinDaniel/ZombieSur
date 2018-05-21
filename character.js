@@ -157,12 +157,12 @@ class Character extends THREE.Object3D {
         new THREE.MeshLambertMaterial ( { map: texture4 } ),
         new THREE.MeshLambertMaterial ( { map: texture5 } )
     ];
-  
+ 
 
-    var bodyMaterial = new THREE.MeshFaceMaterial( materials );
-    this.materialBody = bodyMaterial;
 
-    var base = new THREE.Mesh (new THREE.BoxGeometry (8, 12, 4, 16, 8), bodyMaterial);
+    this.materialBody = materials;
+
+    var base = new THREE.Mesh (new THREE.BoxGeometry (8, 12, 4, 6,6,6), materials);
     base.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0,10, 0));
     
     this.cabeza = this.createHead();
