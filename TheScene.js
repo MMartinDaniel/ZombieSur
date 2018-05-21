@@ -159,7 +159,8 @@ class TheScene extends THREE.Scene {
     model.add(this.edificio);
     this.edificio = new Building({type:'1',x:-130,y: (45*Math.PI/180),z:130});
      model.add(this.edificio);
-
+    this.edificios = new Building({type:'2',x:-130,y: (45*Math.PI/180),z:130});
+     model.add(this.edificios);
 
      //Generar
 
@@ -205,7 +206,6 @@ class TheScene extends THREE.Scene {
     var shadowCameraHelper = new THREE.CameraHelper( this.farola1.shadow.camera );
  //    model.add( shadowCameraHelper );
 
-    model.add(this.edificio);
 
 
 
@@ -321,7 +321,7 @@ class TheScene extends THREE.Scene {
 
  
     TWEEN.update();
-   this.update();
+   //this.update();
   }
 
 
