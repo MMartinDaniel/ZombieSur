@@ -324,6 +324,7 @@ checkWaveSpawn(){
                this.dmg_recoil = 80;
                this.character.isDamaged();
                this.character.attacked = true;
+
            }
 
           }
@@ -337,20 +338,14 @@ checkWaveSpawn(){
     var position_bullet = new THREE.Vector3();
     var position_zombi = new THREE.Vector3();
     position_bullet.setFromMatrixPosition( this.character.gun.bullet.matrixWorld );
-   // if(this.zombies.length != 0){
-     // for (var i = 0; i <= this.zombies.length-1; i++) {
-        if(/* this.zombi != null || */ this.zombi.alive){
+
+        if( this.zombi.alive){
           position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );
           if(position_bullet.x < (position_zombi.x+10) && position_bullet.x > (position_zombi.x-10)){
             if(position_bullet.z < (position_zombi.z+10) && position_bullet.z > (position_zombi.z-10)){
-           /*   if(this.zombies[i].hit({dmg: this.character.gun.damage})){  
-                this.drop({id:i,pos: position_zombi});
-                this.current_zombies--; this.model.remove(this.zombies[i]); this.zombies.splice(i,1);*/ 
               if(this.zombi.hit({dmg: this.character.gun.damage})){ 
                 this.drop();
                 this.zombi.death_start(); 
-               // this.current_zombies--; 
-                //this.zombi.splice(i,1); 
                 this.c_dead_z++;
     
               };
@@ -364,7 +359,6 @@ checkWaveSpawn(){
   }
 
 drop(para){
-  //var valor = Math.floor(Math.random() * 10)+1;     // 1 - 10
   var valor = Math.floor(Math.random() *10)+1;
   var position_zombi = new THREE.Vector3();
   position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );

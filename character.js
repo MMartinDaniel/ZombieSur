@@ -42,6 +42,7 @@ class Character extends THREE.Object3D {
     this.guns = [];
     this.todo = new THREE.Mesh();
     this.attacked = false;
+    this.die_form = false;
 
     this.angle = 0;   //Angulo cabeza
     this.bodyAngle = 0;   //cuerpod
@@ -69,6 +70,7 @@ class Character extends THREE.Object3D {
         this.pieD = this.createFoot({w:2,ww: 5});
         this.pieI = this.createFoot({w:-2,ww: -5});
 
+        this.die_form = this.createBlood();
 
        // this.todo.add(this.brazoD);
         //this.todo.add(this.brazoI);
@@ -466,6 +468,18 @@ shoot_stop(){
       this.pieD.material = mat;
       this.brazoD.material = mat;
       this.brazoI.material = mat;
+      this.vida -= 10; 
+      document.getElementById("lost").style.width = '10' + '%';
+      document.getElementById("lost").style.left = this.vida +'%';
+      document.getElementById("lost").classList.add("animated");
+      document.getElementById("health").classList.add("animated_health");
+      document.getElementById("health").style.width = this.vida + '%';
+      var color = '82ff00';
+       if(this.vida <= 50){color = 'ffff00';}
+      document.getElementById("health").style.background = '#' + color;
+      if(this.vida <= 0){
+        this.die();
+      }
   }
   recover(){
       this.cabeza.material = this.materialCab;
@@ -477,9 +491,26 @@ shoot_stop(){
   }
   die(){
    
-
+      this.cuerpo.add(this.die_form);
       this.todo.rotation.x = this.toRad(270);
       this.brazoD.rotation.x = this.toRad(-40);
       this.brazoI.rotation.x = this.toRad(-40);
   }
+
+  createBlood(){
+     var textureLoader = new THREE.TextureLoader();   
+      //Cara izq
+      var alphaTest = textureLoader.load( 'UI/blood.png' );    
+      var material = new THREE.MeshBasicMaterial({ transparent: true, side: THREE.DoubleSide, opacity:1, map : alphaTest});
+      var materials = [material];
+      var bloodMat = new THREE.MeshFaceMaterial( materials );
+      var blood = new THREE.Mesh (new THREE.BoxGeometry (5, 80,80, 16, 8), bloodMat);
+        blood.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, 10, 0));
+        blood.rotation.y -= 90 * (Math.PI / 180);
+        blood.position.z = -1;
+        blood.autoUpdateMatrix = false;   
+      return blood;
+
+  }
+
 }
