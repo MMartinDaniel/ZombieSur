@@ -158,7 +158,17 @@ class TheScene extends THREE.Scene {
     this.edificio = new Building({type:'1',x:-130,y: (-45*Math.PI/180),z:-130});
     model.add(this.edificio);
     this.edificio = new Building({type:'1',x:-130,y: (45*Math.PI/180),z:130});
-    model.add(this.edificio);
+     model.add(this.edificio);
+
+
+     //Generar
+
+
+
+
+
+
+
 
     this.farola1 = new THREE.SpotLight( 0xFFC58F,1 );
     this.farola1.penumbra = 0.30;
