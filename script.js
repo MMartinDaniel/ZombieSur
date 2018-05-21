@@ -28,7 +28,7 @@ function createGUI (withStats) {
   GUIcontrols = new function() {
     this.axis = true;
     this.lightIntensity = 0.5;
-    this.addedLightIntensity = true;
+    this.addedLightIntensity = 0.2;
     this.rotation = 0;
     this.distance = 0;
     this.height   = 1;
