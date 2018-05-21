@@ -86,20 +86,13 @@ class Zombi extends THREE.Object3D {
 
   createBlood(){
      var textureLoader = new THREE.TextureLoader();   
-      //Cara izq
-      var alphaTest = textureLoader.load( 'UI/blood.png' );
-
-       var geometry = new THREE.BoxGeometry(20, 20, 20);
-    
-  var material = new THREE.MeshBasicMaterial({ transparent: true, side: THREE.DoubleSide, opacity:1, map : alphaTest});
-
-
+      var alphaTest = textureLoader.load( 'UI/blood.png' );  
+      var material = new THREE.MeshBasicMaterial({ transparent: true, side: THREE.DoubleSide, opacity:1, map : alphaTest});
       var materials = [material];
-
       var bloodMat = new THREE.MeshFaceMaterial( materials );
 
-      var blood = new THREE.Mesh (new THREE.BoxGeometry (5, 40,40, 16, 8), bloodMat);
-        blood.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, -5, 0));
+      var blood = new THREE.Mesh (new THREE.BoxGeometry (5, 70,70, 16, 8), bloodMat);
+        blood.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, -15, 0));
         blood.rotation.y -= 90 * (Math.PI / 180);
         blood.position.z = -1;
 
