@@ -34,6 +34,14 @@ function createGUI (withStats) {
     this.height   = 1;
     this.footRotation = 0;
     this.takeBox  = false;
+    
+    this.addBarricade  = function () {
+      applicationMode = TheScene.ADDING_BOXES;
+    };
+    this.moveBarricade  = function () {
+      applicationMode = TheScene.MOVING_BOXES;
+    };
+
   }
  
 
@@ -43,6 +51,9 @@ function createGUI (withStats) {
     axisLights.add(GUIcontrols, 'axis').name('Axis on/off :');
     axisLights.add(GUIcontrols, 'addedLightIntensity').name('Second Light intensity :');
 
+var actions = gui.addFolder ('Actions');
+    var addingBoxes = actions.add(GUIcontrols, 'addBarricade').name (': Adding boxes :');
+    var movingBoxes = actions.add (GUIcontrols, 'moveBarricade').name (': Move and rotate boxes :');
 
   
   var r2d2Controls = gui.addFolder ('r2d2 Controls');
@@ -98,17 +109,17 @@ function onMouseDown (event) {
       mouseDown = true;
       switch (applicationMode) {
         case TheScene.ADDING_BOXES :
-          scene.addBox (event, TheScene.NEW_BOX);
+          scene.addBarricade (event, TheScene.NEW_BOX);
           break;
         case TheScene.MOVING_BOXES :
-          scene.moveBox (event, TheScene.SELECT_BOX);
+          scene.moveBarricade (event, TheScene.SELECT_BOX);
           break;
         default :
           applicationMode = TheScene.NO_ACTION;
           break;
       }
     } else {
-      setMessage ("");
+   //   setMessage ("");
       applicationMode = TheScene.NO_ACTION;
     }
   }
@@ -123,7 +134,7 @@ function onMouseMove (event) {
     switch (applicationMode) {
       case TheScene.ADDING_BOXES :
       case TheScene.MOVING_BOXES :
-        scene.moveBox (event, TheScene.MOVE_BOX);
+        scene.moveBarricade (event, TheScene.MOVE_BOX);
         break;
       default :
         applicationMode = TheScene.NO_ACTION;
@@ -140,10 +151,10 @@ function onMouseUp (event) {
   if (mouseDown) {
     switch (applicationMode) {
       case TheScene.ADDING_BOXES :
-        scene.addBox (event, TheScene.END_ACTION);
+        scene.addBarricade (event, TheScene.END_ACTION);
         break;
       case TheScene.MOVING_BOXES :
-        scene.moveBox (event, TheScene.END_ACTION);
+        scene.moveBarricade (event, TheScene.END_ACTION);
         break;
       default :
         applicationMode = TheScene.NO_ACTION;
@@ -166,10 +177,10 @@ function onMouseWheel (event) {
     if (mouseDown) {
       switch (applicationMode) {
         case TheScene.MOVING_BOXES :
-          scene.moveBox (event, TheScene.ROTATE_BOX);
+          scene.moveBarricade (event, TheScene.ROTATE_BOX);
           break;
         case TheScene.ADDING_BOXES :
-          scene.addBox(event, TheScene.ROTATE_BOX);
+          scene.addBarricade(event, TheScene.ROTATE_BOX);
           break;
       }
     }
