@@ -226,8 +226,8 @@ class TheScene extends THREE.Scene {
 
     var shadowCameraHelper = new THREE.CameraHelper( this.farola1.shadow.camera );
  //    model.add( shadowCameraHelper );
-  this.barricade = new Barricade();
-  model.add(this.barricade);
+  //this.barricade = new Barricade();
+ // model.add(this.barricade);
 
     model.add(this.edificio);
 
@@ -572,7 +572,25 @@ checkDrop(){
          if(this.character.aimpos){
               this.character.translateZ(2);
           }else{
-            this.character.translateZ(10);
+
+            if(this.character.position.x < 150) {
+               if(this.character.position.x + 10 < 150) this.character.translateZ(10);
+               else{
+                      var axis = new THREE.Vector3(0,1,0);
+                      this.character.rotateOnAxis(axis, 3);
+                      this.character.translateZ(10);   
+               }
+            }
+            /*
+            if(this.character.position.z > 150) { 
+              this.character.translateZ(5);
+            }
+            else if(this.character.position.z + 10 < 10) this.character.translateZ(10);
+
+            */
+            
+
+
           }
           if(!this.character.walking){
             this.character.walk_start();
