@@ -132,7 +132,7 @@ class Zombi extends THREE.Object3D {
       ];
       var bodyMaterial = new THREE.MeshFaceMaterial( materials );
 
-        var base = new THREE.Mesh (new THREE.BoxGeometry (8, 12, 4, 16, 8), bodyMaterial);
+        var base = new THREE.Mesh (new THREE.BoxGeometry (8, 12, 4, 6, 6,6), bodyMaterial);
         base.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0,-15, 0));
         base.position.y = 25;
         this.cabeza = this.createHead();
