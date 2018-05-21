@@ -365,31 +365,51 @@ checkWaveSpawn(){
             if(this.zombi.attacking){this.zombi.hit_stop();};
             if(!this.zombi.walking){this.zombi.walk_start();};
 
-            //Para que los zombis no pisen la zona negra inferior IZQUIERDA
+
+
+
+
+         //Para que los zombis no pisen la zona negra inferior IZQUIERDA
             if(this.zombi.position.x > 150 && ( this.zombi.position.z > 100 || this.zombi.position.z < -100 ) ){    
               this.zombi.lookAt(new THREE.Vector3(0,0,0));
-              this.zombi.translateZ(0.5);   
+              this.zombi.translateZ(0.5);                   this.zombi.pasos++;
+
             }
             //Para que los zombis no pisen la zona negra inferior IZQUIERDA     
             else if(this.zombi.position.x < -150 && ( this.zombi.position.z > 100 || this.zombi.position.z < -100 ) ){    
               this.zombi.lookAt(new THREE.Vector3(0,0,0));
-              this.zombi.translateZ(0.5);   
+              this.zombi.translateZ(0.5);                   this.zombi.pasos++;
+
             }
               //Para que los zombis no pisen la zona negra inferior IZQUIERDA     
             else if(this.zombi.position.z > 150 && ( this.zombi.position.x > 100 || this.zombi.position.x < -100 ) ){    
               this.zombi.lookAt(new THREE.Vector3(0,0,0));
-              this.zombi.translateZ(0.5);   
+              this.zombi.translateZ(0.5);                 this.zombi.pasos++;
+  
             }
             
            //Para que los zombis no pisen la zona negra inferior derecha               
-            else if(this.zombi.position.z < -150 && ( this.zombi.position.x > 100 || this.zombi.position.x < -100 ) ){    
-              this.zombi.lookAt(new THREE.Vector3(0,0,0));
-              this.zombi.translateZ(0.5);   
+            else if(this.zombi.position.z < -150 && ( this.zombi.position.x > 100 || this.zombi.position.x < -100 ) ){                
+                this.zombi.lookAt(new THREE.Vector3(0,0,0));
+                this.zombi.translateZ(0.5);
+                this.zombi.pasos++;
             }
-                  
-            else {
-              this.zombi.translateZ(0.5); 
-              this.zombi.lookAt(this.character.position);
+               
+
+            //Para que el zombi no se atasque mirando al jugador y luego al centro muchas veces sucesivas
+            //Dejamos un margen(pasos) para que vaya al centro y se reposicione y luego mire al player
+            else  {
+              if(this.zombi.pasos==0 || this.zombi.pasos>25){
+                this.zombi.lookAt(this.character.position);
+                this.zombi.translateZ(0.5);
+                this.zombi.pasos = 0;
+              } 
+              else{
+
+                this.zombi.translateZ(0.5);
+                this.zombi.pasos++;        
+              }
+
             }
 
 
