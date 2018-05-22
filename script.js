@@ -222,9 +222,13 @@ function onKeyDown(){
 
   if(event.key == 'w' || event.key == 'W' || event.key == "ArrowUp" ){
     scene.makeMove({move:'up'});
-  } else if( event.key == 'a' || event.key == 'A' || event.key == "ArrowLeft" ){
+  }else if( event.key == 'a' || event.key == 'A' || event.key == "ArrowLeft" ){
     scene.makeMove({move:'left'}); 
 
+  }else if( event.key == 'q' || event.key == '  Q' ){
+    scene.rotateCamera({side:'izq'}); 
+  }else if( event.key == 'e' || event.key == '  E' ){
+    scene.rotateCamera({side:'der'}); 
   }else if( event.key == 's' || event.key == 'S' || event.key == "ArrowDown"){
    scene.makeMove({move:'down'}); 
   }else if( event.key == 'd' || event.key == 'D' || event.key == "ArrowRight"){
@@ -304,7 +308,8 @@ $(function () {
  // window.addEventListener('keyup', onKeyUp,false);
   // create a scene, that will hold all our elements such as objects, cameras and lights.
   scene = new TheScene (renderer.domElement);
- 
+  scene.background = new THREE.Color(0x00000);
+  scene.fog = new THREE.FogExp2( 0x000000, 0.00104 );
   createGUI(true);
 
   render();

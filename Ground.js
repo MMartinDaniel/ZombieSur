@@ -29,15 +29,15 @@ class Ground extends THREE.Object3D {
     this.ground = new THREE.Mesh (new THREE.BoxGeometry (this.width, 10, this.deep, 1, 1, 1),this.material);
     var loader2 = new THREE.TextureLoader();
     var texturaCalle = loader2.load ("imgs/street.jpg");
-    this.calle1 = new THREE.Mesh (new THREE.BoxGeometry (200, 10, 200, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalle}));
-    this.calle1.position.set(0, 0, 250);
+    this.calle1 = new THREE.Mesh (new THREE.BoxGeometry (200, 10, 600, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalle}));
+    this.calle1.position.set(0, 0, 450);
     this.calle1.receiveShadow = true;
     this.calle1.autoUpdateMatrix = false;
     this.ground.add(this.calle1);
 
       //Calle der
-    this.groundCalle2 = new THREE.Mesh (new THREE.BoxGeometry (200, 10, 200, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalle}));
-    this.groundCalle2.position.set(0, 0, -250);
+    this.groundCalle2 = new THREE.Mesh (new THREE.BoxGeometry (200, 10, 600, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalle}));
+    this.groundCalle2.position.set(0, 0, -450);
     this.groundCalle2.receiveShadow = true;
     this.groundCalle2.autoUpdateMatrix = false;
     this.ground.add (this.groundCalle2);
@@ -45,16 +45,16 @@ class Ground extends THREE.Object3D {
     var loader3 = new THREE.TextureLoader();
     var texturaCalleGirada = loader3.load ("imgs/street2.jpg");
 
-    this.groundCalle3 = new THREE.Mesh (new THREE.BoxGeometry (200, 10, 200, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalleGirada}));
-    this.groundCalle3.position.set(250, 0, 0);
+    this.groundCalle3 = new THREE.Mesh (new THREE.BoxGeometry (600, 10, 200, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalleGirada}));
+    this.groundCalle3.position.set(450, 0, 0);
     this.groundCalle3.receiveShadow = true;
     this.groundCalle3.autoUpdateMatrix = false;
     this.ground.add (this.groundCalle3);
 
     //Calle Superior
 
-    this.groundCalle4 = new THREE.Mesh (new THREE.BoxGeometry (200, 10, 200, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalleGirada}));
-    this.groundCalle4.position.set(-250, 0, 0);
+    this.groundCalle4 = new THREE.Mesh (new THREE.BoxGeometry (600, 10, 200, 1, 1, 1),new THREE.MeshPhongMaterial ({map: texturaCalleGirada}));
+    this.groundCalle4.position.set(-450, 0, 0);
     this.groundCalle4.receiveShadow = true;
     this.groundCalle4.autoUpdateMatrix = false;
      this.ground.add (this.groundCalle4);
