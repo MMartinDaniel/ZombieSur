@@ -6,10 +6,12 @@ class Building extends THREE.Object3D {
     this.type = parameters.type;
   
     this.modelo = null;
-
+    this.edificios = [];
     this.todo = new THREE.Mesh();
     this.modelo = this.crearEdificios(parameters);
     this.todo.add(this.modelo);
+
+
 
     this.add (this.todo);
     
@@ -80,127 +82,129 @@ class Building extends THREE.Object3D {
       //EDIF Lado Izq
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150), materials_t4);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 65, -225));
-      modelko.add( building );
+      modelko.add( building ); 
+      this.edificios.push(building);
 
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50), materials_t4);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (225, 65, -125));
-      modelko.add( building );  
+      modelko.add( building );
+      this.edificios.push(building);
       //Fin Edificio lado Iqz
      
       //EDIF Lado der
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150), materials_t2);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 65, 225));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
 
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50), materials_t2);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-225, 65, 125));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
       //Fin Edificio lado Der
 
       //EDIF Lado Arriba
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150), materials_t1);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 65,-225));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
 
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50), materials_t1);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-225, 65, -125));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
       //Fin Edificio lado Arriba
 
       //EDIF Lado Abajo
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150), materials_t6);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 65, 225));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
 
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50), materials_t6);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (225, 65, 125));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
       //Fin Edificio lado Abajo
 
 
       //EDIF Lado Izq 2
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150), materials_t6);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 35, -375));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Izq 2
      //EDIF Lado der 2
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150), materials_t4);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 35, -375));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio der 2
       //EDIF Lado Abajo 2
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150), materials_t8);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 35, 375));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Abajo 2
      //EDIF Lado der 3
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150), materials_t7);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 35, 375));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio Arriba  3
 
 
       //EDIF Lado Izq 3
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200), materials_t2);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-375, 35, -200));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Izq 3
      //EDIF Lado der 3
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200), materials_t5);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (375, 35, -200));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio der 3
       //EDIF Lado Abajo 3
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200), materials_t6);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (375, 35, 200));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Abajo 3
      //EDIF Lado der 3
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200), materials_t1);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-375, 35, 200));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio Arriba  3
 
       //EDIF Lado Izq 4
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200), materials_t1);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-525, 150, -200));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Izq 4
      //EDIF Lado der 4
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200), materials_t3);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (525, 150, -200));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio der 4
       //EDIF Lado Abajo 4
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200), materials_t7);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (525, 150, 200));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Abajo 4
      //EDIF Lado der 4
       var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200), materials_t6);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-525, 150, 200));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio Arriba  4
 
     //EDIF Lado Izq 5
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150), materials_t3);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 150, -525));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Izq 5
      //EDIF Lado der 5
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150), materials_t2);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 150, -525));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio der 5
       //EDIF Lado Abajo 5
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150), materials_t7);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 150, 525));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Abajo 5
      //EDIF Lado der 5
       var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150), materials_t8);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 150, 525));
-      modelko.add( building );
+      modelko.add( building );this.edificios.push(building);
      //Fin Edificio Arriba  5
 
       //EDIF Lado Izq 5

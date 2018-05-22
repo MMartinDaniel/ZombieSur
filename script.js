@@ -41,12 +41,13 @@ function createGUI (withStats) {
     this.moveBarricade  = function () {
       applicationMode = TheScene.MOVING_BOXES;
     };
-
+   
   }
  
 
 
   var gui = new dat.GUI();
+
   var axisLights = gui.addFolder ('Axis and Lights');
     axisLights.add(GUIcontrols, 'axis').name('Axis on/off :');
     axisLights.add(GUIcontrols, 'addedLightIntensity').name('Second Light intensity :');
@@ -311,6 +312,6 @@ $(function () {
   scene.background = new THREE.Color(0x00000);
   scene.fog = new THREE.FogExp2( 0x000000, 0.00104 );
   createGUI(true);
-
+  dat.GUI.toggleHide();
   render();
 });

@@ -26,8 +26,6 @@ class Gun extends THREE.Object3D {
     
   }
 
-
-
   crearArma(){
 
     var modelko = new THREE.Object3D();
