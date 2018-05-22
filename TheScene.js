@@ -36,6 +36,7 @@ class TheScene extends THREE.Scene {
     this.listener = new THREE.AudioListener();
     this.sound = new THREE.Audio(this.listener);
     this.dmg_recoil = 0;
+    this.n_camrot = 0;
 
     this.createLights ();
   
@@ -62,7 +63,7 @@ class TheScene extends THREE.Scene {
   createCamera (renderer) {
   
   this.cameraOut = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-   this.cameraOut.position.set (240, 240, 240);
+   this.cameraOut.position.set (288, 466, 298);
     var look2 = new THREE.Vector3 (0,0,0);
     this.cameraOut.lookAt(look2);
   
@@ -90,8 +91,8 @@ class TheScene extends THREE.Scene {
   /// It creates lights and adds them to the graph
   createLights () {
     // add subtle ambient lighting
-   // this.ambientLight = new THREE.AmbientLight(0xccddee, 0.5);
-  //  this.add (this.ambientLight);
+  // this.ambientLight = new THREE.AmbientLight(0xccddee, 0.5);
+  // this.add (this.ambientLight);
 
     // add spotlight for the shadows
     this.spotLight = new THREE.SpotLight( 0xffffff,0.5 );
@@ -151,28 +152,20 @@ class TheScene extends THREE.Scene {
     this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 30);
     model.add (this.ground);
 
-    this.edificio = new Building({type:'1',x:130,y: (-135*Math.PI/180),z:-130});
-    model.add(this.edificio);
-    this.edificio = new Building({type:'1',x:130,y: (135*Math.PI/180),z:130});
-    model.add(this.edificio);
-    this.edificio = new Building({type:'1',x:-130,y: (-45*Math.PI/180),z:-130});
-    model.add(this.edificio);
-    this.edificio = new Building({type:'1',x:-130,y: (45*Math.PI/180),z:130});
-     model.add(this.edificio);
+    this.faro1 = new Building({type:'1',x:130,y: (-135*Math.PI/180),z:-130});
+    model.add(this.faro1);
+    this.faro2 = new Building({type:'1',x:130,y: (135*Math.PI/180),z:130});
+    model.add(this.faro2);
+    this.faro3 = new Building({type:'1',x:-130,y: (-45*Math.PI/180),z:-130});
+    model.add(this.faro3);
+    this.faro4 = new Building({type:'1',x:-130,y: (45*Math.PI/180),z:130});
+     model.add(this.faro4);
     this.edificios = new Building({type:'2',x:-130,y: (45*Math.PI/180),z:130});
      model.add(this.edificios);
 
      //Generar
-
-
-
-
-
-
-
-
     this.farola1 = new THREE.SpotLight( 0xFFC58F,1 );
-    this.farola1.penumbra = 0.30;
+    this.farola1.penumbra = 0.2;
     this.farola1.angle = 1.3 *Math.PI/4;
     this.farola1.castShadow = true;
     // the shadow resolution
@@ -206,10 +199,6 @@ class TheScene extends THREE.Scene {
     var shadowCameraHelper = new THREE.CameraHelper( this.farola1.shadow.camera );
  //    model.add( shadowCameraHelper );
 
-
-
-
-
     var audioLoader = new THREE.AudioLoader();
       audioLoader.load('models/background.mp3', function( buffer ) {
       scene.sound.setBuffer( buffer );
@@ -223,6 +212,46 @@ class TheScene extends THREE.Scene {
 
 
 }
+
+  rotateCamera(s){
+
+    if(this.n_camrot == 2){this.n_camrot = 0;};
+    var c_pos = this.cameraOut.position;
+    var varx = c_pos.x;
+    var varz = c_pos.y;
+
+   switch (s.side) {
+     case 'der':
+        varx = (c_pos.x);
+        varz = -(c_pos.z);
+        if(this.n_camrot == 1){ varx = -varx; varz = -varz;  }
+        this.n_camrot++;
+       break;
+     case 'izq':
+        varx = -c_pos.x;
+        varz = (c_pos.z);
+        if(this.n_camrot == 1){ varx = -varx; varz = -varz;  }
+        this.n_camrot++;
+       break;
+   }
+ 
+   this.tween_camera = new TWEEN.Tween();
+      var position = {x:c_pos.x ,z:c_pos.z};
+
+
+   this.tween_camera = new TWEEN.Tween(position).to({x: varx,z:varz },1000).onUpdate(function(){
+          c_pos.x = position.x;
+          c_pos.z = position.z;
+       
+   });
+
+    //this.cameraOut.position  = c_pos;
+
+
+   this.tween_camera.start();
+
+
+  }
 
   cargarModelo(){
 
@@ -285,7 +314,7 @@ class TheScene extends THREE.Scene {
     this.spotLight.intensity = controls.lightIntensity;
    // console.log(this.zombies.length);
     //this.addedLight.intensity = controls.addedLightIntensity;
-   // this.addedLight.intensity =1;
+   //this.addedLight.intensity =1;
 
     //console.log("muertos: " + this.c_dead_z + "total :" + this.zombies.length);
     
@@ -322,6 +351,7 @@ class TheScene extends THREE.Scene {
  
     TWEEN.update();
    //this.update();
+
   }
 
 
