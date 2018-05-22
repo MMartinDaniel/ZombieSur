@@ -41,8 +41,10 @@ class Character extends THREE.Object3D {
     this.shooting = false;
     this.guns = [];
     this.todo = new THREE.Mesh();
+    this.hitbox = null;
     this.attacked = false;
     this.die_form = false;
+
 
     this.angle = 0;   //Angulo cabeza
     this.bodyAngle = 0;   //cuerpod
@@ -64,7 +66,8 @@ class Character extends THREE.Object3D {
         this.brazoI =  this.createArm({w:-6,ww: -5});;  
         this.cuerpo.add(this.brazoD);
         this.cuerpo.add(this.brazoI); 
-
+        this.hitbox = this.createHitBox();
+        todo.add(this.hitbox);
         todo.add(this.cuerpo);
       
         this.pieD = this.createFoot({w:2,ww: 5});
@@ -93,6 +96,16 @@ class Character extends THREE.Object3D {
 
   }
   
+  createHitBox(){
+      var geometry = new THREE.BoxGeometry( 17, 17, 5,9,9,9 );
+      var material = new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true,opacity:0.5} );
+      var plane = new THREE.Mesh( geometry, material );
+      plane.position.set(0,10,12);
+      plane.autoUpdateMatrix = false;
+
+       return plane;
+  }
+
 
     createAim_anim(){
 

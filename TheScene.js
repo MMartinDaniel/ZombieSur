@@ -318,7 +318,7 @@ class TheScene extends THREE.Scene {
 
     //console.log("muertos: " + this.c_dead_z + "total :" + this.zombies.length);
     
-    this.checkWaveSpawn();
+  //  this.checkWaveSpawn();
 
     if(!this.character.aimpos){
       this.character.setBrazos(controls.rotation);
@@ -349,29 +349,34 @@ class TheScene extends THREE.Scene {
     this.recoil++;
 
  
-    TWEEN.update();
-   //this.update();
+  TWEEN.update();
+  this.colision = this.checkColBarrera();
 
   }
+  checkColBarrera(){
 
+        var originPoint = new THREE.Vector3();
+        originPoint.setFromMatrixPosition( this.character.hitbox.matrixWorld );
+        console.log(originPoint.z);
 
-  update(){
-    //   this.updateMatrixWorld(true);
-        var originPoint =  this.character.position.clone();
-        for (var vertexIndex = 0; vertexIndex < this.character.cuerpo.geometry.vertices.length; vertexIndex++)
+        for (var vertexIndex = 0; vertexIndex < this.character.hitbox.geometry.vertices.length; vertexIndex++)
         {   
-          var localVertex = this.character.cuerpo.geometry.vertices[vertexIndex].clone();
-          var globalVertex = localVertex.applyMatrix4( this.character.matrix );
-          var directionVector = globalVertex.sub( this.character.position );
+          var localVertex = this.character.hitbox.geometry.vertices[vertexIndex].clone();
+          var globalVertex = localVertex.applyMatrix4( this.character.hitbox.matrix );
+          var directionVector = globalVertex.sub( this.character.hitbox.position );
           
           var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
-          var collisionResults = ray.intersectObjects( this.ground.barricades_array );
-
+          var collisionResults = ray.intersectObjects( this.ground.barricades_array,true );
+          var collisionResults_2 = ray.intersectObjects(this.edificios.edificios);
           if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ) 
-            console.log("hit");
+            return true;
+          if ( collisionResults_2.length > 0 && collisionResults_2[0].distance < directionVector.length() ) 
+            return true;
         }
-
+    return false;
   }
+
+
 
 checkWaveSpawn(){
       if(this.c_dead_z == this.zombies.length){
@@ -597,44 +602,16 @@ checkDrop(){
     switch (parameters.move) {
       case 'up':
          if(this.character.aimpos){
-              this.character.translateZ(2);
+           if(!this.colision){this.character.translateZ(2);}else{this.character.translateZ(0);};
           }else{
-
-
-  /*  
-       var position_character = new THREE.Vector3();
-        var position_drop = new THREE.Vector3();
-        position_character.setFromMatrixPosition( this.character.matrixWorld );
-*/
-        this.character.translateZ(5);
-    
-
-            /*
-            if(this.character.position.x < 150) {
-               if(this.character.position.x + 10 < 150) this.character.translateZ(10);
-               else{
-                      var axis = new THREE.Vector3(0,1,0);
-                      this.character.rotateOnAxis(axis, 3);
-                      this.character.translateZ(10);   
-               }
-            }
-            */
-            /*
-            if(this.character.position.z > 150) { 
-              this.character.translateZ(5);
-            }
-            else if(this.character.position.z + 10 < 10) this.character.translateZ(10);
-
-            */
-            
-
-
+          if(!this.colision){this.character.translateZ(5);}else{this.character.translateZ(0);};
           }
           if(!this.character.walking){
             this.character.walk_start();
             this.character.walking = true;
           }
           if(this.drops.length != 0){this.checkDrop();};
+
         break;
       case'down':
           this.character.walk_stop();
