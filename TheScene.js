@@ -11,6 +11,8 @@ class TheScene extends THREE.Scene {
     // Attributes
     
     this.ambientLight = null;
+    this.escopeta_comprada = false;
+    this.m4a4_comprada = false;
     this.spotLight = null;
     this.camera = null;
     this.trackballControls = null;
@@ -371,7 +373,7 @@ nextWave(){
   TWEEN.update();
   this.check++;
   if(this.check %2 == 0){this.colision = this.checkColBarrera();};
-
+            this.checkUI();
   }
   checkColBarrera(){
 
@@ -613,13 +615,15 @@ checkDrop(){
             switch (this.drops[i].type) {
               case '2':
                 this.character.money += this.drops[i].money;
+                this.character.guns[1].magazine_bullets += this.drop[i].bullet_amount;
                 break;
               case '3':
                  this.character.money += this.drops[i].money;
+                  this.character.guns[2].magazine_bullets += this.drop[i].bullet_amount;
                 break;
               case '4':
-                 this.character.money += this.drops[i].money;
-                 document.getElementById("oro").innerHTML = this.character.money + "$";
+                 this.character.money += this.drops[i].money;     
+                 this.checkUI();
               break;
             }
             this.drops[i].reproduceSound();
@@ -632,11 +636,65 @@ checkDrop(){
     }
   }
 
+  checkUI(){
+    if(!this.m4a4_comprada){
+      if(this.character.money >= 200){
+          var doc = document.getElementById("m4a4");
+          doc.className = "effects-overlay-good";
+      }else{
+          var doc = document.getElementById("m4a4");
+          doc.className = "effects-overlay-bad";
+      }
+    }else{
+          var doc = document.getElementById("m4a4");
+          doc.className = "effects-overlay-normal";
+    }
+
+    if(!this.escopeta_comprada){
+      if(this.character.money >= 300){
+          var doc = document.getElementById("escopeta");
+          doc.className = "effects-overlay-good";
+      }else{
+          var doc = document.getElementById("escopeta");
+          doc.className = "effects-overlay-bad";
+      }
+    }else{
+       var doc = document.getElementById("escopeta");
+       doc.className = "effects-overlay-normal";
+    }
+
+    if(this.character.money >= 50){
+        var doc = document.getElementById("barri");
+        doc.className = "effects-overlay-normal";
+    }else{
+       var doc = document.getElementById("barri");
+        doc.className = "effects-overlay-bad";
+    }
+
+    document.getElementById("oro").innerHTML = this.character.money + "$";
+  }
 
 
 
   CambiarArma(para){
+    if(para.selected == 0){
       this.character.swapGun({selected:para.selected});
+    }else if(para.selected == 1 && !this.m4a4_comprada ){
+      if(this.character.money >= 200){
+        this.m4a4_comprada = true; this.character.money -= 200;
+        this.character.swapGun({selected:para.selected});
+      }
+    }else if(para.selected == 1 && this.m4a4_comprada){
+        this.character.swapGun({selected:para.selected});
+    }else if(para.selected == 2 && !this.escopeta_comprada ){
+      if(this.character.money >= 300){
+        this.escopeta_comprada = true; this.character.money -= 300;
+        this.character.swapGun({selected:para.selected});
+
+      }
+    }else if(para.selected == 2 && this.escopeta_comprada){
+        this.character.swapGun({selected:para.selected});
+    }
 
   }
 

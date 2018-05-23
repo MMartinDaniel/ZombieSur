@@ -21,7 +21,7 @@ class Character extends THREE.Object3D {
 
     this.alive = true;
     this.vida = 100;
-    this.money = 0;
+    this.money = 90;
     this.tween_to_walk = new TWEEN.Tween();
     this.tween_from_walk = new TWEEN.Tween();
     this.tween_to_aim_walk = new TWEEN.Tween();

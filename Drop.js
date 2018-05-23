@@ -29,6 +29,7 @@ class Drop extends THREE.Object3D {
     var loader = new THREE.ObjectLoader();
       if(this.type == 2){  
           this.money = 0;
+          this.bullet_amount = 5;
         var textureLoader = new THREE.TextureLoader();
         var texture0 = textureLoader.load( 'models/drop/card3.png' );
         var texture1 = textureLoader.load( 'models/drop/card2.png' );
@@ -56,6 +57,7 @@ class Drop extends THREE.Object3D {
 
       }else if(this.type == 3){
         this.money = 0;
+        this.bullet_amount = 20;
         var textureLoader = new THREE.TextureLoader();
         var texture0 = textureLoader.load( 'models/drop/b1.png' );
         var texture1 = textureLoader.load( 'models/drop/b1.png' );
