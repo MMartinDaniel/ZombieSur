@@ -595,8 +595,6 @@ shoot_stop(){
 
 
       document.getElementById('endContainer').style.visibility = 'visible';
-      document.getElementById('gamepausa').innerHTML = "Has Muerto";
-      document.getElementById('recarg').innerHTML = "Recarga la pagina para volver a jugar";
       document.getElementById('pfinal').innerHTML =  scene.wave_number-2;
 
 
