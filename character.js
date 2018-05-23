@@ -518,7 +518,7 @@ shoot_stop(){
           if(this.gun.type == 1){
             document.getElementById("b"+this.gun.type).innerHTML = '&#x221e';
           }else{
-            document.getElementById("b"+this.gun.type).innerHTML = this.gun.current_bullets;
+            document.getElementById("b"+this.gun.type).innerHTML = this.gun.magazine_bullets;
           }
           
         }
@@ -569,7 +569,9 @@ shoot_stop(){
       document.getElementById("health").style.background = '#' + color;
       if(this.vida <= 0){
         this.die();
+        return true;
       }
+      return false;
   }
   recover(){
       this.cabeza.material = this.materialCab;
@@ -591,10 +593,11 @@ shoot_stop(){
       this.shoot_stop();
 
 
+
       document.getElementById('endContainer').style.visibility = 'visible';
-      document.getElementById('gamepausa').innerHTML = "Game Over";
+      document.getElementById('gamepausa').innerHTML = "Has Muerto";
       document.getElementById('recarg').innerHTML = "Recarga la pagina para volver a jugar";
-      //document.getElementById('pfinal').innerHTML = this.character.getPuntos();
+      document.getElementById('pfinal').innerHTML =  scene.wave_number-2;
 
 
 
