@@ -97,10 +97,10 @@ class Character extends THREE.Object3D {
   }
   
   createHitBox(){
-      var geometry = new THREE.BoxGeometry( 17, 17, 5,9,9,9 );
-      var material = new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true,opacity:0.5} );
+      var geometry = new THREE.BoxGeometry( 17, 17, 13,9,9,9 );
+      var material = new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true,opacity:0.0} );
       var plane = new THREE.Mesh( geometry, material );
-      plane.position.set(0,10,12);
+      plane.position.set(0,10,8);
       plane.autoUpdateMatrix = false;
 
        return plane;
@@ -482,10 +482,6 @@ shoot_stop(){
       this.brazoD.material = mat;
       this.brazoI.material = mat;
       this.vida -= 10; 
-      document.getElementById("lost").style.width = '10' + '%';
-      document.getElementById("lost").style.left = this.vida +'%';
-      document.getElementById("lost").classList.add("animated");
-      document.getElementById("health").classList.add("animated_health");
       document.getElementById("health").style.width = this.vida + '%';
       var color = '82ff00';
        if(this.vida <= 50){color = 'ffff00';}

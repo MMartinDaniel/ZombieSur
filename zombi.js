@@ -15,6 +15,13 @@ class Zombi extends THREE.Object3D {
     //Controlar que el zombie cada X pasos mire al jugador
     this.pasos = 0;
 
+    this.t_cabeza = parameters.cab;
+    this.t_cuerpo = parameters.cuerpo;
+    this.t_brazoD = parameters.brazoD;
+    this.t_brazoI = parameters.brazoI;  
+    this.t_pieI = parameters.pieI;
+    this.t_pieD = parameters.pieD;
+
     //SESION 2 DATOS
     this.alive = true;
     this.vida = 100;
@@ -108,31 +115,8 @@ class Zombi extends THREE.Object3D {
   
   // CUERPO
     createBody () {
-      var textureLoader = new THREE.TextureLoader();   
-      //Cara izq
-      var texture0 = textureLoader.load( 'imgs/zombiecuerpo4.png' );
-      //Cara der
-      var texture1 = textureLoader.load( 'imgs/zombiecuerpo3.png' );
-      //Cara superior
-      var texture2 = textureLoader.load( 'imgs/zombiecabeza2.png' );
-      //Cara inferior
-      var texture3 = textureLoader.load( 'imgs/zombiecabeza6.png' );
-      //Cara delantera
-      var texture4 = textureLoader.load( 'imgs/zombiecuerpo1.png' );
-      //Cara trasera
-      var texture5 = textureLoader.load( 'imgs/zombiecuerpo5.png' );
 
-      var materials = [
-          new THREE.MeshLambertMaterial( { map: texture0 } ),
-          new THREE.MeshLambertMaterial( { map: texture1 } ),
-          new THREE.MeshLambertMaterial( { map: texture2 } ),
-          new THREE.MeshLambertMaterial( { map: texture3 } ),
-          new THREE.MeshLambertMaterial( { map: texture4 } ),
-          new THREE.MeshLambertMaterial( { map: texture5 } )
-      ];
-      var bodyMaterial = new THREE.MeshFaceMaterial( materials );
-
-        var base = new THREE.Mesh (new THREE.BoxGeometry (8, 12, 4, 6, 6,6), bodyMaterial);
+        var base = new THREE.Mesh (new THREE.BoxGeometry (8, 12, 4, 6, 6,6), this.t_cuerpo);
         base.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0,-15, 0));
         base.position.y = 25;
         this.cabeza = this.createHead();
@@ -145,33 +129,11 @@ class Zombi extends THREE.Object3D {
 
 
   createHead () {
-    var textureLoader = new THREE.TextureLoader();
-    //Cara izq
-    var texture0 = textureLoader.load( 'imgs/zombiecabeza4.png' );
-    //Cara der
-    var texture1 = textureLoader.load( 'imgs/zombiecabeza3.png' );
-    //Cara superior
-    var texture2 = textureLoader.load( 'imgs/zombiecabeza2.png' );
-    //Cara inferior
-    var texture3 = textureLoader.load( 'imgs/zombiecabeza6.png' );
-    //Cara delantera
-    var texture4 = textureLoader.load( 'imgs/zombiecabeza1.png' );
-    //Cara trasera
-    var texture5 = textureLoader.load( 'imgs/zombiecabeza5.png' );
 
-    var materials = [
-        new THREE.MeshLambertMaterial( { map: texture0 } ),
-        new THREE.MeshLambertMaterial( { map: texture1 } ),
-        new THREE.MeshLambertMaterial( { map: texture2 } ),
-        new THREE.MeshLambertMaterial( { map: texture3 } ),
-        new THREE.MeshLambertMaterial( { map: texture4 } ),
-        new THREE.MeshLambertMaterial( { map: texture5 } )
-    ];
-    var headMaterial = new THREE.MeshFaceMaterial( materials );
 
 
      var head = new THREE.Mesh (
-        new THREE.BoxGeometry (8, 8, 8), headMaterial );
+        new THREE.BoxGeometry (8, 8, 8), this.t_cabeza );
       head.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, -35, 0));
       head.position.y = 30;
       head.castShadow = true;
@@ -184,42 +146,18 @@ class Zombi extends THREE.Object3D {
 // BRAZOS
 createArm (place){
 
-    var textureLoader = new THREE.TextureLoader();
-    //Cara izq
-     if(place.w > 0) var texture0 = textureLoader.load( 'imgs/zombiebrazo5.png' );
-     else texture0 = textureLoader.load( 'imgs/zombiebrazo3.png' );
 
-    //Cara der(menor que 0 es izq)
-    if(place.w > 0) var texture1 = textureLoader.load( 'imgs/zombiebrazo3.png' );
-    else var texture1 = textureLoader.load( 'imgs/zombiebrazo5.png' );
-
-    //Cara superior
-    if(place.w > 0) var texture2 = textureLoader.load( 'imgs/zombiebrazo2_2.png' );
-    else var texture2 = textureLoader.load( 'imgs/zombiebrazo2.png' );
-
-
-    //Cara inferior
-    var texture3 = textureLoader.load( 'imgs/zombiebrazo6.png' );
-    //Cara delantera
-    var texture4 = textureLoader.load( 'imgs/zombiebrazo1.png' );
-    //Cara trasera
-    var texture5 = textureLoader.load( 'imgs/zombiebrazo5.png' );
-
-    var materials = [
-        new THREE.MeshLambertMaterial( { map: texture0 } ),
-        new THREE.MeshLambertMaterial( { map: texture1 } ),
-        new THREE.MeshLambertMaterial( { map: texture2 } ),
-        new THREE.MeshLambertMaterial( { map: texture3 } ),
-        new THREE.MeshLambertMaterial( { map: texture4 } ),
-        new THREE.MeshLambertMaterial( { map: texture5 } )
-    ];
-    var armMaterial = new THREE.MeshFaceMaterial( materials );
-
+    var materia = null;
+    if(place.w < 0){
+      materia = this.t_brazoI;
+    }else{
+      materia = this.t_brazoD;
+    }
 
 
 
  var larm = new THREE.Mesh ( 
-    new THREE.BoxGeometry (4, 12 ,4, 16, 8),armMaterial);
+    new THREE.BoxGeometry (4, 12 ,4, 16, 8),materia);
   larm.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w, -5, 0));   
   larm.position.y = 23; 
   larm.castShadow = true;
@@ -234,37 +172,15 @@ createArm (place){
 
 createFoot (place){
 
-    var textureLoader = new THREE.TextureLoader();
-    //Cara izq
-    if(place.w > 0) var texture0 = textureLoader.load( 'imgs/zombiepierna3_1.png' );
-    else var texture0 = textureLoader.load( 'imgs/zombiepierna3_1.png' );
-    //Cara der
-    if(place.w > 0) var texture1 = textureLoader.load( 'imgs/zombiepierna3.png' );
-    else var texture1 = textureLoader.load( 'imgs/zombiepierna3.png' );
-    //Cara superior
-    if(place.w > 0) var texture2 = textureLoader.load( 'imgs/zombieTapaArriba.png' );
-    else var texture2 =  textureLoader.load( 'imgs/zombieTapaArriba.png' );
-    //Cara inferior
-    var texture3 = textureLoader.load( 'imgs/zombiepierna2.png' );
-    //Cara delantera
-    if(place.w > 0)  var texture4 = textureLoader.load( 'imgs/zombiepierna1_1.png' );
-    else var texture4 = textureLoader.load( 'imgs/zombiepierna1_1.png' );
-    //Cara trasera
-    var texture5 = textureLoader.load( 'imgs/zombiepierna2.png' );
-
-    var materials = [
-        new THREE.MeshLambertMaterial( { map: texture0 } ),
-        new THREE.MeshLambertMaterial( { map: texture1 } ),
-        new THREE.MeshLambertMaterial( { map: texture2 } ),
-        new THREE.MeshLambertMaterial( { map: texture3 } ),
-        new THREE.MeshLambertMaterial( { map: texture4 } ),
-        new THREE.MeshLambertMaterial( { map: texture5 } )
-    ];
-    var footMaterial = new THREE.MeshFaceMaterial( materials );
-
+      var materia = null;
+    if(place.w < 0){
+      materia = this.t_pieI;
+    }else{
+      materia = this.t_pieD;
+    }
 
  var rfoot = new THREE.Mesh ( 
-    new THREE.BoxGeometry (4, 12 , 4, 16, 8), footMaterial);
+    new THREE.BoxGeometry (4, 12 , 4, 16, 8), materia);
   rfoot.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (place.w,-5, 0));
   rfoot.position.y = 11 ;  
   rfoot.castShadow = true;
