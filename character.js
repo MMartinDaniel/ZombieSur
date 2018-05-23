@@ -81,7 +81,7 @@ class Character extends THREE.Object3D {
         this.cuerpo.add(this.pieD);
         this.cuerpo.add(this.pieI);
 
-        this.gun = new Gun({type:'2'});
+        this.gun = new Gun({type:'1'});
         this.guns.push(this.gun);
         this.guns.push(  new Gun({type:'2'}));
         this.guns.push(  new Gun({type:'3'}));
@@ -455,6 +455,39 @@ aim_start(){
    
     this.aimpos = true;
 }
+
+
+
+displayAmmo(){
+
+   var divElem = document.createElement('div');
+   divElem.id = "balasArma";
+
+    for (var i = 0; i < this.gun.current_bullets; i++) {
+    //  var div = document.createElement('li');
+   //   div.classList.add("prueba");
+
+    var listElem = document.createElement('li');
+    listElem.classList.add("prueba");
+    listElem.setAttribute("type", "none");
+    listElem.id = "contenedorBala";
+
+    var elem = document.createElement("img");
+    elem.setAttribute("src", "imgs/b.png");
+    elem.setAttribute("height", "35");
+    elem.setAttribute("width", "35");
+
+
+    listElem.appendChild(elem);
+    divElem.appendChild(listElem);
+    //document.body.appendChild(listElem);
+
+    document.getElementById("balas").appendChild(divElem);
+
+    }
+  }
+
+
 shoot_start(){
   this.tween_to_shoot.start();
 }
@@ -462,17 +495,44 @@ shoot_stop(){
   this.tween_to_shoot.stop();
 }
   shoot(){
-    this.gun.shoot();
-    this.shooting = true;
-  }
-  swapGun(param){
-    if(!this.aimpos){
-    this.brazoD.remove(this.gun);
-    this.gun = this.guns[param.selected];
-    this.brazoD.add(this.gun);
-    }
+      //Sin balas no se puede disparar 
+      if(this.gun.current_bullets >= 0){
+         //CASO RECARGAR
+        if(this.gun.current_bullets == 0){
+
+          this.gun.reload();
+          this.displayAmmo();
+        }
+        else{       
+          this.gun.shoot();
+          this.gun.current_bullets--;
+          var elem = document.getElementById('contenedorBala');
+          elem.parentNode.removeChild(elem);
+
+        }
+
+
+        this.shooting = true;
+
+      }
   }
 
+  swapGun(param){
+
+  //Al cargar una nueva arma las balas anteriores desaparecen
+  
+
+    if(!this.aimpos){
+      if(this.gun != this.guns[param.selected]){
+        var elem = document.getElementById('balasArma');
+        elem.parentNode.removeChild(elem);     
+        this.brazoD.remove(this.gun);
+        this.gun = this.guns[param.selected];
+        this.brazoD.add(this.gun);
+        this.displayAmmo();
+      }
+    } 
+}
   isDamaged(){
       var mat = new THREE.MeshBasicMaterial( { color: 0xFF0000 ,transparent: true, opacity: 0.5 }  );
       this.cabeza.material = mat;
