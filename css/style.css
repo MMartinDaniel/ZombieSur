@@ -7,7 +7,7 @@
     display: flex;
     position: absolute;
     bottom: 0;
-    right: 0;
+    right: 2%;
 
 }
  .player-utils {
@@ -84,7 +84,7 @@
   height: 20px;
   position: absolute;
   width: 500px;
-  bottom: 10px;
+  bottom: 5%;
   left: 40%;
 
 }
@@ -123,3 +123,83 @@
 .animated_health{
     animation: health 2s ease;
 }
+
+
+  body{
+      margin: 0;
+      overflow: hidden; 
+  }
+
+
+  #dinero{
+        width: 10%;
+    max-height: 10%;
+       margin-top: -36px;
+        margin-left: 5px;           
+  }
+          
+  #cantidad{
+      margin-top: -37px;
+      margin-left: 75px;
+      margin-right: 5px;
+      font-size: 25px
+      
+
+  }
+
+   #center {
+      font-family: 'Arial', sans-serif;
+      font-size: 40px;
+      transform-style: preserve-3d;
+      position: absolute;
+      color:green;
+      top: 25px;
+      left: 5px;
+  }
+
+   #bottonRight {
+      font-family: 'Arial', sans-serif;
+      font-size: 40px;
+      transform-style: preserve-3d;
+      position: absolute;
+      color:yellow;
+      top: 70%;
+      right: -70%;
+  }
+
+  .prueba{
+        transform-style: preserve-3d;
+  }
+
+  #oroCard{
+    font-family: myFirstFont;
+    text-align: center;
+    font-size: 20px;
+  
+  }
+  #oro{
+        color:#4CAF50;
+        font-size: 20px;
+  }
+  #balas{
+
+    bottom: 5px;
+    right: 10px;
+    position: absolute;
+    z-index: 1000;
+  }
+
+  .bala-1{
+    max-height:50px;
+    max-width: 50px;
+  }
+  .bala-2{
+     max-height:60px;
+     max-width: 60px;
+  }
+
+  .bala{
+    width: 70px;
+    height: 60px;
+
+  }

@@ -40,6 +40,7 @@ class TheScene extends THREE.Scene {
     this.t_pieI = [];
     this.t_pieD = [];
     this.check = 0;
+    this.canNextWave = false;
     this.cargarTexturasZombie();
     this.listener = new THREE.AudioListener();
     this.sound = new THREE.Audio(this.listener);
@@ -229,6 +230,10 @@ class TheScene extends THREE.Scene {
 
 }
 
+
+nextWave(){
+  this.canNextWave = true;
+}
   rotateCamera(s){
 
     if(this.n_camrot == 2){this.n_camrot = 0;};
@@ -421,12 +426,22 @@ class TheScene extends THREE.Scene {
   }
 
 checkWaveSpawn(){
-      if(this.c_dead_z == this.zombies.length){
-      for (var i = 0; i <= this.zombies.length-1; i++) {
-        this.zombi = this.zombies[i];
-        this.model.remove(this.zombi); 
-      }
-      this.zombies = []; this.c_dead_z = 0; this.current_zombies = 0; this.wave_number++; this.spawn_wave();};
+  
+  if(this.c_dead_z == this.zombies.length){
+    document.getElementById("waveCard").style.display = 'block';
+    document.getElementById("boxCard").style.display = 'block';
+   
+  }else{ document.getElementById("waveCard").style.display = 'none'; 
+          document.getElementById("boxCard").style.display = 'none';
+  }
+  if(this.canNextWave){
+        if(this.c_dead_z == this.zombies.length){
+          for (var i = 0; i <= this.zombies.length-1; i++) {
+            this.zombi = this.zombies[i];
+            this.model.remove(this.zombi); 
+        }
+        this.zombies = []; this.c_dead_z = 0; this.current_zombies = 0; this.wave_number++; this.spawn_wave(); this.canNextWave = false;};
+  }
 }
   zombieMove(controls){ 
       if(this.zombi != null && this.zombi.alive){
@@ -602,6 +617,10 @@ checkDrop(){
               case '3':
                  this.character.money += this.drops[i].money;
                 break;
+              case '4':
+                 this.character.money += this.drops[i].money;
+                 document.getElementById("oro").innerHTML = this.character.money + "$";
+              break;
             }
             this.drops[i].reproduceSound();
             this.model.remove(this.drops[i]);

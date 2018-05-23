@@ -28,86 +28,12 @@
     <script type="text/javascript" src="../libs/MTLLoader.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
-
-
-    <style>
-  body{
-      margin: 0;
-      overflow: hidden; 
-  }
-
-
-
-
-  #dinero{
-        width: 8%;
-        margin-top: -36px;
-        margin-left: 5px;           
-  }
-          
-  #cantidad{
-      margin-top: -37px;
-      margin-left: 75px;
-      margin-right: 5px;
-      font-size: 25px
-      
-
-  }
-
-   #center {
-      font-family: 'Arial', sans-serif;
-      font-size: 40px;
-      transform-style: preserve-3d;
-      position: absolute;
-      color:green;
-      top: 25px;
-      left: 5px;
-  }
-
-   #bottonRight {
-      font-family: 'Arial', sans-serif;
-      font-size: 40px;
-      transform-style: preserve-3d;
-      position: absolute;
-      color:yellow;
-      top: 70%;
-      right: -70%;
-  }
-
-  .prueba{
-        transform-style: preserve-3d;
-  }
-
-  #balas{
-    width: 5%;
-    height: 50%;
-    margin-left: 94%;
-    position: absolute
-  }
-
-
-  .bala{
-    width: 70px;
-    height: 60px;
-
-  }
-
-
-    </style>
 </head>
 <body>
 
 
 
 
-<div id="center">
-  <div id="title">
-    <img id="dinero" src="imgs/Money-Icon.jpg">
-  </div>
-  <div id="cantidad">
-    0
-  </div>
-</div>
 
 
  <div id="balas">
@@ -157,7 +83,7 @@
 </div>
 <div class='construct-ui'>
    <div class="entities-list" >
-          <div class="entitie" onclick='applicationMode = TheScene.ADDING_BOXES;'>
+          <div class="entitie" id='boxCard' onclick='applicationMode = TheScene.ADDING_BOXES;'>
             <div class="card">
               <div class="health-bar">
                 <div class="health" style="height: 75%;"></div>
@@ -165,12 +91,20 @@
                <img src="UI/barricade.png">
             </div>
           </div>
-          <div class="entitie" onclick='applicationMode = TheScene.ADDING_BOXES;'>
+          <div class="entitie" id='waveCard' onclick='scene.nextWave();'>
             <div class="card">
               <div class="health-bar">
                 <div class="health" style="height: 75%;"></div>
               </div>
                <p id='newWave'>Siguiente Oleada </p>
+            </div>
+          </div>
+          <div class="entitie" id='oroCard' >
+            <div class="card">
+              <div class="health-bar">
+                <div class="health" style="height: 75%;"></div>
+              </div>
+               <p id='oro'>0$ </p>
             </div>
           </div>
     </div>

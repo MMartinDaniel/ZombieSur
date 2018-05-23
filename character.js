@@ -473,9 +473,22 @@ displayAmmo(){
     listElem.id = "contenedorBala";
 
     var elem = document.createElement("img");
-    elem.setAttribute("src", "imgs/b.png");
-    elem.setAttribute("height", "35");
-    elem.setAttribute("width", "35");
+    switch (this.gun.type) {
+      case '1':
+         elem.setAttribute("src", "imgs/9mm.png");
+         elem.classList.add('bala-1');
+        break;
+      case '3':
+        elem.setAttribute("src", "imgs/bullet_shotgun.png");
+        elem.classList.add('bala-1');
+        break;
+        case '2':
+         elem.setAttribute("src", "imgs/bullet-sniper.png");
+        elem.classList.add('bala-2');
+        break;
+    }
+
+
 
 
     listElem.appendChild(elem);
