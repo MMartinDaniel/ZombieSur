@@ -309,20 +309,20 @@ nextWave(){
       var p_z,p_x;
       switch (po) {
         case 1:
-          p_z = 150;
+          p_z = 700;
           p_x = r_x;
         break;
         case 2:
-          p_z = -150;
+          p_z = -700;
           p_x = r_x;
         break;
         case 3:
           p_z = r_x;
-          p_x = -150;
+          p_x = -700;
         break;
         case 0:
         p_z = r_x;
-        p_x = 150;
+        p_x = 700;
         break;
 
       }
@@ -524,12 +524,32 @@ checkWaveSpawn(){
            if(!this.zombi.attacking){this.zombi.hit_start();} 
               if(this.dmg_recoil <= 0){ 
                  this.dmg_recoil = 80;
-                 this.character.isDamaged();
+                if(this.character.isDamaged()){
+                this.setPosDie();}
                  this.character.attacked = true;
               }
         }
     }
 
+  }
+
+  setPosDie(){
+        this.updateMatrixWorld(true);
+     
+        var c_pos = this.cameraOut.position;
+
+
+        this.tween_camera = new TWEEN.Tween();
+        var position = {x:c_pos.x ,z:c_pos.z,y:c_pos.y};
+
+
+        this.tween_camera = new TWEEN.Tween(position).to({x: this.character.position.x,y: this.character.position.y+30,z:this.character.position.z },200).onUpdate(function(){
+          c_pos.x = position.x;
+          c_pos.z = position.z;
+          c_pos.y = position.y;
+        });
+        
+      this.tween_camera.start();
   }
 
   checkColisionBala(){
@@ -619,11 +639,11 @@ checkDrop(){
             switch (this.drops[i].type) {
               case '2':
                 this.character.money += this.drops[i].money;
-                this.character.guns[1].magazine_bullets += this.drop[i].bullet_amount;
+                this.character.guns[1].magazine_bullets += this.drops[i].bullet_amount;
                 break;
               case '3':
                  this.character.money += this.drops[i].money;
-                  this.character.guns[2].magazine_bullets += this.drop[i].bullet_amount;
+                  this.character.guns[2].magazine_bullets += this.drops[i].bullet_amount;
                 break;
               case '4':
                  this.character.money += this.drops[i].money;     
