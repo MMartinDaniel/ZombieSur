@@ -7,6 +7,7 @@ class Gun extends THREE.Object3D {
     this.distance = 0;
     this.bullet = new Bullet ({type:'1'});
     this.max_bullets = 0;
+    this.current_bullets = 0;
     this.reload_time = 0;
     this.price = 100;
     this.damage = 0;
@@ -34,6 +35,9 @@ class Gun extends THREE.Object3D {
         this.distance = 200;
         this.damage = 20;
         this.reload_time = 40;
+        this.current_bullets = 10;
+        this.max_bullets = 10;
+ 
         loader.load('models/mp5k.json',
           function(obj){
           obj.position.y -= 15;
@@ -49,7 +53,10 @@ class Gun extends THREE.Object3D {
         this.distance = 200;
         this.damage = 40;
         this.reload_time = 10;
-      
+        this.current_bullets = 15;
+        this.max_bullets = 15;
+ 
+
         loader.load('models/m4a1.json',
           function(obj){
           var materialx = new THREE.MeshBasicMaterial({ color: 0xff0000 });
@@ -67,6 +74,10 @@ class Gun extends THREE.Object3D {
         this.distance = 100;
         this.damage = 100;
         this.reload_time = 80;
+
+        this.current_bullets = 5;
+        this.max_bullets = 5;
+ 
         loader.load('models/shotgun/shotgun.json',
           function(obj){
           obj.position.y -= 12;
@@ -87,6 +98,16 @@ class Gun extends THREE.Object3D {
       this.reproduceSound();
       this.todo.add(this.bullet);
     }
+
+    reload(){
+      var elem = document.getElementById('balasArma');
+      elem.parentNode.removeChild(elem); 
+      this.current_bullets = this.max_bullets;
+      this.reproduceSoundReload();
+    }
+
+
+
     reproduceSound(){
           var sound = new THREE.PositionalAudio( this.listener );
           var audioLoader = new THREE.AudioLoader();
@@ -109,6 +130,31 @@ class Gun extends THREE.Object3D {
               sound.play();
             });
     }
+
+    reproduceSoundReload(){
+          var sound = new THREE.PositionalAudio( this.listener );
+          var audioLoader = new THREE.AudioLoader();
+          switch (this.type) {
+            case '1':
+             var au = 'models/sonidos/loadmp5.wav';
+              break;
+            case '2':
+              var au = 'models/sonidos/m4Reload.mp3';
+              break;
+              //ESCOPETA
+             case '3':
+              var au = 'models/sonidos/GunshotReloadingSound.mp3';
+              break;           
+          }
+            audioLoader.load( au, function( buffer ) {
+              sound.setBuffer( buffer );
+              sound.setRefDistance( 20 );
+              scene.sound.setVolume(2);
+              sound.play();
+            });
+    }
+
+
 
     checkGunPos(param){
       if(this.bullet.position.y < -this.distance || param.hitt){
