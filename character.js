@@ -19,7 +19,7 @@ class Character extends THREE.Object3D {
     this.walking = false;
     //SESION 2 DATOS
 
-
+    this.alive = true;
     this.vida = 100;
     this.money = 0;
     this.tween_to_walk = new TWEEN.Tween();
@@ -496,25 +496,27 @@ shoot_stop(){
 }
   shoot(){
       //Sin balas no se puede disparar 
-      if(this.gun.current_bullets >= 0){
-         //CASO RECARGAR
-        if(this.gun.current_bullets == 0){
-
-          this.gun.reload();
-          this.displayAmmo();
-        }
-        else{       
+      if(this.gun.current_bullets > 0){       
           this.gun.shoot();
           this.gun.current_bullets--;
+          console.log(this.gun.magazine_bullets);
           var elem = document.getElementById('contenedorBala');
           elem.parentNode.removeChild(elem);
-
         }
+         //CASO RECARGAR
+      else if(this.gun.current_bullets == 0 && this.gun.magazine_bullets > 0){
+        this.gun.reload();
+        this.displayAmmo();
+      }
 
-
-        this.shooting = true;
+      else if(this.gun.magazine_bullets <= 0){
+        this.gun.noBullets();
 
       }
+
+      this.shooting = true;
+
+      
   }
 
   swapGun(param){
@@ -564,6 +566,21 @@ shoot_stop(){
       this.todo.rotation.x = this.toRad(270);
       this.brazoD.rotation.x = this.toRad(-40);
       this.brazoI.rotation.x = this.toRad(-40);
+
+      this.alive = false;
+      this.walk_stop();
+      this.shoot_stop();
+
+
+      document.getElementById('endContainer').style.visibility = 'visible';
+      document.getElementById('gamepausa').innerHTML = "Game Over";
+      document.getElementById('recarg').innerHTML = "Recarga la pagina para volver a jugar";
+      //document.getElementById('pfinal').innerHTML = this.character.getPuntos();
+
+
+
+
+
   }
 
   createBlood(){
