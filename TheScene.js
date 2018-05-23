@@ -146,6 +146,24 @@ class TheScene extends THREE.Scene {
     this.ground.moveBarricade (event, action);
   }
   
+
+
+startGame(){
+      document.getElementById('MenuInicio').style.visibility = 'hidden';
+      document.getElementById('balas').style.visibility = 'visible';
+}
+
+
+backtoMenu(){
+  location.reload();
+}
+
+
+
+
+
+
+
   /// It creates the geometric model: r2d2 and ground
   /**
    * @return The model
