@@ -21,7 +21,7 @@ class Character extends THREE.Object3D {
 
     this.alive = true;
     this.vida = 100;
-    this.money = 90;
+    this.money = 800;
     this.tween_to_walk = new TWEEN.Tween();
     this.tween_from_walk = new TWEEN.Tween();
     this.tween_to_aim_walk = new TWEEN.Tween();
@@ -515,6 +515,12 @@ shoot_stop(){
           console.log(this.gun.magazine_bullets);
           var elem = document.getElementById('contenedorBala');
           elem.parentNode.removeChild(elem);
+          if(this.gun.type == 1){
+            document.getElementById("b"+this.gun.type).innerHTML = '&#x221e';
+          }else{
+            document.getElementById("b"+this.gun.type).innerHTML = this.gun.current_bullets;
+          }
+          
         }
          //CASO RECARGAR
       else if(this.gun.current_bullets == 0 && this.gun.magazine_bullets > 0){

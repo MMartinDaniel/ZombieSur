@@ -42,6 +42,7 @@ class TheScene extends THREE.Scene {
     this.t_pieI = [];
     this.t_pieD = [];
     this.check = 0;
+    this.cameraInStreet = false;
     this.canNextWave = false;
     this.cargarTexturasZombie();
     this.listener = new THREE.AudioListener();
@@ -83,6 +84,7 @@ class TheScene extends THREE.Scene {
   
   this.cameraOut = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
    this.cameraOut.position.set (288, 466, 298);
+  //this.cameraOut.position.set (0, 90, 700);
     var look2 = new THREE.Vector3 (0,0,0);
     this.cameraOut.lookAt(look2);
   
@@ -238,6 +240,9 @@ nextWave(){
 }
   rotateCamera(s){
 
+    this.updateMatrixWorld(true);
+
+
     if(this.n_camrot == 2){this.n_camrot = 0;};
     var c_pos = this.cameraOut.position;
     var varx = c_pos.x;
@@ -300,23 +305,24 @@ nextWave(){
       this.zombi.hit_start();
 
       var po = Math.floor(Math.random() * 4);
+      var r_x = Math.floor(Math.random() * 200)-100;
       var p_z,p_x;
       switch (po) {
         case 1:
-          p_z = 350;
-          p_x = 0;
+          p_z = 150;
+          p_x = r_x;
         break;
         case 2:
-          p_z = -350;
-          p_x = 0;
+          p_z = -150;
+          p_x = r_x;
         break;
         case 3:
-          p_z = 0;
-          p_x = -350;
+          p_z = r_x;
+          p_x = -150;
         break;
         case 0:
-        p_z = 0;
-        p_x = 350;
+        p_z = r_x;
+        p_x = 150;
         break;
 
       }
@@ -330,8 +336,6 @@ nextWave(){
   }
 
   // Public methods
-
- 
   animate (controls) {
    
     this.axis.visible = controls.axis;
@@ -610,8 +614,8 @@ checkDrop(){
     position_character.setFromMatrixPosition( this.character.matrixWorld );
     for (var i = 0; i <  this.drops.length; i++) {
          position_drop.setFromMatrixPosition( this.drops[i].matrixWorld );
-         if(position_character.x < (position_drop.x+5) && position_character.x > (position_drop.x-5)){
-          if(position_character.z < (position_drop.z+5) && position_character.z > (position_drop.z-5)){
+         if(position_character.x < (position_drop.x+10) && position_character.x > (position_drop.x-10)){
+          if(position_character.z < (position_drop.z+10) && position_character.z > (position_drop.z-10)){
             switch (this.drops[i].type) {
               case '2':
                 this.character.money += this.drops[i].money;
@@ -740,7 +744,7 @@ checkDrop(){
               this.character.walking = true;
             }
             if(this.drops.length != 0){this.checkDrop();};
-
+            this.checkCameraMove();
           break;
         case'down':
             this.character.walk_stop();
@@ -779,6 +783,61 @@ checkDrop(){
     }
   }
 
+checkCameraMove(){
+        this.updateMatrixWorld(true);
+        var position_char = new THREE.Vector3();
+        position_char.setFromMatrixPosition( this.character.matrixWorld );
+
+      if(position_char.x > 150 || position_char.x < -150 || position_char.z < -150 || position_char.z > 150){
+        if(!this.cameraInStreet){
+          if(position_char.x > 150 ){
+            var n_pos_x = 700;
+            var n_pos_z = 0;
+          }else if(position_char.x < -150){
+            var n_pos_x = -700;
+            var n_pos_z = 0;
+          }else if(position_char.z < -150){
+            var n_pos_x = 0;
+            var n_pos_z = -700;
+          }else if(position_char.z > 150){
+            var n_pos_x = 0;
+            var n_pos_z = 700;
+          }
+          var n_pos_y = 120;
+          var c_pos = this.cameraOut.position;
+          var varx = c_pos.x;
+          var varz = c_pos.y;
+          var varz = c_pos.z;
+
+         this.tween_camera = new TWEEN.Tween();
+            var position = {x:c_pos.x ,z:c_pos.z,y:c_pos.y};
+
+
+         this.tween_camera = new TWEEN.Tween(position).to({x: n_pos_x,y: n_pos_y,z:n_pos_z },200).onUpdate(function(){
+                c_pos.x = position.x;
+                c_pos.z = position.z;
+                c_pos.y = position.y;
+             
+         });
+        
+         this.cameraInStreet = true;
+         this.tween_camera.start();
+        }
+      }else{
+        if(this.cameraInStreet){
+          this.cameraOut.position.set (288, 466, 298);
+          this.cameraInStreet = false;
+        }
+      } 
+     
+ 
+          
+    
+     
+  
+
+
+}
 
   cargarTexturasZombie(){
       var textureLoader = new THREE.TextureLoader();   
