@@ -6,8 +6,9 @@ class Gun extends THREE.Object3D {
     this.material = null;
     this.distance = 0;
     this.bullet = new Bullet ({type:'1'});
-    this.max_bullets = 0;
-    this.current_bullets = 0;
+    this.max_bullets = 0;         //Balas maximas del arma
+    this.magazine_bullets = 0;    //Balas totales del arma
+    this.current_bullets = 0;     //Balas actuales en el cargador del arma
     this.reload_time = 0;
     this.price = 100;
     this.damage = 0;
@@ -37,6 +38,7 @@ class Gun extends THREE.Object3D {
         this.reload_time = 40;
         this.current_bullets = 10;
         this.max_bullets = 10;
+        this.magazine_bullets = 12;
  
         loader.load('models/mp5k.json',
           function(obj){
@@ -55,7 +57,8 @@ class Gun extends THREE.Object3D {
         this.reload_time = 10;
         this.current_bullets = 15;
         this.max_bullets = 15;
- 
+        this.magazine_bullets = 30;
+
 
         loader.load('models/m4a1.json',
           function(obj){
@@ -77,7 +80,8 @@ class Gun extends THREE.Object3D {
 
         this.current_bullets = 5;
         this.max_bullets = 5;
- 
+        this.magazine_bullets = 7;
+
         loader.load('models/shotgun/shotgun.json',
           function(obj){
           obj.position.y -= 12;
@@ -102,11 +106,31 @@ class Gun extends THREE.Object3D {
     reload(){
       var elem = document.getElementById('balasArma');
       elem.parentNode.removeChild(elem); 
-      this.current_bullets = this.max_bullets;
+
+      if(this.magazine_bullets >= this.max_bullets){
+         this.current_bullets = this.max_bullets;
+         this.magazine_bullets = this.magazine_bullets - this.max_bullets;
+      }
+      else if(this.magazine_bullets < this.max_bullets){      //Recargas menos de un cargador entero
+        this.current_bullets = this.magazine_bullets;
+        this.magazine_bullets = 0;
+      }
+
       this.reproduceSoundReload();
     }
 
+    noBullets(){
+          var sound = new THREE.PositionalAudio( this.listener );
+          var audioLoader = new THREE.AudioLoader();
+          var au = 'models/sonidos/guncocking.mp3';
+          audioLoader.load( au, function( buffer ) {
+            sound.setBuffer( buffer );
+            sound.setRefDistance( 20 );
+            scene.sound.setVolume(2);
+            sound.play();
+          });
 
+    }
 
     reproduceSound(){
           var sound = new THREE.PositionalAudio( this.listener );

@@ -649,56 +649,57 @@ checkDrop(){
   }
 
  makeMove(parameters){
-  if(parameters.move != 'up'){this.character.walking=false; this.character.walk_stop();};
-    switch (parameters.move) {
-      case 'up':
-         if(this.character.aimpos){
-           if(!this.colision){this.character.translateZ(2);}else{this.character.translateZ(0);};
-          }else{
-          if(!this.colision){this.character.translateZ(5);}else{this.character.translateZ(0);};
-          }
-          if(!this.character.walking){
-            this.character.walk_start();
-            this.character.walking = true;
-          }
-          if(this.drops.length != 0){this.checkDrop();};
+  if(this.character.alive){
+    if(parameters.move != 'up'){this.character.walking=false; this.character.walk_stop();};
+      switch (parameters.move) {
+        case 'up':
+           if(this.character.aimpos){
+             if(!this.colision){this.character.translateZ(2);}else{this.character.translateZ(0);};
+            }else{
+            if(!this.colision){this.character.translateZ(5);}else{this.character.translateZ(0);};
+            }
+            if(!this.character.walking){
+              this.character.walk_start();
+              this.character.walking = true;
+            }
+            if(this.drops.length != 0){this.checkDrop();};
+
+          break;
+        case'down':
+            this.character.walk_stop();
+       // this.character.translateZ(-5);
+        var axis = new THREE.Vector3(0,1,0);
+        this.character.rotateOnAxis(axis, 3);
 
         break;
-      case'down':
-          this.character.walk_stop();
-     // this.character.translateZ(-5);
-      var axis = new THREE.Vector3(0,1,0);
-      this.character.rotateOnAxis(axis, 3);
+        case'left':
+        var axis = new THREE.Vector3(0,1,0);
+        this.character.rotateOnAxis(axis, 0.15);
+        break;
+        case'right':
+        var axis = new THREE.Vector3(0,1,0)
+        this.character.rotateOnAxis(axis, -0.15);
+        break;
+        case 'aim':
+          if(this.character.aimpos){
+            this.character.aim_stop();
+          }else{
+             this.character.aim_start();
+          }
+        break;
+        case 'shoot':
+           if(this.character.aimpos && this.recoil >= this.character.gun.reload_time){
+            
+            this.character.shoot();
+            //Parte de eliminar bala de la UI
+           // var myList = document.getElementById("contenedorBala");
+          //  myList.innerHTML = '';
 
-      break;
-      case'left':
-      var axis = new THREE.Vector3(0,1,0);
-      this.character.rotateOnAxis(axis, 0.15);
-      break;
-      case'right':
-      var axis = new THREE.Vector3(0,1,0)
-      this.character.rotateOnAxis(axis, -0.15);
-      break;
-      case 'aim':
-        if(this.character.aimpos){
-          this.character.aim_stop();
-        }else{
-           this.character.aim_start();
-        }
-      break;
-      case 'shoot':
-         if(this.character.aimpos && this.recoil >= this.character.gun.reload_time){
-          
-          this.character.shoot();
-          //Parte de eliminar bala de la UI
-         // var myList = document.getElementById("contenedorBala");
-        //  myList.innerHTML = '';
-
-          this.recoil = 0;
-        }
-      break;
+            this.recoil = 0;
+          }
+        break;
+      }
     }
-
   }
 
 
