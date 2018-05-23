@@ -140,6 +140,12 @@ function onMouseMove (event) {
   }
 }
 
+ function addBarr(){
+    if(scene.character.money >= 50){
+        applicationMode = TheScene.ADDING_BOXES;
+    }
+
+}
 /// It processes the clic-up of the mouse
 /**
  * @param event - Mouse information

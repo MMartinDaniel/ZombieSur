@@ -132,6 +132,7 @@ class Ground extends THREE.Object3D {
         this.box.castShadow = true;
         this.barricades.add (this.box);
         this.barricades_array.push(this.box);
+        scene.character.money -= 50;
       }else if(action == TheScene.ROTATE_BOX) {
         if (this.box !== null) {
           this.box.rotation.y += (event.wheelDelta ? event.wheelDelta/20 : -event.detail);
