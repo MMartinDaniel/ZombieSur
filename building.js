@@ -60,15 +60,14 @@ class Building extends THREE.Object3D {
       var texture_t8 = textureLoader.load( 'models/edificios/texturas/HighRiseTowerblocks0007_7_S.jpg' );
       var t_tejado_t = new THREE.MeshLambertMaterial( { map: texture_top ,color: 0xffffff,  transparent: true, opacity: 0.3 } );
       var t_tejado = new THREE.MeshLambertMaterial( { map: texture_top });
-
-      var t_t1 =     new THREE.MeshLambertMaterial( { map: texture_t1 } );
-      var t_t2 =     new THREE.MeshLambertMaterial( { map: texture_t2 } );
+      var t_t1 =     new THREE.MeshLambertMaterial( { map: texture_t1} );
+      var t_t2 =     new THREE.MeshLambertMaterial( { map: texture_t2} );
       var t_t3 =     new THREE.MeshLambertMaterial( { map: texture_t3 } );
-      var t_t4 =     new THREE.MeshLambertMaterial( { map: texture_t4 } );
+      var t_t4 =     new THREE.MeshLambertMaterial( { map: texture_t4} );
       var t_t5 =     new THREE.MeshLambertMaterial( { map: texture_t5 } );
-      var t_t6 =     new THREE.MeshLambertMaterial( { map: texture_t6 } );
-      var t_t7 =     new THREE.MeshLambertMaterial( { map: texture_t7 } );
-      var t_t8 =     new THREE.MeshLambertMaterial( { map: texture_t8 } );
+      var t_t6 =     new THREE.MeshLambertMaterial( { map: texture_t6} );
+      var t_t7 =     new THREE.MeshLambertMaterial( { map: texture_t7, } );
+      var t_t8 =     new THREE.MeshLambertMaterial( { map: texture_t8} );
       var materials_t1 = [t_t1,t_t1,t_tejado,t_t1,t_t1,t_t1];
       var materials_t2 = [t_t2,t_t2,t_tejado,t_t2,t_t2,t_t2];
       var materials_t3 = [t_t3,t_t3,t_tejado,t_t3,t_t3,t_t3];
@@ -80,129 +79,127 @@ class Building extends THREE.Object3D {
 
   
       //EDIF Lado Izq
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150), materials_t4);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150,10,10,10), materials_t4);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 65, -225));
-      modelko.add( building ); 
-      this.edificios.push(building);
+      modelko.add( building ); this.edificios.push(building);
 
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50), materials_t4);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50,10,10,10), materials_t4);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (225, 65, -125));
-      modelko.add( building );
-      this.edificios.push(building);
+      modelko.add( building ); this.edificios.push(building);
       //Fin Edificio lado Iqz
      
       //EDIF Lado der
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150), materials_t2);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150,10,10,10), materials_t2);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 65, 225));
       modelko.add( building );this.edificios.push(building);
 
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50), materials_t2);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50,10,10,10), materials_t2);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-225, 65, 125));
       modelko.add( building );this.edificios.push(building);
       //Fin Edificio lado Der
 
       //EDIF Lado Arriba
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150), materials_t1);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150,10,10,10), materials_t1);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 65,-225));
       modelko.add( building );this.edificios.push(building);
 
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50), materials_t1);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50,10,10,10), materials_t1);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-225, 65, -125));
       modelko.add( building );this.edificios.push(building);
       //Fin Edificio lado Arriba
 
       //EDIF Lado Abajo
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150), materials_t6);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 120, 150,10,10,10), materials_t6);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 65, 225));
       modelko.add( building );this.edificios.push(building);
 
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50), materials_t6);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 120, 50,10,10,10), materials_t6);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (225, 65, 125));
       modelko.add( building );this.edificios.push(building);
       //Fin Edificio lado Abajo
 
 
       //EDIF Lado Izq 2
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150), materials_t6);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150,8,8,8), materials_t6);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 35, -375));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Izq 2
      //EDIF Lado der 2
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150), materials_t4);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150,8,8,8), materials_t4);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 35, -375));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio der 2
       //EDIF Lado Abajo 2
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150), materials_t8);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150,8,8,8), materials_t8);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 35, 375));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Abajo 2
      //EDIF Lado der 3
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150), materials_t7);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 60, 150,8,8,8), materials_t7);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 35, 375));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio Arriba  3
 
 
       //EDIF Lado Izq 3
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200), materials_t2);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200,8,8,8), materials_t2);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-375, 35, -200));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Izq 3
      //EDIF Lado der 3
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200), materials_t5);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200,8,8,8), materials_t5);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (375, 35, -200));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio der 3
       //EDIF Lado Abajo 3
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200), materials_t6);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200,8,8,8), materials_t6);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (375, 35, 200));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Abajo 3
      //EDIF Lado der 3
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200), materials_t1);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 60, 200,8,8,8), materials_t1);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-375, 35, 200));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio Arriba  3
 
       //EDIF Lado Izq 4
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200), materials_t1);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200,8,8,8), materials_t1);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-525, 150, -200));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Izq 4
      //EDIF Lado der 4
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200), materials_t3);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200,8,8,8), materials_t3);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (525, 150, -200));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio der 4
       //EDIF Lado Abajo 4
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200), materials_t7);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200,8,8,8), materials_t7);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (525, 150, 200));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Abajo 4
      //EDIF Lado der 4
-      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200), materials_t6);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (150, 300, 200,8,8,8), materials_t6);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-525, 150, 200));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio Arriba  4
 
     //EDIF Lado Izq 5
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150), materials_t3);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150,8,8,8), materials_t3);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 150, -525));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Izq 5
      //EDIF Lado der 5
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150), materials_t2);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150,8,8,8), materials_t2);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 150, -525));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio der 5
       //EDIF Lado Abajo 5
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150), materials_t7);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150,8,8,8), materials_t7);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (200, 150, 525));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio lado Abajo 5
      //EDIF Lado der 5
-      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150), materials_t8);
+      var building = new THREE.Mesh (new THREE.BoxGeometry (200, 300, 150,8,8,8), materials_t8);
       building.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-200, 150, 525));
       modelko.add( building );this.edificios.push(building);
      //Fin Edificio Arriba  5

@@ -33,11 +33,19 @@ class TheScene extends THREE.Scene {
     this.edificio = null;
     this.c_dead_z = 0;
     this.zombi = null;
+    this.t_cabeza = [];
+    this.t_cuerpo = [];
+    this.t_brazoD = [];
+    this.t_brazoI = [];   
+    this.t_pieI = [];
+    this.t_pieD = [];
+    this.check = 0;
+    this.cargarTexturasZombie();
     this.listener = new THREE.AudioListener();
     this.sound = new THREE.Audio(this.listener);
     this.dmg_recoil = 0;
     this.n_camrot = 0;
-
+    this.farolas = [];
     this.createLights ();
   
     //this.displayAmmo();
@@ -160,15 +168,14 @@ class TheScene extends THREE.Scene {
     //Cuadro central
     this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 30);
     model.add (this.ground);
-
     this.faro1 = new Building({type:'1',x:130,y: (-135*Math.PI/180),z:-130});
-    model.add(this.faro1);
+    model.add(this.faro1);this.farolas.push(this.faro1);
     this.faro2 = new Building({type:'1',x:130,y: (135*Math.PI/180),z:130});
-    model.add(this.faro2);
+    model.add(this.faro2);this.farolas.push(this.faro2);
     this.faro3 = new Building({type:'1',x:-130,y: (-45*Math.PI/180),z:-130});
-    model.add(this.faro3);
+    model.add(this.faro3);this.farolas.push(this.faro3);
     this.faro4 = new Building({type:'1',x:-130,y: (45*Math.PI/180),z:130});
-     model.add(this.faro4);
+     model.add(this.faro4);this.farolas.push(this.faro4);
     this.edificios = new Building({type:'2',x:-130,y: (45*Math.PI/180),z:130});
      model.add(this.edificios);
 
@@ -280,7 +287,8 @@ class TheScene extends THREE.Scene {
 
   spawn_wave(){
     for (var i = 0; i < this.wave_number; i++) {
-      this.zombi = new Zombi();
+     this.zombi = new Zombi({cab:this.t_cabeza,cuerpo:this.t_cuerpo,pieI: this.t_pieI,pieD: this.t_pieD,brazoI: this.t_brazoI,brazoD: this.t_brazoD});
+
       this.zombi.walk_start();
       this.zombi.hit_start();
 
@@ -321,13 +329,10 @@ class TheScene extends THREE.Scene {
    
     this.axis.visible = controls.axis;
     this.spotLight.intensity = controls.lightIntensity;
-   // console.log(this.zombies.length);
     //this.addedLight.intensity = controls.addedLightIntensity;
    //this.addedLight.intensity =1;
 
-    //console.log("muertos: " + this.c_dead_z + "total :" + this.zombies.length);
-    
-  //  this.checkWaveSpawn();
+    this.checkWaveSpawn();
 
     if(!this.character.aimpos){
       this.character.setBrazos(controls.rotation);
@@ -359,14 +364,14 @@ class TheScene extends THREE.Scene {
 
  
   TWEEN.update();
-  this.colision = this.checkColBarrera();
+  this.check++;
+  if(this.check %2 == 0){this.colision = this.checkColBarrera();};
 
   }
   checkColBarrera(){
 
         var originPoint = new THREE.Vector3();
         originPoint.setFromMatrixPosition( this.character.hitbox.matrixWorld );
-       // console.log(originPoint.z);
 
         for (var vertexIndex = 0; vertexIndex < this.character.hitbox.geometry.vertices.length; vertexIndex++)
         {   
@@ -375,17 +380,45 @@ class TheScene extends THREE.Scene {
           var directionVector = globalVertex.sub( this.character.hitbox.position );
           
           var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
-          var collisionResults = ray.intersectObjects( this.ground.barricades_array,true );
-          var collisionResults_2 = ray.intersectObjects(this.edificios.edificios);
-          if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ) 
+          var collisionResults =  ray.intersectObjects( this.ground.barricades_array,true );
+          var ray2 = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
+          var collisionResults_2 = ray2.intersectObjects(this.edificios.edificios);
+          var collisionResults_3 = ray2.intersectObjects(this.farolas,true);
+         
+          if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ) {
             return true;
-          if ( collisionResults_2.length > 0 && collisionResults_2[0].distance < directionVector.length() ) 
+          }
+          if ( collisionResults_2.length > 0 && collisionResults_2[0].distance < directionVector.length() ){
             return true;
+          }
+          if ( collisionResults_3.length > 0 && collisionResults_3[0].distance < directionVector.length() ){
+            return true;
+          }
         }
     return false;
   }
 
 
+  zombieCheckBarricade(){
+
+    this.updateMatrixWorld(true);
+    var position_barricade = new THREE.Vector3();
+    var position_zombi = new THREE.Vector3();
+    position_zombi.setFromMatrixPosition( this.zombi.matrixWorld );
+   // console.log(this.ground.barricades_array.length);
+    for (var i = 0; i < this.ground.barricades_array.length; i++) {
+        position_barricade.setFromMatrixPosition( this.ground.barricades_array[i].matrixWorld );
+        if(this.zombi.alive){
+          if(position_barricade.x <= (position_zombi.x+15) && position_barricade.x >= (position_zombi.x-15)){
+            if(position_barricade.z <= (position_zombi.z+15) && position_barricade.z >= (position_zombi.z-15)){
+                return i;
+              }
+            }
+        }
+    }
+    return -1;
+
+  }
 
 checkWaveSpawn(){
       if(this.c_dead_z == this.zombies.length){
@@ -400,26 +433,35 @@ checkWaveSpawn(){
             this.zombi.setPiernas(controls.footRotation);
             this.zombi.setBrazos(controls.rotation);
           if(!this.checkColisionZombie()){
+            var result = this.zombieCheckBarricade();
+            console.log(result);
+            if( result != -1){
+                if(this.zombi.walking){this.zombi.walk_stop();};
+                if(!this.zombi.attacking){this.zombi.hit_start();} 
+                    if(this.ground.barricades_array[result].isDamaged()){
+                      this.ground.barricades.remove(this.ground.barricades_array[result]);
+                      this.ground.barricades_array.splice (result, 1);
+
+                    }
+            }else{
+
+
+
             this.zombi.hit_stop();
 
             if(this.zombi.attacking){this.zombi.hit_stop();};
             if(!this.zombi.walking){this.zombi.walk_start();};
 
 
-
-
-
          //Para que los zombis no pisen la zona negra inferior IZQUIERDA
             if(this.zombi.position.x > 150 && ( this.zombi.position.z > 100 || this.zombi.position.z < -100 ) ){    
               this.zombi.lookAt(new THREE.Vector3(0,0,0));
               this.zombi.translateZ(0.5);                   this.zombi.pasos++;
-
             }
             //Para que los zombis no pisen la zona negra inferior IZQUIERDA     
             else if(this.zombi.position.x < -150 && ( this.zombi.position.z > 100 || this.zombi.position.z < -100 ) ){    
               this.zombi.lookAt(new THREE.Vector3(0,0,0));
               this.zombi.translateZ(0.5);                   this.zombi.pasos++;
-
             }
               //Para que los zombis no pisen la zona negra inferior IZQUIERDA     
             else if(this.zombi.position.z > 150 && ( this.zombi.position.x > 100 || this.zombi.position.x < -100 ) ){    
@@ -452,19 +494,19 @@ checkWaveSpawn(){
               }
 
             }
+          }
+
 
 
         }else{
            if(this.zombi.walking){this.zombi.walk_stop();};
            if(!this.zombi.attacking){this.zombi.hit_start();} 
-           if(this.dmg_recoil <= 0){ 
-               this.dmg_recoil = 80;
-               this.character.isDamaged();
-               this.character.attacked = true;
-
-           }
-
-          }
+              if(this.dmg_recoil <= 0){ 
+                 this.dmg_recoil = 80;
+                 this.character.isDamaged();
+                 this.character.attacked = true;
+              }
+        }
     }
 
   }
@@ -549,7 +591,6 @@ checkDrop(){
     var position_character = new THREE.Vector3();
     var position_drop = new THREE.Vector3();
     position_character.setFromMatrixPosition( this.character.matrixWorld );
-
     for (var i = 0; i <  this.drops.length; i++) {
          position_drop.setFromMatrixPosition( this.drops[i].matrixWorld );
          if(position_character.x < (position_drop.x+5) && position_character.x > (position_drop.x-5)){
@@ -660,6 +701,122 @@ checkDrop(){
 
   }
 
+
+  cargarTexturasZombie(){
+      var textureLoader = new THREE.TextureLoader();   
+      //Cara izq
+      var texture0 = textureLoader.load( 'imgs/zombiecuerpo4.png' );
+      //Cara der
+      var texture1 = textureLoader.load( 'imgs/zombiecuerpo3.png' );
+      //Cara superior
+      var texture2 = textureLoader.load( 'imgs/zombiecabeza2.png' );
+      //Cara inferior
+      var texture3 = textureLoader.load( 'imgs/zombiecabeza6.png' );
+      //Cara delantera
+      var texture4 = textureLoader.load( 'imgs/zombiecuerpo1.png' );
+      //Cara trasera
+      var texture5 = textureLoader.load( 'imgs/zombiecuerpo5.png' );
+
+      var materials = [
+          new THREE.MeshLambertMaterial( { map: texture0 } ),
+          new THREE.MeshLambertMaterial( { map: texture1 } ),
+          new THREE.MeshLambertMaterial( { map: texture2 } ),
+          new THREE.MeshLambertMaterial( { map: texture3 } ),
+          new THREE.MeshLambertMaterial( { map: texture4 } ),
+          new THREE.MeshLambertMaterial( { map: texture5 } )
+      ];
+      this.t_cuerpo = materials;
+
+    //Cara izq
+    var texture0 = textureLoader.load( 'imgs/zombiecabeza4.png' );
+    //Cara der
+    var texture1 = textureLoader.load( 'imgs/zombiecabeza3.png' );
+    //Cara superior
+    var texture2 = textureLoader.load( 'imgs/zombiecabeza2.png' );
+    //Cara inferior
+    var texture3 = textureLoader.load( 'imgs/zombiecabeza6.png' );
+    //Cara delantera
+    var texture4 = textureLoader.load( 'imgs/zombiecabeza1.png' );
+    //Cara trasera
+    var texture5 = textureLoader.load( 'imgs/zombiecabeza5.png' );
+
+    var materials = [
+        new THREE.MeshLambertMaterial( { map: texture0 } ),
+        new THREE.MeshLambertMaterial( { map: texture1 } ),
+        new THREE.MeshLambertMaterial( { map: texture2 } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4 } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
+    ];
+    this.t_cabeza = materials;
+
+     //Cara izq
+     var texture0_ad = textureLoader.load( 'imgs/zombiebrazo5.png' );
+     var texture0_ai = textureLoader.load( 'imgs/zombiebrazo3.png' );
+
+     var texture1_ad = textureLoader.load( 'imgs/zombiebrazo3.png' );
+     var texture1_ai = textureLoader.load( 'imgs/zombiebrazo5.png' );
+
+     var texture2_ad = textureLoader.load( 'imgs/zombiebrazo2_2.png' );
+     var texture2_ai = textureLoader.load( 'imgs/zombiebrazo2.png' );
+     var texture3 = textureLoader.load( 'imgs/zombiebrazo6.png' );
+     var texture4 = textureLoader.load( 'imgs/zombiebrazo1.png' );
+     var texture5 = textureLoader.load( 'imgs/zombiebrazo5.png' );
+
+    var materials = [
+        new THREE.MeshLambertMaterial( { map: texture0_ai } ),
+        new THREE.MeshLambertMaterial( { map: texture1_ai } ),
+        new THREE.MeshLambertMaterial( { map: texture2_ai } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4 } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
+    ];
+    this.t_brazoI = materials;
+    
+    var materials = [
+        new THREE.MeshLambertMaterial( { map: texture0_ad } ),
+        new THREE.MeshLambertMaterial( { map: texture1_ad } ),
+        new THREE.MeshLambertMaterial( { map: texture2_ad } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4 } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
+    ];
+
+    this.t_brazoD = materials;
+
+
+    var texture0_d = textureLoader.load( 'imgs/zombiepierna3_1.png' );
+    var texture0_i = textureLoader.load( 'imgs/zombiepierna3_1.png' );
+    var texture1_d = textureLoader.load( 'imgs/zombiepierna3.png' );
+    var texture1_i = textureLoader.load( 'imgs/zombiepierna3.png' );
+    var texture2_d = textureLoader.load( 'imgs/zombieTapaArriba.png' );
+    var texture2_i = textureLoader.load( 'imgs/zombieTapaArriba.png' );
+    var texture3 = textureLoader.load( 'imgs/zombiepierna2.png' );
+    var texture4_d = textureLoader.load( 'imgs/zombiepierna1_1.png' );
+    var texture4_i = textureLoader.load( 'imgs/zombiepierna1_1.png' );
+    var texture5 = textureLoader.load( 'imgs/zombiepierna2.png' );
+
+    var materials = [
+        new THREE.MeshLambertMaterial( { map: texture0_d } ),
+        new THREE.MeshLambertMaterial( { map: texture1_d } ),
+        new THREE.MeshLambertMaterial( { map: texture2_d } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4_d } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
+    ];
+    this.t_pieD = materials;
+    var materials = [
+        new THREE.MeshLambertMaterial( { map: texture0_i } ),
+        new THREE.MeshLambertMaterial( { map: texture1_i } ),
+        new THREE.MeshLambertMaterial( { map: texture2_i } ),
+        new THREE.MeshLambertMaterial( { map: texture3 } ),
+        new THREE.MeshLambertMaterial( { map: texture4_i } ),
+        new THREE.MeshLambertMaterial( { map: texture5 } )
+    ];
+    this.t_pieI = materials;
+
+
+  }
 
 
 
