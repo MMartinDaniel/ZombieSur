@@ -40,12 +40,19 @@ class TheScene extends THREE.Scene {
 
     this.createLights ();
   
+    //this.displayAmmo();
+
+
+
+
     this.cameraON = 1;
    // this.createCamera (renderer);
    this.cameraOut = null;
     this.axis = new THREE.AxisHelper (25);
     this.add (this.axis);
     this.model = this.createModel ();
+    this.character.displayAmmo();
+
     this.createCamera (renderer);
 
 //    this.soldado = this.cargarModelo();
@@ -54,6 +61,7 @@ class TheScene extends THREE.Scene {
     this.add (this.model);
   }
   
+
 
 
   /// It creates the camera and adds it to the graph
@@ -131,7 +139,7 @@ class TheScene extends THREE.Scene {
    */
   createModel () {
 
-  var model = new THREE.Object3D();
+   var model = new THREE.Object3D();
 
 
     this.character = new Character();
@@ -144,6 +152,7 @@ class TheScene extends THREE.Scene {
     textura.wrapS = textura.wrapT = THREE.RepeatWrapping;
     textura.offset.set( 0, 0 );
     textura.repeat.set( 2, 2 );
+
 
 } );
 
@@ -357,7 +366,7 @@ class TheScene extends THREE.Scene {
 
         var originPoint = new THREE.Vector3();
         originPoint.setFromMatrixPosition( this.character.hitbox.matrixWorld );
-        console.log(originPoint.z);
+       // console.log(originPoint.z);
 
         for (var vertexIndex = 0; vertexIndex < this.character.hitbox.geometry.vertices.length; vertexIndex++)
         {   
@@ -567,7 +576,8 @@ checkDrop(){
 
 
   CambiarArma(para){
-    this.character.swapGun({selected:para.selected});
+      this.character.swapGun({selected:para.selected});
+
   }
 
 
@@ -639,6 +649,10 @@ checkDrop(){
          if(this.character.aimpos && this.recoil >= this.character.gun.reload_time){
           
           this.character.shoot();
+          //Parte de eliminar bala de la UI
+         // var myList = document.getElementById("contenedorBala");
+        //  myList.innerHTML = '';
+
           this.recoil = 0;
         }
       break;
