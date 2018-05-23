@@ -29,7 +29,6 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
 
-
     <style>
   body{
       margin: 0;
@@ -129,14 +128,6 @@
 
 
 
-<div id="center">
-  <div id="title">
-    <img id="dinero" src="imgs/Money-Icon.jpg">
-  </div>
-  <div id="cantidad">
-    0
-  </div>
-</div>
 
 
  <div id="balas">
@@ -192,7 +183,7 @@
 </div>
 <div class='construct-ui'>
    <div class="entities-list" >
-          <div class="entitie" onclick='applicationMode = TheScene.ADDING_BOXES;'>
+          <div class="entitie" id='boxCard' onclick='applicationMode = TheScene.ADDING_BOXES;'>
             <div class="card">
               <div class="health-bar">
                 <div class="health" style="height: 75%;"></div>
@@ -200,12 +191,20 @@
                <img src="UI/barricade.png">
             </div>
           </div>
-          <div class="entitie" onclick='applicationMode = TheScene.ADDING_BOXES;'>
+          <div class="entitie" id='waveCard' onclick='scene.nextWave();'>
             <div class="card">
               <div class="health-bar">
                 <div class="health" style="height: 75%;"></div>
               </div>
                <p id='newWave'>Siguiente Oleada </p>
+            </div>
+          </div>
+          <div class="entitie" id='oroCard' >
+            <div class="card">
+              <div class="health-bar">
+                <div class="health" style="height: 75%;"></div>
+              </div>
+               <p id='oro'>0$ </p>
             </div>
           </div>
     </div>
