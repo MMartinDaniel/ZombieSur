@@ -178,7 +178,8 @@ backtoMenu(){
     this.character.position.set(0,5,0);
     
     var loader = new THREE.TextureLoader();
-    var textura = loader.load ("imgs/floor.png", function ( textura ) {
+ /*   
+    var textura = loader.load ("imgs/flx.png", function ( textura ) {
 
     textura.wrapS = textura.wrapT = THREE.RepeatWrapping;
     textura.offset.set( 0, 0 );
@@ -186,10 +187,10 @@ backtoMenu(){
 
 
 } );
-
-
+*/
+   var textura = loader.load ("imgs/prueba.png");
     //Cuadro central
-    this.ground = new Ground (300, 300, new THREE.MeshPhongMaterial ({map: textura}), 30);
+    this.ground = new Ground (200, 200, new THREE.MeshPhongMaterial ({map: textura}), 30);
     model.add (this.ground);
     this.faro1 = new Building({type:'1',x:130,y: (-135*Math.PI/180),z:-130});
     model.add(this.faro1);this.farolas.push(this.faro1);
@@ -542,8 +543,7 @@ checkWaveSpawn(){
            if(!this.zombi.attacking){this.zombi.hit_start();} 
               if(this.dmg_recoil <= 0){ 
                  this.dmg_recoil = 80;
-                if(this.character.isDamaged()){
-                this.setPosDie();}
+                if(this.character.isDamaged()){/*this.setPosDie();*/}
                  this.character.attacked = true;
               }
         }
@@ -553,20 +553,27 @@ checkWaveSpawn(){
 
   setPosDie(){
         this.updateMatrixWorld(true);
-     
-        var c_pos = this.cameraOut.position;
-
+    var c_pos = new THREE.Vector3();
+    var position_char= new THREE.Vector3();
+      c_pos.setFromMatrixPosition( this.cameraOut.matrixWorld );
+      position_char.setFromMatrixPosition( this.character.matrixWorld );
+       var c_pos = this.cameraOut.position;
 
         this.tween_camera = new TWEEN.Tween();
         var position = {x:c_pos.x ,z:c_pos.z,y:c_pos.y};
 
-
-        this.tween_camera = new TWEEN.Tween(position).to({x: this.character.position.x,y: this.character.position.y+30,z:this.character.position.z },200).onUpdate(function(){
+      
+        //alert(position_char.z);
+        this.tween_camera = new TWEEN.Tween(position).to({x: this.character.position.x,y: this.character.position.y+90,z:position_char.z },200).onUpdate(function(){
           c_pos.x = position.x;
           c_pos.z = position.z;
           c_pos.y = position.y;
         });
         
+        this.cameraOut.position.set(position_char.x,position_char.y+180,position_char.z);
+
+        this.cameraOut.lookAt(position_char);
+        this.camera.lookAt(position_char);
       this.tween_camera.start();
   }
 

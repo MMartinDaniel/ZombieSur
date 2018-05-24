@@ -20,7 +20,7 @@ class Character extends THREE.Object3D {
     //SESION 2 DATOS
 
     this.alive = true;
-    this.vida = 100;
+    this.vida = 10;
     this.money = 800;
     this.tween_to_walk = new TWEEN.Tween();
     this.tween_from_walk = new TWEEN.Tween();
@@ -569,7 +569,7 @@ shoot_stop(){
       document.getElementById("health").style.background = '#' + color;
       if(this.vida <= 0){
         this.die();
-        return true;
+        if(this.die_form){return false;}else{return true;};
       }
       return false;
   }

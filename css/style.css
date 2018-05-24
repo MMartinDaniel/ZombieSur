@@ -226,30 +226,36 @@
       justify-content: center;     
       z-index: 300;
       opacity: 100%;
+      right: 0%;    
+      text-shadow: 2px 11px #b30000;
       background-image: url("../imgs/InicioWallpaper.png");
     }
 
 #tituloJuego{
   font-size: 4em;
-  margin-top: -70%;
+  margin-top: -60%;
   font-family: Zombie;
-  color:red;
-
+  color:white;
+    letter-spacing: 9px;
 
 }
 
 
 #comenzarpartida{
 
-  color:red;
+  color:#9f9f9f;
   font-size: 1em;
   margin-top: 30%;
   text-decoration: none;
   display: inline-block;
   position: relative;
+  text-shadow: none;
   font-family: 'Dosis', sans-serif;
 }
 
+#comenzarpartida:hover{
+  color: white;
+}
 
 #recarg{
     font-size: 4em;
