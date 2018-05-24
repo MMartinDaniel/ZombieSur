@@ -32,6 +32,7 @@ class Building extends THREE.Object3D {
             if ( child instanceof THREE.Mesh ) {
 
             child.material.map = objTexture;
+              child.receiveShadow = true;
          //   child.material.transparent = true;
            // child.material.opacity = 0.3;
             }
@@ -40,6 +41,7 @@ class Building extends THREE.Object3D {
         obj.position.x += p.x;
         obj.rotation.y = p.y;
         obj.position.z += p.z;
+       
         obj.scale.set(1,1,1);
         modelko.add(obj);
         
