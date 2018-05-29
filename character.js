@@ -10,14 +10,12 @@ class Character extends THREE.Object3D {
     this.material_foot_i = null;
     this.material_foot_d = null;
 
-    // With these variables, the posititon of the hook is set
     this.angle           = 0;
     this.distance        = 10;
     this.height          = 10;
     this.angleP = 0;
     this.aimpos = false;
     this.walking = false;
-    //SESION 2 DATOS
 
     this.alive = true;
     this.vida = 100;
@@ -30,7 +28,6 @@ class Character extends THREE.Object3D {
     this.tween_to_aim = new TWEEN.Tween();
     this.tween_to_shoot = new TWEEN.Tween();
 
-    // Objects for operating with the r2d2
     this.cabeza = null;
     this.cuerpo = null;
     this.brazoD = null;
@@ -461,7 +458,8 @@ aim_start(){
 displayAmmo(){
 
    var divElem = document.createElement('div');
-   divElem.id = "balasArma";
+    divElem.id = "balasArma";
+  //var divElem = document.getElementById("balasArma");
 
     for (var i = 0; i < this.gun.current_bullets; i++) {
     //  var div = document.createElement('li');
@@ -541,12 +539,10 @@ shoot_stop(){
   swapGun(param){
 
   //Al cargar una nueva arma las balas anteriores desaparecen
-  
-
     if(!this.aimpos){
       if(this.gun != this.guns[param.selected]){
         var elem = document.getElementById('balasArma');
-        elem.parentNode.removeChild(elem);     
+        elem.parentNode.removeChild(elem);    
         this.brazoD.remove(this.gun);
         this.gun = this.guns[param.selected];
         this.brazoD.add(this.gun);

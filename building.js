@@ -226,35 +226,6 @@ class Building extends THREE.Object3D {
      //Fin Edificio Arriba  5
 
 
-/*
-  
-
-    var mtlLoader2 = new THREE.MTLLoader();
-
-    mtlLoader2.setBaseUrl( 'models/edificios/Big_Old_House/' );
-    mtlLoader2.setPath( 'models/edificios/Big_Old_House/' );
-    var url = "Big_Old_House.mtl";
-    mtlLoader2.load( url, function( materials ) {
-
-          materials.preload();
-
-          var objLoader2 = new THREE.OBJLoader();
-          objLoader2.setMaterials( materials );
-          objLoader2.setPath( 'models/edificios/Big_Old_House/' );
-          objLoader2.load( 'Big_Old_House.obj', function ( object ) {
-            object.scale.set(15,15,15);
-            object.position.x = 130;
-            object.position.y = 0;
-            object.position.z = -320;
-            object.rotateY(11);
-
-            modelko.add( object );
-
-        });
-
-    });
-
-*/
   }
       return modelko;
     }

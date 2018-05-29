@@ -4,10 +4,7 @@ class Zombi extends THREE.Object3D {
   
   constructor (parameters) {
     super();
-    
 
-
-    // With these variables, the posititon of the hook is set
     this.angle           = 0;
     this.distance        = 10;
     this.height          = 10;
@@ -25,7 +22,6 @@ class Zombi extends THREE.Object3D {
     //SESION 2 DATOS
     this.alive = true;
     this.vida = 100;
-    this.dinero = 0;
     this.tween_to_walkz = new TWEEN.Tween();
     this.tween_from_walkz = new TWEEN.Tween();
     this.tween_to_hit = new TWEEN.Tween();
@@ -33,7 +29,7 @@ class Zombi extends THREE.Object3D {
     this.tween_to_die = new TWEEN.Tween();
     this.walking = false;
     this.attacking = false;
-    // Objects for operating with the r2d2
+
     this.cabeza = null;
     this.cuerpo = null;
     this.brazoD = null;
@@ -66,15 +62,10 @@ class Zombi extends THREE.Object3D {
         this.brazoD =  this.createArm({w:6,ww: 5});;
         this.brazoI =  this.createArm({w:-6,ww: -5});;   
 
-      //  this.brazoD.rotation.x = this.toRad(270);
-       // this.brazoI.rotation.x = this.toRad(270);
-
-
         this.pieD = this.createFoot({w:2,ww: 5});
         this.pieI = this.createFoot({w:-2,ww: -5});
 
         this.die_form = this.createBlood();
-
 
         this.todo.add(this.brazoD);
         this.todo.add(this.brazoI);
@@ -87,8 +78,6 @@ class Zombi extends THREE.Object3D {
         this.walk();
         this.zombie_hit();
         
-        //this.die();
-
         todo.position.y = 8;
 
         return todo;
@@ -229,17 +218,8 @@ death_stop(){
 
 
 die(){
-/*
-   var position = {y:0.0};
-   
-   this.tween_to_die = new TWEEN.Tween(position).to({y:0.0},500).onUpdate(function(){
-      scene.zombi.todo.rotation.x = scene.zombi.toRad(270);
-      scene.zombi.brazoD.rotation.x = scene.zombi.toRad(-40);
-      scene.zombi.brazoI.rotation.x = scene.zombi.toRad(-40);
 
-  });
-*/
-          this.cuerpo.add(this.die_form);
+      this.cuerpo.add(this.die_form);
       this.todo.rotation.x = this.toRad(270);
       this.brazoD.rotation.x = this.toRad(-40);
       this.brazoI.rotation.x = this.toRad(-40);
@@ -304,11 +284,13 @@ walk_stop(){
 
 hit_start(){
   this.tween_to_hit.start(); 
+
   this.attacking = true;
 }
 
 hit_stop(){
-  this.tween_to_hit.stop(); 
+  this.tween_to_hit.stop();
+  this.tween_from_hit.stop(); 
   this.attacking = false;
 }
 

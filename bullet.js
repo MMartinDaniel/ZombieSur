@@ -12,7 +12,6 @@ class Bullet extends THREE.Object3D {
     this.price = 100;
     this.type = parameters.type;
 
-    //SESION 2 DATOS
 
     this.todo = new THREE.Mesh();
     this.modelo = this.crearBullet();
