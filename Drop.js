@@ -9,15 +9,13 @@ class Drop extends THREE.Object3D {
     this.listener = new THREE.AudioListener();
     this.type = parameters.type;
     this.money = 0;
-    //SESION 2 DATOS
   
     this.spin_anim = new TWEEN.Tween();
-  this.spin_anim_from = new TWEEN.Tween();
+    this.spin_anim_from = new TWEEN.Tween();
     this.modelo = null;
     this.todo = new THREE.Mesh();
     this.modelo = this.crearDrop();
     this.todo.add(this.modelo);
-    //this.todo.add(this.bullet);
     this.add (this.todo);
     this.spin();
     

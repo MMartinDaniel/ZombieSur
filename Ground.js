@@ -1,14 +1,4 @@
 
-/// The Ground class
-/**
- * @author FVelasco
- * 
- * @param aWidth - The width of the ground
- * @param aDeep - The deep of the ground
- * @param aMaterial - The material of the ground
- * @param aBoxSize - The size for the boxes
- */
-
 class Ground extends THREE.Object3D {
 
   constructor (aWidth, aDeep, aMaterial, aBoxSize) {
@@ -21,7 +11,7 @@ class Ground extends THREE.Object3D {
     
     this.ground = null;
 
-    this.raycaster = new THREE.Raycaster ();  // To select boxes
+    this.raycaster = new THREE.Raycaster ();  
     this.barricades = new THREE.Object3D();
     this.barricades_array = [];
     this.add(this.barricades);
@@ -85,13 +75,7 @@ class Ground extends THREE.Object3D {
   }
   
 
-  
- /// Whether the boxes b1 and b2 intersect or not
-  /**
-   * @param b1 - A box to test
-   * @param b2 - Other box to test
-   * @return True if b1 and b2 intersect
-   */
+
   intersectBarricade (b1, b2) {
     var vectorBetweenBoxes = new THREE.Vector2();
     vectorBetweenBoxes.subVectors (new THREE.Vector2 (b1.position.x, b1.position.z),
@@ -99,11 +83,6 @@ class Ground extends THREE.Object3D {
     return (vectorBetweenBoxes.length() < this.boxSize);
   }
   
-  /// It returns the position of the mouse in normalized coordinates ([-1,1],[-1,1])
-  /**
-   * @param event - Mouse information
-   * @return A Vector2 with the normalized mouse position
-   */
   getMouse (event) {
     var mouse = new THREE.Vector2 ();
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -111,11 +90,7 @@ class Ground extends THREE.Object3D {
     return mouse;
   }
   
-  /// It returns the point on the ground where the mouse has clicked
-  /**
-   * @param event - The mouse information
-   * @return The Vector2 with the ground point clicked, or null
-   */
+
   getPointOnGround (event) {
     var mouse = this.getMouse (event);
     this.raycaster.setFromCamera (mouse, scene.getCamera());
@@ -127,13 +102,6 @@ class Ground extends THREE.Object3D {
       return null;
   }
   
-
-  
-  /// It adds a new box on the ground
-  /**
-   * @param event - Mouse information
-   * @param action - Which action is going to be processed: start adding or finish.
-   */
   addBarricade (event, action) {
     if (action === TheScene.END_ACTION && this.box !== null) {
       this.box = null;
@@ -159,13 +127,6 @@ class Ground extends THREE.Object3D {
     }
   }
 
-
-    
-  /// It moves or rotates a box on the ground
-  /**
-   * @param event - Mouse information
-   * @param action - Which action is going to be processed: select a box, move it, rotate it or finish the action.
-   */
   moveBarricade (event, action) {
     switch (action) {
       case TheScene.END_ACTION :

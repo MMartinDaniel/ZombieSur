@@ -6,14 +6,10 @@ class Barricade extends THREE.Object3D {
     this.material = null;
     this.health = 50;
     this.price = 100;
-    //SESION 2 DATOS
-
-  
     this.modelo = null;
     this.todo = new THREE.Mesh();
     this.modelo = this.crearBarricada();
     this.todo.add(this.modelo);
-    //this.todo.add(this.bullet);
     this.add (this.todo);
     
   }
