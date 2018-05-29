@@ -10,10 +10,8 @@ class Building extends THREE.Object3D {
     this.todo = new THREE.Mesh();
     this.modelo = this.crearEdificios(parameters);
     this.todo.add(this.modelo);
-
-
-
     this.add (this.todo);
+    
     
   }
 

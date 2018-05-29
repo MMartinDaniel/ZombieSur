@@ -191,7 +191,7 @@ createFoot (place){
 
 hit(shoot){
   this.vida -= shoot.dmg;
-  console.log(this.vida);
+ // console.log(this.vida);
   if(this.vida <= 0){
     this.alive = false;
     return true;

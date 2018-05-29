@@ -20,7 +20,7 @@ class Character extends THREE.Object3D {
     //SESION 2 DATOS
 
     this.alive = true;
-    this.vida = 10;
+    this.vida = 100;
     this.money = 800;
     this.tween_to_walk = new TWEEN.Tween();
     this.tween_from_walk = new TWEEN.Tween();
@@ -97,7 +97,7 @@ class Character extends THREE.Object3D {
   }
   
   createHitBox(){
-      var geometry = new THREE.BoxGeometry( 17, 17, 13,9,9,9 );
+      var geometry = new THREE.BoxGeometry( 17, 17, 13,4,4,4 );
       var material = new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true,opacity:0.0} );
       var plane = new THREE.Mesh( geometry, material );
       plane.position.set(0,10,8);
@@ -512,7 +512,7 @@ shoot_stop(){
       if(this.gun.current_bullets > 0){       
           this.gun.shoot();
           this.gun.current_bullets--;
-          console.log(this.gun.magazine_bullets);
+  //        console.log(this.gun.magazine_bullets);
           var elem = document.getElementById('contenedorBala');
           elem.parentNode.removeChild(elem);
           if(this.gun.type == 1){

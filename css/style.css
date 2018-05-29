@@ -228,12 +228,12 @@
       opacity: 100%;
       right: 0%;    
       text-shadow: 2px 11px #b30000;
-      background-image: url("../imgs/InicioWallpaper.png");
+      background: url("../imgs/InicioWallpaper.png") no-repeat center center fixed;
     }
 
 #tituloJuego{
   font-size: 4em;
-  margin-top: -60%;
+  margin-top: -20%;
   font-family: Zombie;
   color:white;
     letter-spacing: 9px;
@@ -245,7 +245,7 @@
 
   color:#9f9f9f;
   font-size: 1em;
-  margin-top: 30%;
+  margin-top: 10%;
   text-decoration: none;
   display: inline-block;
   position: relative;

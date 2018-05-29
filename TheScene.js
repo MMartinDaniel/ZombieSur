@@ -395,7 +395,7 @@ nextWave(){
  
   TWEEN.update();
   this.check++;
-  if(this.check %2 == 0){this.colision = this.checkColBarrera();};
+  if(this.check %3 == 0){this.colision = this.checkColBarrera();};
             this.checkUI();
   }
   checkColBarrera(){
@@ -474,7 +474,7 @@ checkWaveSpawn(){
             this.zombi.setBrazos(controls.rotation);
           if(!this.checkColisionZombie()){
             var result = this.zombieCheckBarricade();
-            console.log(result);
+        //    console.log(result);
             if( result != -1){
                 if(this.zombi.walking){this.zombi.walk_stop();};
                 if(!this.zombi.attacking){this.zombi.hit_start();} 
