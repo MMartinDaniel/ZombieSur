@@ -20,7 +20,7 @@ class Barricade extends THREE.Object3D {
 
   isDamaged(){
     this.health -= 0.1;
-    console.log("health" + this.health);
+   // console.log("health" + this.health);
     if(this.health <= 0){
         return true;
     }

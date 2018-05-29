@@ -38,7 +38,7 @@ class Gun extends THREE.Object3D {
         this.reload_time = 40;
         this.current_bullets = 10;
         this.max_bullets = 10;
-        this.magazine_bullets = 12;
+        this.magazine_bullets = 999;
  
         loader.load('models/mp5k.json',
           function(obj){
